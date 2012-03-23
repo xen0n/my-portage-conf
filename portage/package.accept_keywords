@@ -1,0 +1,105 @@
+#required by sys-boot/grub:2 (argument)
+=sys-boot/grub-1.99-r2 **
+# os-prober
+sys-boot/os-prober ~amd64
+# fcitx
+app-i18n/fcitx ~amd64
+#required by app-i18n/fcitx[opencc], required by fcitx (argument)
+app-i18n/opencc ~amd64
+#required by fcitx-sunpinyin (argument)
+=app-i18n/fcitx-sunpinyin-0.2.1 ~amd64
+#required by app-i18n/fcitx-sunpinyin-0.2.1, required by fcitx-sunpinyin (argument)
+=app-i18n/sunpinyin-2.0.3-r1 ~amd64
+# for PyPy
+dev-python/pypy ~amd64
+# Erlang
+dev-lang/erlang ~amd64
+# QEMU
+app-emulation/qemu ~amd64
+#required by superiotool (argument)
+sys-apps/superiotool ~amd64
+#required by media-libs/tiff:3 (argument)
+=media-libs/tiff-3.9.5-r1 ~amd64
+# python web dev related
+dev-python/webpy ~amd64
+www-servers/uwsgi ~amd64
+www-servers/nginx ~amd64
+dev-db/mongodb ~amd64
+dev-python/pymongo ~amd64
+#required by south (argument)
+=dev-python/south-0.7.3 ~amd64
+# newer eclipse
+dev-util/eclipse-sdk ~amd64
+#required by dev-java/ant-1.8.2[log4j], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-log4j-1.8.2 ~amd64
+#required by dev-java/ant-testutil-1.8.2, required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-junit4-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[commonslogging], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-commons-logging-1.8.2 ~amd64
+#required by dev-java/ant-junit4-1.8.2, required by dev-java/ant-testutil-1.8.2, required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-core-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[antlr], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-antlr-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[commonsnet], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-commons-net-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[bcel], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-bcel-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[javamail], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-javamail-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[oro], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-oro-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[X], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-swing-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[bsf], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-bsf-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[resolver], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-resolver-1.8.2 ~amd64
+#required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[jdepend], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-jdepend-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[jsch], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-jsch-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2, required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-junit-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2[regexp], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-regexp-1.8.2 ~amd64
+#required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-jmf-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2, required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-nodeps-1.8.2 ~amd64
+#required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-testutil-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2, required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-trax-1.8.2 ~amd64
+#required by dev-java/ant-1.8.2, required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
+=dev-java/ant-apache-xalan2-1.8.2 ~amd64
+#required by fbv (argument)
+media-gfx/fbv ~amd64
+#required by x11-misc/lightdm-1.0.6-r4, required by lightdm (argument)
+=sys-apps/accountsservice-0.6.15 ~amd64
+#required by lightdm (argument)
+=x11-misc/lightdm-1.0.6-r4 ~amd64
+# pip..
+dev-python/pip ~amd64
+# sphinx
+dev-python/sphinx ~amd64
+# latest ff
+www-client/firefox ~amd64
+media-libs/libvpx ~amd64
+# for sanity... hopefully wget's chinese l10n improved in ~arch
+net-misc/wget ~amd64
+# webdev -- MQ solution
+net-misc/rabbitmq-server ~amd64
+# tor
+net-misc/tor ~amd64
+net-misc/vidalia ~amd64
+# 7z
+app-arch/p7zip ~amd64
+#required by sys-fs/yaffs2-utils (argument)
+=sys-fs/yaffs2-utils-9999 **
+# wine...
+app-emulation/wine ~amd64
+app-emulation/winetricks ~amd64
+# chromium
+www-client/chromium ~amd64
