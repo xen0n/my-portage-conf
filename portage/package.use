@@ -51,3 +51,5 @@ dev-db/mongodb v8
 net-misc/tor upnp threads transparent-proxy
 # 7z rar, forced to adopt this because of Chinese society pressure (...)
 app-arch/p7zip rar
+#required by www-client/chromium-18.0.1025.113, required by chromium (argument)
+>=dev-libs/libxml2-2.7.8-r5 icu

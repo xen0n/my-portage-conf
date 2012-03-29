@@ -1,0 +1,10 @@
+# emerging pypy is VERY memory-consuming so disable it unless I have time
+# update: the compilation process doesn't recognize insns such as vmulsd...
+# so again mask it
+>=dev-python/pypy-1.8
+
+# new qterm seems to have odd KDE deps so mask it for now
+>x11-misc/qterm-0.5.11
+
+# compiling chromium is extensively CPU-hungry, so mask unless major upgrade
+<=www-client/chromium-18.0.1026
