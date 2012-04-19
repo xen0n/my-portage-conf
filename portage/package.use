@@ -53,3 +53,12 @@ net-misc/tor upnp threads transparent-proxy
 app-arch/p7zip rar
 #required by www-client/chromium-18.0.1025.113, required by chromium (argument)
 >=dev-libs/libxml2-2.7.8-r5 icu
+cross-mips64-unknown-linux-gnu/gdb sys-devel gdb
+cross-mips64-unknown-linux-gnu/insight dev-util insight
+cross-mips64-unknown-linux-gnu/binutils -selinux -multilib
+cross-mips-unknown-linux-gnu/gdb sys-devel gdb
+cross-mips-unknown-linux-gnu/insight dev-util insight
+cross-mips-unknown-linux-gnu/binutils -selinux -multilib
+cross-mips-unknown-linux-gnu/linux-headers -selinux -multilib
+cross-mips-unknown-linux-gnu/glibc -selinux -multilib
+cross-mips-unknown-linux-gnu/gcc -selinux -boundschecking -d -gtk -gcj -libffi -mudflap -objc -objc++ -objc-gc -multilib

@@ -104,4 +104,11 @@ app-emulation/winetricks ~amd64
 # chromium
 www-client/chromium ~amd64
 #required by www-client/chromium-18.0.1025.113, required by chromium (argument)
-=dev-lang/v8-3.8.9.15 ~amd64
+dev-lang/v8 ~amd64
+# decided to test out ~arch portage
+sys-apps/portage ~amd64
+#required by x11-misc/lightdm-gtk-greeter-1.1.4-r1, required by lightdm-gtk-greeter (argument)
+x11-misc/lightdm ~amd64
+#required by lightdm-gtk-greeter (argument)
+x11-misc/lightdm-gtk-greeter ~amd64
+

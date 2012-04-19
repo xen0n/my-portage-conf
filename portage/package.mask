@@ -7,4 +7,4 @@
 >x11-misc/qterm-0.5.11
 
 # compiling chromium is extensively CPU-hungry, so mask unless major upgrade
-<=www-client/chromium-18.0.1026
+<=www-client/chromium-19.0.1085
