@@ -26,6 +26,7 @@ www-servers/uwsgi ~amd64
 www-servers/nginx ~amd64
 dev-db/mongodb ~amd64
 dev-python/pymongo ~amd64
+net-misc/memcached ~amd64
 #required by south (argument)
 =dev-python/south-0.7.3 ~amd64
 # newer eclipse
@@ -106,9 +107,13 @@ www-client/chromium ~amd64
 #required by www-client/chromium-18.0.1025.113, required by chromium (argument)
 dev-lang/v8 ~amd64
 # decided to test out ~arch portage
-sys-apps/portage ~amd64
+<sys-apps/portage-9999 **
 #required by x11-misc/lightdm-gtk-greeter-1.1.4-r1, required by lightdm-gtk-greeter (argument)
 x11-misc/lightdm ~amd64
 #required by lightdm-gtk-greeter (argument)
 x11-misc/lightdm-gtk-greeter ~amd64
-
+# more recent virtualenv hopefully with bugfix related to pypy... 1.6.4 doesn't
+# work
+dev-python/virtualenv ~amd64
+# git
+dev-vcs/git ~amd64

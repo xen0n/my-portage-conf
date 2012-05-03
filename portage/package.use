@@ -62,3 +62,5 @@ cross-mips-unknown-linux-gnu/binutils -selinux -multilib
 cross-mips-unknown-linux-gnu/linux-headers -selinux -multilib
 cross-mips-unknown-linux-gnu/glibc -selinux -multilib
 cross-mips-unknown-linux-gnu/gcc -selinux -boundschecking -d -gtk -gcj -libffi -mudflap -objc -objc++ -objc-gc -multilib
+# pypy-portage!!
+sys-apps/portage pypy1_8
