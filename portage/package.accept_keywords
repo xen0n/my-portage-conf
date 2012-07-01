@@ -1,15 +1,12 @@
 #required by sys-boot/grub:2 (argument)
-=sys-boot/grub-1.99-r2 **
+<sys-boot/grub-9999 **
 # os-prober
 sys-boot/os-prober ~amd64
 # fcitx
-app-i18n/fcitx ~amd64
-#required by app-i18n/fcitx[opencc], required by fcitx (argument)
-app-i18n/opencc ~amd64
-#required by fcitx-sunpinyin (argument)
-=app-i18n/fcitx-sunpinyin-0.2.1 ~amd64
-#required by app-i18n/fcitx-sunpinyin-0.2.1, required by fcitx-sunpinyin (argument)
-=app-i18n/sunpinyin-2.0.3-r1 ~amd64
+app-i18n/fcitx **
+app-i18n/opencc **
+app-i18n/fcitx-sunpinyin **
+app-i18n/sunpinyin **
 # for PyPy
 dev-python/pypy ~amd64
 # Erlang
@@ -19,7 +16,7 @@ app-emulation/qemu ~amd64
 #required by superiotool (argument)
 sys-apps/superiotool ~amd64
 #required by media-libs/tiff:3 (argument)
-=media-libs/tiff-3.9.5-r1 ~amd64
+media-libs/tiff ~amd64
 # python web dev related
 dev-python/webpy ~amd64
 www-servers/uwsgi ~amd64
@@ -28,7 +25,7 @@ dev-db/mongodb ~amd64
 dev-python/pymongo ~amd64
 net-misc/memcached ~amd64
 #required by south (argument)
-=dev-python/south-0.7.3 ~amd64
+dev-python/south ~amd64
 # newer eclipse
 dev-util/eclipse-sdk ~amd64
 #required by dev-java/ant-1.8.2[log4j], required by dev-util/eclipse-sdk-3.7.1-r5, required by eclipse-sdk (argument)
@@ -78,9 +75,10 @@ dev-util/eclipse-sdk ~amd64
 #required by fbv (argument)
 media-gfx/fbv ~amd64
 #required by x11-misc/lightdm-1.0.6-r4, required by lightdm (argument)
-=sys-apps/accountsservice-0.6.15 ~amd64
+sys-apps/accountsservice ~amd64
 #required by lightdm (argument)
-=x11-misc/lightdm-1.0.6-r4 ~amd64
+x11-misc/lightdm ~amd64
+x11-misc/lightdm-gtk-greeter ~amd64
 # pip..
 dev-python/pip ~amd64
 # sphinx
@@ -108,12 +106,25 @@ www-client/chromium ~amd64
 dev-lang/v8 ~amd64
 # decided to test out ~arch portage
 <sys-apps/portage-9999 **
-#required by x11-misc/lightdm-gtk-greeter-1.1.4-r1, required by lightdm-gtk-greeter (argument)
-x11-misc/lightdm ~amd64
-#required by lightdm-gtk-greeter (argument)
-x11-misc/lightdm-gtk-greeter ~amd64
 # more recent virtualenv hopefully with bugfix related to pypy... 1.6.4 doesn't
 # work
 dev-python/virtualenv ~amd64
 # git
 dev-vcs/git ~amd64
+#required by www-client/chromium-19.0.1084.46, required by @selected, required by @world (argument)
+dev-libs/icu ~amd64
+# firefox
+dev-libs/nspr ~amd64
+dev-libs/nss ~amd64
+# opera... sigh
+www-client/opera ~amd64
+#required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+sys-fs/udisks ~amd64
+#required by dev-util/gdbus-codegen-2.32.3, required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+dev-libs/glib ~amd64
+#required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+dev-util/gdbus-codegen ~amd64
+#required by sys-auth/polkit-0.106-r5, required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+dev-lang/spidermonkey ~amd64
+#required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+sys-auth/polkit ~amd64

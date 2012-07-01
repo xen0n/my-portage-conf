@@ -62,5 +62,13 @@ cross-mips-unknown-linux-gnu/binutils -selinux -multilib
 cross-mips-unknown-linux-gnu/linux-headers -selinux -multilib
 cross-mips-unknown-linux-gnu/glibc -selinux -multilib
 cross-mips-unknown-linux-gnu/gcc -selinux -boundschecking -d -gtk -gcj -libffi -mudflap -objc -objc++ -objc-gc -multilib
-# pypy-portage!!
-sys-apps/portage pypy1_8
+## pypy-portage!!
+#sys-apps/portage pypy1_8 -python2 -python3
+# i want to view python doc offline!
+dev-lang/python doc
+#required by www-servers/uwsgi-1.2.3[php,php_targets_php5-3], required by @selected, required by @world (argument)
+>=dev-lang/php-5.3.13:5.3 embed
+# weird static config...
+sys-fs/cryptsetup -static
+# SNB accel!!
+x11-drivers/xf86-video-intel sna
