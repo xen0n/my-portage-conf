@@ -1,0 +1,195 @@
+#required by sys-boot/grub:2 (argument)
+<sys-boot/grub-9999 **
+# os-prober
+sys-boot/os-prober ~amd64
+
+# fcitx
+app-i18n/fcitx **
+app-i18n/opencc **
+app-i18n/fcitx-sunpinyin **
+app-i18n/sunpinyin **
+#required by app-i18n/sunpinyin-9999, required by sunpinyin (argument)
+=app-i18n/sunpinyin-data-20121025-r1 **
+
+# for PyPy
+dev-python/pypy ~amd64
+# Erlang
+dev-lang/erlang ~amd64
+# QEMU
+app-emulation/qemu ~amd64
+#required by superiotool (argument)
+sys-apps/superiotool ~amd64
+#required by media-libs/tiff:3 (argument)
+media-libs/tiff ~amd64
+# python web dev related
+dev-python/webpy ~amd64
+www-servers/uwsgi ~amd64
+www-servers/nginx ~amd64
+dev-db/mongodb ~amd64
+dev-python/pymongo ~amd64
+net-misc/memcached ~amd64
+#required by south (argument)
+dev-python/south ~amd64
+#required by fbv (argument)
+media-gfx/fbv ~amd64
+#required by x11-misc/lightdm-1.0.6-r4, required by lightdm (argument)
+sys-apps/accountsservice ~amd64
+#required by lightdm (argument)
+x11-misc/lightdm ~amd64
+x11-misc/lightdm-gtk-greeter ~amd64
+# pip..
+dev-python/pip ~amd64
+# sphinx
+dev-python/sphinx ~amd64
+
+# latest ff
+www-client/firefox ~amd64
+mail-client/thunderbird ~amd64
+
+media-libs/libvpx ~amd64
+# for sanity... hopefully wget's chinese l10n improved in ~arch
+net-misc/wget ~amd64
+# webdev -- MQ solution
+net-misc/rabbitmq-server ~amd64
+
+# tor
+net-misc/tor ~amd64
+net-misc/vidalia ~amd64
+
+# 7z
+app-arch/p7zip ~amd64
+#required by sys-fs/yaffs2-utils (argument)
+=sys-fs/yaffs2-utils-9999 **
+
+# wine...
+app-emulation/wine ~amd64
+app-emulation/winetricks ~amd64
+
+# chromium
+www-client/chromium ~amd64
+#required by www-client/chromium-18.0.1025.113, required by chromium (argument)
+dev-lang/v8 ~amd64
+
+# decided to test out ~arch portage
+<sys-apps/portage-9999 **
+# also openrc
+sys-apps/openrc ~amd64
+
+# more recent virtualenv hopefully with bugfix related to pypy... 1.6.4 doesn't
+# work
+dev-python/virtualenv ~amd64
+# git
+dev-vcs/git ~amd64
+#required by www-client/chromium-19.0.1084.46, required by @selected, required by @world (argument)
+dev-libs/icu ~amd64
+# firefox
+dev-libs/nspr ~amd64
+dev-libs/nss ~amd64
+# opera... sigh
+www-client/opera ~amd64
+
+#required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+sys-fs/udisks ~amd64
+#required by dev-util/gdbus-codegen-2.32.3, required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+dev-libs/glib ~amd64
+#required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+dev-util/gdbus-codegen ~amd64
+#required by sys-auth/polkit-0.106-r5, required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+dev-lang/spidermonkey ~amd64
+#required by sys-fs/udisks-1.98.0, required by app-emulation/wine-1.5.7[udisks], required by @selected, required by @world (argument)
+sys-auth/polkit ~amd64
+# fbterm finally in main tree, just not stable atm
+app-i18n/fbterm ~amd64
+app-i18n/fcitx-fbterm ~amd64
+
+app-admin/conky ~amd64
+app-benchmarks/bootchart2 ~amd64
+net-analyzer/metasploit ~amd64
+dev-ruby/msgpack ~amd64
+
+dev-util/eric ~amd64
+app-editors/vim ~amd64
+app-editors/vim-core ~amd64
+app-editors/gvim ~amd64
+
+dev-java/maven-bin ~amd64
+dev-util/eclipse-sdk-bin ~amd64
+
+net-libs/nodejs ~amd64
+
+# for higher udev, bluez must be ~arch'd
+net-wireless/bluez ~amd64
+
+#required by sys-fs/udev-187-r1, required by sys-fs/udisks-1.99.0, required by app-emulation/wine-1.5.9[udisks], required by @selected, required by @world (argument)
+sys-apps/kmod ~amd64
+#required by sys-fs/udev-init-scripts-14
+sys-fs/udev ~amd64
+#required by sys-fs/udev-187-r1[openrc], required by sys-fs/udisks-1.99.0, required by app-emulation/wine-1.5.9[udisks], required by @selected, required by @world (argument)
+sys-fs/udev-init-scripts ~amd64
+#required by sys-fs/udev-187-r1[hwdb], required by sys-fs/udisks-1.99.0, required by app-emulation/wine-1.5.9[udisks], required by @selected, required by @world (argument)
+sys-apps/hwids ~amd64
+#required by sys-apps/kmod-9-r3[zlib], required by sys-fs/udev-187-r1, required by sys-fs/udisks-1.99.0, required by app-emulation/wine-1.5.9[udisks], required by @selected, required by @world (argument)
+sys-libs/zlib ~amd64
+
+sys-apps/pciutils ~amd64
+sys-fs/lvm2 ~amd64
+sys-block/thin-provisioning-tools ~amd64
+
+# diagnostics purpose
+sys-apps/dbus ~amd64
+gnome-base/gconf ~amd64
+
+media-libs/mesa ~amd64
+#required by media-libs/mesa-8.1_rc1_pre20120814[-video_cards_r100,-video_cards_r300,-video_cards_r200,-video_cards_r600,video_cards_radeon,-video_cards_radeonsi], required by @selected, required by @world (argument)
+x11-libs/libdrm ~amd64
+#required by media-libs/mesa-8.1_rc1_pre20120814, required by @selected, required by @world (argument)
+app-admin/eselect-opengl ~amd64
+#required by media-libs/mesa-8.1_rc1_pre20120814, required by @selected, required by @world (argument)
+x11-proto/glproto ~amd64
+
+
+#required by www-client/chromium-21.0.1180.77-r1, required by @selected, required by @world (argument)
+=media-libs/libwebp-0.2.0_rc1 ~amd64
+
+#required by www-client/chromium-22.0.1229.26, required by @selected, required by @world (argument)
+=dev-lang/nacl-toolchain-newlib-0_p9093 ~amd64
+
+
+sys-apps/microcode-data ~amd64
+
+dev-python/matplotlib ~amd64
+dev-python/ssh ~amd64
+dev-python/fabric ~amd64
+dev-db/redis ~amd64
+dev-libs/jemalloc ~amd64
+
+# hybrid graphics
+x11-misc/virtualgl ~amd64
+
+# test out .NET
+dev-lang/mono ~amd64
+
+sys-apps/dchroot ~amd64
+
+dev-python/pyglet ~amd64
+
+media-libs/glu ~amd64
+virtual/glu ~amd64
+
+app-emulation/virtualbox ~amd64
+app-emulation/virtualbox-modules ~amd64
+dev-util/kbuild ~amd64
+
+media-gfx/fontforge ~amd64
+media-sound/lmms ~amd64
+
+app-misc/byobu ~amd64
+
+#required by app-emulation/qemu-1.1.2, required by @selected, required by @world (argument)
+sys-firmware/sgabios ~amd64
+#required by net-analyzer/metasploit-4.4.0-r1, required by @selected, required by @world (argument)
+=dev-ruby/kissfft-0.0.1 ~amd64
+
+x11-misc/fqterm ~amd64
+
+net-misc/tigervnc ~amd64

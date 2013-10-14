@@ -1,0 +1,5 @@
+cross-armv6j-softfp-linux-gnueabi/binutils arm ~arm -amd64 -~amd64
+cross-armv6j-softfp-linux-gnueabi/gcc arm ~arm -amd64 -~amd64
+cross-armv6j-softfp-linux-gnueabi/linux-headers arm ~arm -amd64 -~amd64
+cross-armv6j-softfp-linux-gnueabi/glibc arm ~arm -amd64 -~amd64
+cross-armv6j-softfp-linux-gnueabi/gdb arm ~arm -amd64 -~amd64

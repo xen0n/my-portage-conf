@@ -1,0 +1,4 @@
+# Wayland...
+dev-libs/weston examples
+
+x11-libs/libxcb xkb

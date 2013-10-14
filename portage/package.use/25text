@@ -1,0 +1,4 @@
+app-text/texlive context dvi2tty dvipdfm epspdf graphics xetex pstricks science tex4ht
+app-text/texlive-core xetex
+##required by app-text/texlive-2011[truetype], required by texlive (argument)
+#>=media-libs/freetype-1.4_pre20080316-r2:1 kpathsea

@@ -1,0 +1,6 @@
+www-servers/uwsgi gevent json -php
+www-servers/nginx nginx_modules_http_dav
+
+net-ftp/pure-ftpd charconv
+
+dev-db/mariadb extraengine jemalloc max-idx-128 -perl

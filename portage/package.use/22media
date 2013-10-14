@@ -1,0 +1,25 @@
+media-video/vlc dvd ffmpeg mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp
+
+media-libs/freetype infinality
+
+media-libs/mesa gles2 xa gbm opencl r600-llvm-compiler
+
+media-sound/xmms2 curl gvfs mac
+
+# required by www-client/chromium-27.0.1453.56[system-ffmpeg]
+# required by @selected
+# required by @world (argument)
+media-video/ffmpeg opus
+
+media-video/mplayer cpudetection mmxext
+
+media-sound/jack-audio-connection-kit cpudetection
+
+# required by www-client/chromium-28.0.1500.36
+# required by @selected
+# required by @world (argument)
+media-libs/harfbuzz icu
+
+media-libs/libpng apng
+
+=media-sound/xmms2-0.8-r1 -python

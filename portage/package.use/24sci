@@ -1,0 +1,3 @@
+sci-visualization/gnuplot plotutils thin-splines
+
+sci-libs/vtk boost threads

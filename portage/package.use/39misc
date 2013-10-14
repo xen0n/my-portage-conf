@@ -1,0 +1,15 @@
+gnome-base/gnome-vfs fam
+net-print/cups -usb
+
+net-irc/hexchat fastscroll libproxy plugin-sysinfo
+
+net-analyzer/wireshark -gtk2 gtk3 -qt4
+
+net-nds/openldap minimal
+
+app-i18n/fcitx gtk3 icu opencc
+
+# Japanese IME
+app-i18n/mozc -ibus fcitx
+
+net-p2p/bitcoin-qt 1stclassmsg upnp

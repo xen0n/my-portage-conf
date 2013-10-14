@@ -1,0 +1,62 @@
+x11-plugins/pidgin-lwqq **
+
+# CyanogenMod build related
+media-gfx/pngcrush ~amd64
+sys-process/schedtool ~amd64
+sys-fs/squashfs-tools ~amd64
+
+# required by www-client/chromium-27.0.1453.56
+# required by @selected
+# required by @world (argument)
+app-accessibility/speech-dispatcher ~amd64
+
+app-office/libreoffice ~amd64
+app-office/libreoffice-l10n ~amd64
+
+# required by gnome-base/gvfs-1.14.2[gnome-keyring]
+# required by xfce-base/thunar-1.6.2[udev]
+# required by xfce-extra/thunar-archive-plugin-0.3.0
+# required by @selected
+# required by @world (argument)
+app-crypt/libsecret ~amd64
+# required by gnome-base/gnome-keyring-3.6.3
+# required by gnome-base/libgnome-keyring-3.6.0
+app-crypt/gcr ~amd64
+# required by xfce-base/thunar-1.6.2[udev]
+# required by xfce-extra/thunar-archive-plugin-0.3.0
+# required by @selected
+# required by @world (argument)
+gnome-base/gvfs ~amd64
+# required by gnome-base/gnome-keyring-3.6.3
+# required by app-crypt/libsecret-0.15
+# required by gnome-base/gvfs-1.14.2[gnome-keyring]
+# required by xfce-base/thunar-1.6.2[udev]
+# required by xfce-extra/thunar-archive-plugin-0.3.0
+# required by @selected
+# required by @world (argument)
+gnome-base/libgnome-keyring ~amd64
+# required by gnome-base/libgnome-keyring-3.6.0
+gnome-base/gnome-keyring ~amd64
+
+# required by app-office/libreoffice-4.1.0.1
+# required by @selected
+# required by @world (argument)
+app-text/libmwaw ~amd64
+# required by dev-libs/liborcus-0.5.1
+# required by app-office/libreoffice-4.1.0.1
+# required by @selected
+# required by @world (argument)
+dev-libs/libixion ~amd64
+# required by media-gfx/blender-2.67b-r1
+# required by @selected
+# required by @world (argument)
+dev-cpp/eigen ~amd64
+# required by app-office/libreoffice-4.1.0.1
+# required by @selected
+# required by @world (argument)
+dev-libs/liborcus ~amd64
+# required by app-office/libreoffice-4.1.0.1
+# required by @selected
+# required by @world (argument)
+app-text/libodfgen ~amd64
+

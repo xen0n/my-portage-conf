@@ -1,0 +1,2 @@
+#required by media-gfx/blender-2.64a, required by @selected, required by @world (argument)
+>=dev-cpp/glog-0.3.2 gflags

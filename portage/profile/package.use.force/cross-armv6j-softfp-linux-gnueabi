@@ -1,0 +1,5 @@
+cross-armv6j-softfp-linux-gnueabi/binutils -multilib
+cross-armv6j-softfp-linux-gnueabi/gcc -multilib
+cross-armv6j-softfp-linux-gnueabi/linux-headers -multilib
+cross-armv6j-softfp-linux-gnueabi/glibc -multilib
+cross-armv6j-softfp-linux-gnueabi/gdb -multilib

@@ -1,0 +1,22 @@
+sys-kernel/e-sources -aufs -tuxonice
+
+# required by app-forensics/rkhunter-1.4.0
+# required by rkhunter (argument)
+sys-process/lsof rpc
+
+# UPDATE 2012-02-27: disable GCC's nls support
+# 20130607 xenon: enable the (seemingly) stable'd LTO
+sys-devel/gcc -nls lto
+
+sys-boot/grub -nls
+
+sys-fs/udev gudev introspection keymap hwdb
+virtual/udev gudev introspection keymap hwdb
+
+sys-apps/man lzma -nls
+sys-apps/man-pages -nls -linguas_zh_CN
+
+#sys-apps/openrc newnet
+sys-apps/portage python3
+
+sys-devel/llvm clang

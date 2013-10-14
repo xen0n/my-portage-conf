@@ -1,0 +1,30 @@
+# Display driver
+x11-drivers/xf86-video-intel ~amd64
+x11-drivers/xf86-video-ati ~amd64
+x11-libs/libva ~amd64
+x11-libs/libva-intel-driver ~amd64
+
+media-gfx/blender ~amd64
+#required by media-gfx/blender-2.63a-r2, required by blender (argument)
+=sci-physics/bullet-2.80 ~amd64
+
+media-gfx/gimp ~amd64
+
+#required by media-libs/gegl-0.2.0-r1, required by media-gfx/gimp-2.8.2-r1, required by @selected, required by @world (argument)
+#=media-libs/babl-0.1.10 ~amd64
+media-libs/babl ~amd64
+#required by media-gfx/blender-2.64a, required by @selected, required by @world (argument)
+#=dev-cpp/glog-0.3.2 ~amd64
+dev-cpp/glog ~amd64
+#required by dev-cpp/glog-0.3.2[gflags], required by media-gfx/blender-2.64a, required by @selected, required by @world (argument)
+#=dev-cpp/gflags-2.0 ~amd64
+dev-cpp/gflags ~amd64
+#required by sci-libs/ldl-2.1.0, required by media-gfx/blender-2.64a, required by @selected, required by @world (argument)
+#=sci-libs/suitesparseconfig-4.0.2 ~amd64
+sci-libs/suitesparseconfig ~amd64
+#required by media-gfx/gimp-2.8.2-r1, required by @selected, required by @world (argument)
+#=media-libs/gegl-0.2.0-r1 ~amd64
+media-libs/gegl ~amd64
+#required by media-gfx/blender-2.64a, required by @selected, required by @world (argument)
+#=sci-libs/ldl-2.1.0 ~amd64
+sci-libs/ldl ~amd64
