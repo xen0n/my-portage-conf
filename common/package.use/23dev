@@ -1,5 +1,5 @@
 # git[subversion]
-dev-vcs/subversion -dso
+dev-vcs/subversion -dso perl
 
 dev-lang/python wininst
 
