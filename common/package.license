@@ -2,3 +2,7 @@
 www-plugins/adobe-flash AdobeFlash-11.x
 # just for testing websites, sigh
 www-client/opera OPERA-11
+# Android source code, well...
+# WTF I MUST USE JAVA 6?!
+dev-java/sun-jdk Oracle-BCLA-JavaSE
+dev-java/oracle-jdk-bin Oracle-BCLA-JavaSE
