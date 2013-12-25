@@ -1,0 +1,4 @@
+cross-mips64el-lemote-linux-gnu/binutils -selinux multilib -nls
+cross-mips64el-lemote-linux-gnu/linux-headers -selinux multilib
+cross-mips64el-lemote-linux-gnu/glibc -selinux multilib -gd
+cross-mips64el-lemote-linux-gnu/gcc -selinux -boundschecking -d -gcj -gtk -libffi -mudflap -objc -objc++ -objc-gc multilib -nls
