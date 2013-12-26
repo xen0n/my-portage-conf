@@ -1,0 +1,13 @@
+#!/bin/bash
+# from https://github.com/microcai/gentoo-zh/issues/138#issuecomment-30921624
+# thanks, CasperVector!
+
+source /etc/init.d/functions.sh
+
+for repo in $(portageq envvar PORTDIR_OVERLAY)
+do
+    repo="$(cat "${repo}"/profiles/repo_name)"
+    ebegin "Regenerating cache for overlay \`${repo}'"
+        egencache --jobs=8 --repo="${repo}" --update
+    eend "$?"
+done
