@@ -39,3 +39,5 @@ dev-libs/libpcre pcre16
 # required by net-p2p/bitcoin-qt-0.8.5
 # required by bitcoin-qt (argument)
 =dev-libs/leveldb-1.12.0 -snappy
+
+dev-util/google-perftools largepages

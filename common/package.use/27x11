@@ -2,3 +2,11 @@
 dev-libs/weston examples
 
 x11-libs/libxcb xkb
+
+x11-plugins/cairo-dock-plugins disks doncky nwmon xfce
+
+x11-themes/gtk-engines-qtcurve mozilla
+
+
+# for theme authoring
+x11-libs/gtk+ examples

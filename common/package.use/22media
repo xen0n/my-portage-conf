@@ -2,7 +2,7 @@ media-video/vlc dvd ffmpeg mpeg mad wxwindows aac dts a52 ogg flac theora oggvor
 
 media-libs/freetype infinality
 
-media-libs/mesa gles2 xa gbm opencl r600-llvm-compiler
+media-libs/mesa gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs
 
 media-sound/xmms2 curl gvfs mac
 
@@ -23,3 +23,6 @@ media-libs/harfbuzz icu
 media-libs/libpng apng
 
 =media-sound/xmms2-0.8-r1 -python
+
+# weird Qt5-related CMake error!
+media-libs/opencv -qt4
