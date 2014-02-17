@@ -10,6 +10,8 @@ dev-lang/python sqlite
 # remove version constraint
 x11-base/xorg-server xvfb
 
+app-i18n/sunpinyin-frontend xim
+
 # erlang
 dev-lang/erlang hipe kpoll
 # Xen USE's

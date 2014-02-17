@@ -41,3 +41,9 @@ dev-libs/libpcre pcre16
 =dev-libs/leveldb-1.12.0 -snappy
 
 dev-util/google-perftools largepages
+
+# required by dev-ruby/metasploit_data_models-0.16.9[ruby_targets_ruby19]
+# required by net-analyzer/metasploit-4.8.2
+# required by @selected
+# required by @world (argument)
+>=dev-ruby/activerecord-4.0.2 postgres
