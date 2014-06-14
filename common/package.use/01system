@@ -1,4 +1,4 @@
-sys-kernel/e-sources -aufs -tuxonice
+sys-kernel/e-sources -aufs -tuxonice -reiser4
 
 # required by app-forensics/rkhunter-1.4.0
 # required by rkhunter (argument)
@@ -11,7 +11,9 @@ sys-devel/gcc -nls lto mudflap
 sys-boot/grub -nls
 
 sys-fs/udev gudev introspection keymap hwdb
+sys-apps/systemd gudev introspection
 virtual/udev gudev introspection keymap hwdb
+virtual/libgudev introspection
 
 sys-apps/man lzma -nls
 sys-apps/man-pages -nls -linguas_zh_CN

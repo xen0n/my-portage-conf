@@ -2,14 +2,12 @@ media-video/vlc dvd ffmpeg mpeg mad wxwindows aac dts a52 ogg flac theora oggvor
 
 media-libs/freetype infinality
 
-media-libs/mesa gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs
+media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs
 
 media-sound/xmms2 curl gvfs mac
 
-# required by www-client/chromium-27.0.1453.56[system-ffmpeg]
-# required by @selected
-# required by @world (argument)
-media-video/ffmpeg opus
+# opus: required by www-client/chromium-27.0.1453.56[system-ffmpeg]
+media-video/ffmpeg opus threads
 
 media-video/mplayer cpudetection mmxext
 
@@ -25,4 +23,10 @@ media-libs/libpng apng
 =media-sound/xmms2-0.8-r1 -python
 
 # weird Qt5-related CMake error!
-media-libs/opencv -qt4
+# 20140312 xenon: threads support needs dev-cpp/tbb, which is not cached locally )-:
+media-libs/opencv -qt4 -threads
+
+# temporarily disable due to the particular plugin not compiling
+=media-plugins/gst-plugins-meta-0.10-r8 -vaapi
+
+media-gfx/graphviz gts lasi postscript

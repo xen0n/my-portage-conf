@@ -1,2 +1,7 @@
 # Compile failure...?
 #app-emulation/wine -mono
+
+app-emulation/qemu kvm  # xen
+
+# file collision
+app-emulation/xen-tools -qemu system-qemu

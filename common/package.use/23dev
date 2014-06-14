@@ -47,3 +47,9 @@ dev-util/google-perftools largepages
 # required by @selected
 # required by @world (argument)
 >=dev-ruby/activerecord-4.0.2 postgres
+
+
+# calming qt-webkit wrt Gentoo bug #407315 and #411091
+# move x11-libs/qt-webkit dev-qt/qtwebkit
+# add widgets support for Zeal, and other niceties
+dev-qt/qtwebkit icu libxml2 qml widgets webp

@@ -40,9 +40,6 @@ app-arch/p7zip rar
 
 #required by www-client/chromium-18.0.1025.113, required by chromium (argument)
 >=dev-libs/libxml2-2.7.8-r5 icu
-# calming qt-webkit wrt Gentoo bug #407315 and #411091
-# move x11-libs/qt-webkit dev-qt/qtwebkit
-dev-qt/qtwebkit icu
 
 # i want to view python doc offline!
 dev-lang/python doc
@@ -59,8 +56,6 @@ net-analyzer/metasploit gui
 
 #required by eric
 dev-python/PyQt4 assistant
-
-app-emulation/qemu kvm xen
 
 app-office/libreoffice jemalloc pdfimport
 

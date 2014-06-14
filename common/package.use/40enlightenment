@@ -1,0 +1,3 @@
+media-libs/elementary -sdl
+dev-libs/efl drm wayland egl gles -opengl -sdl fribidi harfbuzz physics xim
+x11-wm/enlightenment ukit enlightenment_modules_wl-desktop-shell enlightenment_modules_wl-screenshot

@@ -1,3 +1,9 @@
 sci-visualization/gnuplot plotutils thin-splines
 
 sci-libs/vtk boost threads
+
+# threads? ( !cxx !fortran )
+sci-libs/hdf5 -threads
+
+# geos needs a PHP w/o threads... so we leave out PHP integration instead XDD
+sci-libs/geos -php
