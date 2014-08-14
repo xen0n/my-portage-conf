@@ -4,10 +4,17 @@
 
 source /etc/init.d/functions.sh
 
-for repo in $(portageq envvar PORTDIR_OVERLAY)
+EROOT="/"
+
+#PORTDIR_OVERLAY="$(portageq envvar PORTDIR_OVERLAY)"
+PORTDIR_OVERLAY="$(portageq repositories_configuration ${EROOT} | grep '^location' | sed 's/^location = \(.*\)$/\1/' | grep -v '^/usr/portage$')"
+
+NJOBS=8
+
+for repo in PORTDIR_OVERLAY
 do
     repo="$(cat "${repo}"/profiles/repo_name)"
     ebegin "Regenerating cache for overlay \`${repo}'"
-        egencache --jobs=8 --repo="${repo}" --update
+        egencache --jobs="${NJOBS}" --repo="${repo}" --update
     eend "$?"
 done
