@@ -1,7 +1,13 @@
 # Compile failure...?
 #app-emulation/wine -mono
 
+# now a weird dep on pulseaudio if gstreamer is supported... :-/
+app-emulation/wine -gstreamer
+
 app-emulation/qemu kvm  # xen
 
 # file collision
 app-emulation/xen-tools -qemu system-qemu
+
+# virtualbox
+app-emulation/virtualbox -extensions

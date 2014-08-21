@@ -30,3 +30,11 @@ media-libs/opencv -qt4 -threads
 =media-plugins/gst-plugins-meta-0.10-r8 -vaapi
 
 media-gfx/graphviz gts lasi postscript
+
+# weird install error possibly related to multilib
+media-libs/libcaca -java
+
+# wtf steam?! libpulse.so.0...
+media-plugins/alsa-plugins pulseaudio
+
+media-libs/openal portaudio

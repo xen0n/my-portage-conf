@@ -21,8 +21,6 @@ sys-apps/superiotool pci
 #required by sys-fs/udev-171-r5[hwdb], required by net-wireless/bluez-4.98-r1, required by app-emulation/qemu-1.0-r1[bluetooth], required by @selected, required by @world (argument)
 =sys-apps/pciutils-3.1.7 -zlib
 
-# virtualbox
-app-emulation/virtualbox -additions -extensions
 # i want the docs for mako...
 dev-python/mako doc
 # remove rp-pppoe's Tkinter dep

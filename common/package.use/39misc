@@ -7,7 +7,7 @@ net-analyzer/wireshark -gtk2 gtk3 -qt4
 
 net-nds/openldap minimal
 
-app-i18n/fcitx gtk3 icu opencc
+app-i18n/fcitx gtk3 icu opencc -abi_x86_32 -qt4
 
 # Japanese IME
 app-i18n/mozc -ibus fcitx
