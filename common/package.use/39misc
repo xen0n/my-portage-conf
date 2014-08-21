@@ -13,3 +13,10 @@ app-i18n/fcitx gtk3 icu opencc -abi_x86_32 -qt4
 app-i18n/mozc -ibus fcitx
 
 net-p2p/bitcoin-qt 1stclassmsg upnp
+
+sys-apps/flashrom nicrealtek tools
+
+# no webkit or ruby things here
+gnome-extra/zenity -webkit
+
+games-util/steam-client-meta steamfonts  # streaming
