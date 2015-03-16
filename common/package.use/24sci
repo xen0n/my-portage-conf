@@ -1,6 +1,7 @@
 sci-visualization/gnuplot plotutils thin-splines
 
-sci-libs/vtk boost threads
+# wtf is kaapi and tbb...
+sci-libs/vtk boost threads kaapi -tbb
 
 # threads? ( !cxx !fortran )
 sci-libs/hdf5 -threads

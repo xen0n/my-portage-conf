@@ -2,7 +2,8 @@
 #app-emulation/wine -mono
 
 # now a weird dep on pulseaudio if gstreamer is supported... :-/
-app-emulation/wine -gstreamer -mono osmesa
+# vaapi requires staging
+app-emulation/wine -gstreamer -mono osmesa staging
 
 app-emulation/qemu kvm  # xen
 

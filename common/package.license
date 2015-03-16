@@ -1,5 +1,6 @@
 # adobe flash... ugh
 www-plugins/adobe-flash AdobeFlash-11.x
+www-plugins/chrome-binary-plugins google-chrome
 # just for testing websites, sigh
 www-client/opera OPERA-11
 # Android source code, well...

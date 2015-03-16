@@ -19,6 +19,8 @@ sys-apps/man lzma -nls
 sys-apps/man-pages -nls -linguas_zh_CN
 
 #sys-apps/openrc newnet
-sys-apps/portage python3
+#sys-apps/portage python3 -python_targets_python2_7
+#app-portage/gentoolkit -python_targets_python2_7
+#app-portage/layman -python_targets_python2_7
 
 sys-devel/llvm clang

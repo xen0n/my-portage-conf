@@ -11,7 +11,7 @@ PORTDIR_OVERLAY="$(portageq repositories_configuration ${EROOT} | grep '^locatio
 
 NJOBS=8
 
-for repo in PORTDIR_OVERLAY
+for repo in $PORTDIR_OVERLAY ;
 do
     repo="$(cat "${repo}"/profiles/repo_name)"
     ebegin "Regenerating cache for overlay \`${repo}'"

@@ -1,0 +1,2 @@
+net-print/cups usb zeroconf
+net-print/hplip hpcups -hpijs -minimal snmp

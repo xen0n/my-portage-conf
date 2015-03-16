@@ -1,5 +1,4 @@
 gnome-base/gnome-vfs fam
-net-print/cups -usb
 
 net-irc/hexchat fastscroll libproxy plugin-sysinfo
 
@@ -12,11 +11,12 @@ app-i18n/fcitx gtk3 icu opencc -abi_x86_32 -qt4
 # Japanese IME
 app-i18n/mozc -ibus fcitx
 
-net-p2p/bitcoin-qt 1stclassmsg upnp
+# qt5 xor qt4
+net-p2p/bitcoin-qt 1stclassmsg ljr ljr-antispam upnp qt5 -qt4
 
 sys-apps/flashrom nicrealtek tools
 
 # no webkit or ruby things here
 gnome-extra/zenity -webkit
 
-games-util/steam-client-meta steamfonts  # streaming
+games-util/steam-client-meta steamfonts

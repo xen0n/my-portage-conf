@@ -38,7 +38,7 @@ dev-libs/libpcre pcre16
 
 # required by net-p2p/bitcoin-qt-0.8.5
 # required by bitcoin-qt (argument)
-=dev-libs/leveldb-1.12.0 -snappy
+dev-libs/leveldb -snappy
 
 dev-util/google-perftools largepages
 
@@ -53,3 +53,13 @@ dev-util/google-perftools largepages
 # move x11-libs/qt-webkit dev-qt/qtwebkit
 # add widgets support for Zeal, and other niceties
 dev-qt/qtwebkit icu libxml2 qml widgets webp
+
+net-libs/iojs snapshot
+
+# cmake doesn't like both qt4 and qt5...
+dev-util/cmake -qt5
+
+# required by net-analyzer/wireshark-1.12.3[qt5]
+# required by @selected
+# required by @world (argument)
+dev-qt/qtgui:5 accessibility

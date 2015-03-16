@@ -1,8 +1,9 @@
-media-video/vlc dvd ffmpeg mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp
+# qt5 xor qt4; ffmpeg and postproc
+media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp qt5 -qt4
 
 media-libs/freetype infinality
 
-media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs
+media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs osmesa openvg
 
 media-sound/xmms2 curl gvfs mac
 
@@ -38,3 +39,10 @@ media-libs/libcaca -java
 media-plugins/alsa-plugins pulseaudio
 
 media-libs/openal portaudio
+
+media-fonts/source-han-sans linguas_ja linguas_ko linguas_zh_CN linguas_zh_TW
+
+# required by [wayland]
+media-libs/clutter egl
+media-libs/cogl gles2
+media-libs/gst-plugins-bad egl
