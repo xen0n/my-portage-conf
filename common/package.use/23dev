@@ -63,3 +63,15 @@ dev-util/cmake -qt5
 # required by @selected
 # required by @world (argument)
 dev-qt/qtgui:5 accessibility
+
+# required by dev-python/matplotlib-1.4.3::gentoo[qt5]
+# required by dev-python/ipython-3.0.0::gentoo[-doc,matplotlib]
+# required by @selected
+# required by @world (argument)
+>=dev-python/PyQt5-5.4.1 widgets gui
+# required by dev-python/PyQt5-5.4.1::gentoo[webkit]
+# required by dev-python/matplotlib-1.4.3::gentoo[qt5]
+# required by dev-python/ipython-3.0.0::gentoo[-doc,matplotlib]
+# required by @selected
+# required by @world (argument)
+>=dev-qt/qtwebkit-5.4.1 printsupport
