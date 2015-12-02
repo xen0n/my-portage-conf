@@ -8,11 +8,12 @@ media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs os
 media-sound/xmms2 curl gvfs mac
 
 # opus: required by www-client/chromium-27.0.1453.56[system-ffmpeg]
-media-video/ffmpeg opus threads
+# vpx: required by www-client/chromium-47.0.2526.16::gentoo[system-ffmpeg]
+media-video/ffmpeg opus threads vpx
 
 media-video/mplayer cpudetection mmxext
 
-media-sound/jack-audio-connection-kit cpudetection
+<media-sound/jack-audio-connection-kit-1.0 cpudetection
 
 # required by www-client/chromium-28.0.1500.36
 # required by @selected
@@ -46,3 +47,12 @@ media-fonts/source-han-sans linguas_ja linguas_ko linguas_zh_CN linguas_zh_TW
 media-libs/clutter egl
 media-libs/cogl gles2
 media-libs/gst-plugins-bad egl
+
+# required by www-client/chromium-44.0.2403.81::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/libvpx-1.4.0 postproc
+
+media-gfx/librecad tools
+
+media-sound/pulseaudio realtime

@@ -7,3 +7,5 @@ www-client/opera OPERA-11
 # WTF I MUST USE JAVA 6?!
 dev-java/sun-jdk Oracle-BCLA-JavaSE
 dev-java/oracle-jdk-bin Oracle-BCLA-JavaSE
+# ahh
+app-emulation/virtualbox-extpack-oracle PUEL

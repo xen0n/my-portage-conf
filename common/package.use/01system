@@ -14,6 +14,7 @@ sys-fs/udev gudev introspection keymap hwdb
 sys-apps/systemd gudev introspection
 virtual/udev gudev introspection keymap hwdb
 virtual/libgudev introspection
+dev-libs/libgudev introspection
 
 sys-apps/man lzma -nls
 sys-apps/man-pages -nls -linguas_zh_CN
@@ -24,3 +25,6 @@ sys-apps/man-pages -nls -linguas_zh_CN
 #app-portage/layman -python_targets_python2_7
 
 sys-devel/llvm clang
+
+# clang
+sys-libs/ncurses tinfo

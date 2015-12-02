@@ -54,6 +54,7 @@ dev-util/google-perftools largepages
 # add widgets support for Zeal, and other niceties
 dev-qt/qtwebkit icu libxml2 qml widgets webp
 
+net-libs/nodejs snapshot
 net-libs/iojs snapshot
 
 # cmake doesn't like both qt4 and qt5...
@@ -75,3 +76,8 @@ dev-qt/qtgui:5 accessibility
 # required by @selected
 # required by @world (argument)
 >=dev-qt/qtwebkit-5.4.1 printsupport
+
+# qgis[python]
+dev-python/PyQt4 sql
+
+dev-libs/libpeas -python_targets_python3_4

@@ -8,3 +8,6 @@ sci-libs/hdf5 -threads
 
 # geos needs a PHP w/o threads... so we leave out PHP integration instead XDD
 sci-libs/geos -php
+
+sci-geosciences/qgis bundled-libs gps
+sci-libs/gdal geos

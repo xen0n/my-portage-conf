@@ -13,6 +13,8 @@ app-i18n/mozc -ibus fcitx
 
 # qt5 xor qt4
 net-p2p/bitcoin-qt 1stclassmsg ljr ljr-antispam upnp qt5 -qt4
+net-wireless/wpa_supplicant -qt4
+app-crypt/pinentry -qt4
 
 sys-apps/flashrom nicrealtek tools
 
