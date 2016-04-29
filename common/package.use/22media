@@ -3,7 +3,9 @@ media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theo
 
 media-libs/freetype infinality
 
-media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs osmesa openvg
+# opencl causes compilation error...
+#media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs osmesa openvg
+media-libs/mesa gles1 gles2 xa gbm osmesa openvg openmax d3d9
 
 media-sound/xmms2 curl gvfs mac
 
@@ -56,3 +58,11 @@ media-libs/gst-plugins-bad egl
 media-gfx/librecad tools
 
 media-sound/pulseaudio realtime
+
+# for wayland
+media-libs/libsdl2 gles
+
+media-libs/lensfun python_single_target_python3_5
+
+# python
+media-libs/gexiv2 introspection

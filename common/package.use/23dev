@@ -80,4 +80,13 @@ dev-qt/qtgui:5 accessibility
 # qgis[python]
 dev-python/PyQt4 sql
 
+# webkit
+dev-python/PyQt5 network printsupport
+
 dev-libs/libpeas -python_targets_python3_4
+
+app-emulation/docker btrfs experimental -device-mapper
+
+dev-python/cffi python_targets_python3_4
+dev-python/setuptools python_targets_python3_4
+dev-python/certifi python_targets_python3_4

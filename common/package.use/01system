@@ -1,4 +1,4 @@
-sys-kernel/e-sources -aufs -tuxonice -reiser4
+sys-kernel/e-sources -aufs -tuxonice -reiser4 kdbus
 
 # required by app-forensics/rkhunter-1.4.0
 # required by rkhunter (argument)
@@ -28,3 +28,20 @@ sys-devel/llvm clang
 
 # clang
 sys-libs/ncurses tinfo
+
+# mysterious crash
+# flex-2.5.39: loadlocale.c:131: _nl_intern_locale_data: Assertion `cnt < (sizeof (_nl_value_type_LC_COLLATE) / sizeof (_nl_value_type_LC_COLLATE[0]))' failed.
+sys-devel/flex -nls
+
+net-misc/openssh sctp
+
+sys-fs/bedup python_targets_python3_4
+
+# required by app-emulation/docker-1.10.3::gentoo[seccomp]
+# required by @selected
+# required by @world (argument)
+sys-libs/libseccomp static-libs
+
+# this is not implicit now
+# use monolithic for now
+sys-apps/microcode-data initramfs monolithic -split-ucode
