@@ -11,7 +11,7 @@ sys-devel/gcc -nls lto mudflap
 sys-boot/grub -nls
 
 sys-fs/udev gudev introspection keymap hwdb
-sys-apps/systemd gudev introspection
+sys-apps/systemd gudev introspection kdbus
 virtual/udev gudev introspection keymap hwdb
 virtual/libgudev introspection
 dev-libs/libgudev introspection
@@ -24,7 +24,8 @@ sys-apps/man-pages -nls -linguas_zh_CN
 #app-portage/gentoolkit -python_targets_python2_7
 #app-portage/layman -python_targets_python2_7
 
-sys-devel/llvm clang
+sys-devel/llvm clang multitarget
+sys-devel/clang multitarget
 
 # clang
 sys-libs/ncurses tinfo

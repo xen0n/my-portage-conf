@@ -1,2 +1,2 @@
 net-print/cups usb zeroconf
-net-print/hplip hpcups -hpijs -minimal snmp
+net-print/hplip hpcups -hpijs -minimal snmp -qt4

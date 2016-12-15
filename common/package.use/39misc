@@ -21,8 +21,6 @@ sys-apps/flashrom nicrealtek tools
 # no webkit or ruby things here
 gnome-extra/zenity -webkit
 
-games-util/steam-client-meta steamfonts
-
 net-misc/openvpn iproute2 socks
 
 app-accessibility/speech-dispatcher python_targets_python3_4
@@ -30,3 +28,5 @@ app-accessibility/speech-dispatcher python_targets_python3_4
 # smartcard
 # for ACS122T
 sys-apps/pcsc-lite libusb -udev
+
+x11-misc/redshift geoclue

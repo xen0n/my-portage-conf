@@ -4,8 +4,9 @@ media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theo
 media-libs/freetype infinality
 
 # opencl causes compilation error...
+# 20161023: test opencl again
 #media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs osmesa openvg
-media-libs/mesa gles1 gles2 xa gbm osmesa openvg openmax d3d9
+media-libs/mesa gles1 gles2 xa gbm osmesa openvg openmax d3d9 opencl
 
 media-sound/xmms2 curl gvfs mac
 
@@ -66,3 +67,9 @@ media-libs/lensfun python_single_target_python3_5
 
 # python
 media-libs/gexiv2 introspection
+
+# new gimp
+media-libs/libmypaint gegl
+
+# chromium
+media-libs/libvpx svc

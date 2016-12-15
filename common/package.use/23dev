@@ -90,3 +90,11 @@ app-emulation/docker btrfs experimental -device-mapper
 dev-python/cffi python_targets_python3_4
 dev-python/setuptools python_targets_python3_4
 dev-python/certifi python_targets_python3_4
+
+dev-python/ply python_targets_python3_4
+dev-python/pycparser python_targets_python3_4
+
+# required by app-emulation/docker-1.13.0_rc1-r1::gentoo[container-init]
+# required by @selected
+# required by @world (argument)
+sys-process/tini static

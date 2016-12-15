@@ -1,0 +1,3 @@
+mail-client/mutt gpg imap mbox pop smime smtp sidebar
+#dev-libs/gmime smime
+#net-mail/notmuch mutt

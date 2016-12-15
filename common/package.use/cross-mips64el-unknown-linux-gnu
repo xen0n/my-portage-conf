@@ -1,0 +1,4 @@
+cross-mips64el-unknown-linux-gnu/binutils -selinux multilib
+cross-mips64el-unknown-linux-gnu/linux-headers -selinux multilib
+cross-mips64el-unknown-linux-gnu/glibc -selinux multilib
+cross-mips64el-unknown-linux-gnu/gcc -selinux -boundschecking -d -gcj -gtk -libffi -mudflap -objc -objc++ -objc-gc multilib

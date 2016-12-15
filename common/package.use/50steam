@@ -1,6 +1,6 @@
-games-util/steam-meta -steamruntime
-games-util/steam-games-meta s3tc mono -steamruntime
+games-util/steam-meta steamruntime
+games-util/steam-games-meta s3tc mono steamruntime
 games-util/steam-client-meta steamfonts streaming
-games-util/steam-launcher -steamruntime
+games-util/steam-launcher steamruntime
 
 net-misc/networkmanager -gnutls
