@@ -2,3 +2,7 @@ www-client/firefox system-cairo system-jpeg system-sqlite
 
 # no dev-libs/nss[abi_x86_32]
 www-plugins/adobe-flash -abi_x86_32
+
+www-plugins/chrome-binary-plugins -flash
+www-plugins/adobe-flash -nsplugin ppapi
+www-plugins/freshplayerplugin gles2

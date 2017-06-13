@@ -8,7 +8,8 @@ media-libs/freetype infinality
 #media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs osmesa openvg
 media-libs/mesa gles1 gles2 xa gbm osmesa openvg openmax d3d9 opencl
 
-media-sound/xmms2 curl gvfs mac
+# 20170613 xenon: the mac plugin fails to compile supposedly because of bit rot
+media-sound/xmms2 curl gvfs  # mac
 
 # opus: required by www-client/chromium-27.0.1453.56[system-ffmpeg]
 # vpx: required by www-client/chromium-47.0.2526.16::gentoo[system-ffmpeg]
@@ -58,7 +59,7 @@ media-libs/gst-plugins-bad egl
 
 media-gfx/librecad tools
 
-media-sound/pulseaudio realtime
+media-sound/pulseaudio realtime -libsamplerate
 
 # for wayland
 media-libs/libsdl2 gles
@@ -73,3 +74,6 @@ media-libs/libmypaint gegl
 
 # chromium
 media-libs/libvpx svc
+
+# phonon-gstreamer collides with older qtwebkit
+media-libs/phonon -gstreamer vlc

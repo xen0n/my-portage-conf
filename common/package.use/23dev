@@ -98,3 +98,17 @@ dev-python/pycparser python_targets_python3_4
 # required by @selected
 # required by @world (argument)
 sys-process/tini static
+
+
+# required by dev-qt/qtwebengine-5.7.1-r1::gentoo
+# required by dev-qt/qt-creator-4.2.0::gentoo[webengine]
+# required by @selected
+# required by @world (argument)
+>=dev-qt/qtwebchannel-5.7.1 qml
+# required by dev-qt/qt-creator-4.2.0::gentoo[webengine]
+# required by @selected
+# required by @world (argument)
+>=dev-qt/qtwebengine-5.7.1-r1 widgets
+
+# netease-cloud-music
+dev-qt/qtmultimedia widgets

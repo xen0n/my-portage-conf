@@ -6,7 +6,7 @@ sys-process/lsof rpc
 
 # UPDATE 2012-02-27: disable GCC's nls support
 # 20130607 xenon: enable the (seemingly) stable'd LTO
-sys-devel/gcc -nls lto mudflap
+sys-devel/gcc -nls lto mudflap go
 
 sys-boot/grub -nls
 

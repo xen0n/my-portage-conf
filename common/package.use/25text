@@ -1,4 +1,21 @@
-app-text/texlive context dvi2tty dvipdfm epspdf graphics xetex pstricks science tex4ht
+app-text/texlive context dvi2tty dvipdfm epspdf graphics xetex pstricks science tex4ht luatex texi2html
 app-text/texlive-core xetex
 ##required by app-text/texlive-2011[truetype], required by texlive (argument)
 #>=media-libs/freetype-1.4_pre20080316-r2:1 kpathsea
+
+app-editors/vim -python_targets_python3_4 -python_targets_python3_5
+app-editors/gvim -python_targets_python3_4 -python_targets_python3_5
+app-editors/gedit -python_targets_python3_4 -python_targets_python3_6 python_single_target_python3_5
+
+# wtf xps support oh boy is that nice?!
+app-text/evince dvi xps
+
+# required by x11-misc/xdg-utils-1.1.2::gentoo
+# required by net-analyzer/wireshark-2.2.7::gentoo[gtk,qt5]
+# required by @selected
+# required by @world (argument)
+>=app-text/xmlto-0.0.28-r1 text
+# required by app-editors/gedit-3.22.0::gentoo[python]
+# required by @selected
+# required by @world (argument)
+>=dev-libs/libpeas-1.20.0-r1 python_single_target_python3_5
