@@ -2,12 +2,12 @@
 # from https://github.com/microcai/gentoo-zh/issues/138#issuecomment-30921624
 # thanks, CasperVector!
 
-source /etc/init.d/functions.sh
+# 20180315 xenon: no more openrc
+source /lib/gentoo/functions.sh
 
 EROOT="/"
 
-#PORTDIR_OVERLAY="$(portageq envvar PORTDIR_OVERLAY)"
-PORTDIR_OVERLAY="$(portageq repositories_configuration ${EROOT} | grep '^location' | sed 's/^location = \(.*\)$/\1/' | grep -v '^/usr/portage$')"
+PORTDIR_OVERLAY="$(portageq repositories_configuration ${EROOT} | grep '^location' | sed 's/^location = \(.*\)$/\1/')"
 
 NJOBS=8
 
