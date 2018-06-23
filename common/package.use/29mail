@@ -1,3 +1,4 @@
-mail-client/mutt gpg imap mbox pop smime smtp sidebar -berkdb gdbm
+# 20180315 xenon: hcache? ( exactly-one-of ( berkdb gdbm lmdb qdbm tokyocabinet ) )
+mail-client/mutt gpg imap mbox pop smime smtp sidebar -berkdb -gdbm lmdb
 #dev-libs/gmime smime
 #net-mail/notmuch mutt

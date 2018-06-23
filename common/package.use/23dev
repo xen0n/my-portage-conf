@@ -34,6 +34,14 @@ dev-libs/elfutils static-libs
 dev-libs/botan threads
 
 dev-qt/qtcore icu
+
+# required by dev-qt/qtcore-5.10.1-r1::qte
+# required by dev-qt/qtx11extras-5.10.1::qt
+# required by app-emulation/virtualbox-5.2.8::gentoo[-headless,qt5]
+# required by @selected
+# required by @world (argument)
+dev-libs/libpcre2 pcre16
+
 dev-libs/libpcre pcre16
 
 # required by net-p2p/bitcoin-qt-0.8.5

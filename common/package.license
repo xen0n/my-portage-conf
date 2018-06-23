@@ -9,3 +9,6 @@ dev-java/sun-jdk Oracle-BCLA-JavaSE
 dev-java/oracle-jdk-bin Oracle-BCLA-JavaSE
 # ahh
 app-emulation/virtualbox-extpack-oracle PUEL
+
+# for meizi
+app-arch/rar RAR

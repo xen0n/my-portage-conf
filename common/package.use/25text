@@ -3,8 +3,8 @@ app-text/texlive-core xetex
 ##required by app-text/texlive-2011[truetype], required by texlive (argument)
 #>=media-libs/freetype-1.4_pre20080316-r2:1 kpathsea
 
-app-editors/vim -python_targets_python3_4 -python_targets_python3_5
-app-editors/gvim -python_targets_python3_4 -python_targets_python3_5
+app-editors/vim -python_targets_python3_4 python_targets_python3_5
+app-editors/gvim -python_targets_python3_4 python_targets_python3_5
 app-editors/gedit -python_targets_python3_4 -python_targets_python3_6 python_single_target_python3_5
 
 # wtf xps support oh boy is that nice?!
@@ -19,3 +19,6 @@ app-text/evince dvi xps
 # required by @selected
 # required by @world (argument)
 >=dev-libs/libpeas-1.20.0-r1 python_single_target_python3_5
+
+# exactly-one-of ( python_single_target_pypy python_single_target_python2_7 )
+app-text/asciidoc python_single_target_python2_7

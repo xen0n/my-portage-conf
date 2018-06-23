@@ -4,11 +4,18 @@ sys-kernel/e-sources -aufs -tuxonice -reiser4 kdbus
 # required by rkhunter (argument)
 sys-process/lsof rpc
 
+# 20180314 xenon: how come I forgot this?
+sys-devel/binutils -nls
+
 # UPDATE 2012-02-27: disable GCC's nls support
 # 20130607 xenon: enable the (seemingly) stable'd LTO
 sys-devel/gcc -nls lto mudflap go
 
-sys-boot/grub -nls
+# 20170727: wtf this is why I never managed to enable nightly to look at libc
+# symbols
+sys-libs/glibc debug
+
+sys-boot/grub -nls mount
 
 sys-fs/udev gudev introspection keymap hwdb
 sys-apps/systemd gudev introspection kdbus
@@ -23,6 +30,8 @@ sys-apps/man-pages -nls -linguas_zh_CN
 #sys-apps/portage python3 -python_targets_python2_7
 #app-portage/gentoolkit -python_targets_python2_7
 #app-portage/layman -python_targets_python2_7
+
+app-portage/layman gpg sync-plugin-portage
 
 sys-devel/llvm clang multitarget
 sys-devel/clang multitarget
@@ -46,3 +55,10 @@ sys-libs/libseccomp static-libs
 # this is not implicit now
 # use monolithic for now
 sys-apps/microcode-data initramfs monolithic -split-ucode
+# 20170725: this is now necessary too
+sys-firmware/intel-microcode initramfs monolithic
+
+sys-process/cronie anacron
+
+# exactly-one-of ( gcrypt kernel nettle openssl )
+sys-fs/cryptsetup -gcrypt openssl -kernel -nettle

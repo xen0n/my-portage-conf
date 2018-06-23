@@ -1,5 +1,5 @@
 # qt5 xor qt4; ffmpeg and postproc
-media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp qt5 -qt4
+media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp qt5 -qt4 upnp
 
 media-libs/freetype infinality
 
@@ -15,7 +15,8 @@ media-sound/xmms2 curl gvfs  # mac
 # vpx: required by www-client/chromium-47.0.2526.16::gentoo[system-ffmpeg]
 media-video/ffmpeg opus threads vpx
 
-media-video/mplayer cpudetection mmxext
+# 20170725: add rtmp for live-streaming studies
+media-video/mplayer cpudetection mmxext rtmp
 
 <media-sound/jack-audio-connection-kit-1.0 cpudetection
 
@@ -61,8 +62,9 @@ media-gfx/librecad tools
 
 media-sound/pulseaudio realtime -libsamplerate
 
-# for wayland
-media-libs/libsdl2 gles
+# for wayland: gles
+# 20180512 wine-staging: haptic
+media-libs/libsdl2 gles haptic
 
 media-libs/lensfun python_single_target_python3_5
 

@@ -9,7 +9,8 @@ net-nds/openldap minimal
 app-i18n/fcitx gtk3 icu opencc -abi_x86_32 -qt4
 
 # Japanese IME
-app-i18n/mozc -ibus fcitx
+# 20180315 xenon: fcitx is now fcitx4
+app-i18n/mozc -ibus fcitx4
 
 # qt5 xor qt4
 net-p2p/bitcoin-qt 1stclassmsg ljr ljr-antispam upnp qt5 -qt4
@@ -32,3 +33,9 @@ sys-apps/pcsc-lite libusb -udev
 x11-misc/redshift geoclue
 
 net-misc/curl http2
+
+# 20180101 wifi direct for miracast
+net-wireless/wpa_supplicant p2p
+
+# 20180317 unblock things
+net-dialup/ppp -gtk
