@@ -11,7 +11,7 @@ USE="${USE} git mercurial subversion"
 USE="${USE} bzip2 dbus fftw gdbm lzma mime mmap pcre sqlite3 zlib"  # postgres
 USE="${USE} udisks upower"  # after hardened profile switch
 # Kernel and system
-USE="${USE} modules symlink syslog xattr"
+USE="${USE} modules syslog xattr"
 # Network
 # libressl cannot be used right now because of some hard deps
 #USE="${USE} ssl -gnutls libressl -openssl"
