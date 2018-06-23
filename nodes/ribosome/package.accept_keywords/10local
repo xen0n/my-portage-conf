@@ -1,6 +1,3 @@
-#required by sys-boot/grub:2 (argument)
-<sys-boot/grub-9999 **
-
 # fcitx
 app-i18n/fcitx **
 app-i18n/opencc **
