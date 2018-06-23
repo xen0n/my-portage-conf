@@ -9,7 +9,7 @@ EROOT="/"
 
 PORTDIR_OVERLAY="$(portageq repositories_configuration ${EROOT} | grep '^location' | sed 's/^location = \(.*\)$/\1/')"
 
-NJOBS=8
+NJOBS="$(nproc)"
 
 for repo in $PORTDIR_OVERLAY ;
 do
