@@ -3,3 +3,6 @@
 CHOST="x86_64-pc-linux-gnu"
 
 ACCEPT_KEYWORDS="~amd64"
+
+# ABI
+ABI_X86="64 32"
