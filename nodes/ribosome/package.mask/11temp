@@ -1,0 +1,43 @@
+# 20130524 xenon: skip the USE mask
+=app-emulation/xen-tools-4.2.2-r1
+=app-emulation/xen-tools-4.2.1-r3
+
+# 20130622 xenon: Riak
+>=dev-lang/erlang-16
+
+# 20130725 xenon: v8-3.19
+#dev-db/mongodb
+
+# 20130807 xenon: I don't want it, period.
+# fsck, steam requires it...
+#net-misc/networkmanager
+
+# 20130807 xenon: time-consuming things postponed
+#dev-python/pypy
+#dev-python/pypy-bin
+#>=www-client/chromium-30
+#dev-python/pypy-bin
+#app-portage/gentoolkit
+
+# 20140217 xenon: doesn't compile with current ~arch libva
+=media-plugins/gst-plugins-vaapi-0.5.6-r10
+
+# 20140305 xenon: lack of network
+=dev-python/pypy-9999
+
+# 20140902 xenon: until next world update
+# 20150316 xenon: same
+#dev-java/oracle-jdk-bin
+
+=app-i18n/fcitx-9999
+
+# major, minor, makedev
+# 20170725: old toolchain libs are masked since 20170521
+#>=sys-libs/glibc-2.23
+
+# don't want to upgrade all perl packages just yet
+#>dev-lang/perl-5.22.1
+
+# 20170612 xenon: build fail, pending patch update
+cross-mips64el-unknown-linux-gnu/gcc
+cross-mips64el-unknown-linux-gnu/glibc

@@ -1,0 +1,29 @@
+# emerging pypy is VERY memory-consuming so disable it unless I have time
+# update: the compilation process doesn't recognize insns such as vmulsd...
+# so again mask it
+#>=dev-python/pypy-1.8
+
+# new qterm seems to have odd KDE deps so mask it for now
+>x11-misc/qterm-0.5.11
+
+# compiling chromium is extensively CPU-hungry, so mask unless major upgrade
+# well, security advisory. upgrade.
+#<=www-client/chromium-19.0.1085
+
+# compile failure
+=net-misc/rabbitmq-server-2.8.5
+
+# ADT broken on this version of Eclipse
+=dev-util/eclipse-sdk-bin-4.2.1
+
+# compile failure
+=app-emulation/qemu-1.2.1
+
+# no network
+=app-emulation/qemu-1.1.2-r3
+
+<dev-util/boost-build-1.50
+<dev-libs/boost-1.50
+
+# libclc-9999 is actually not strictly needed but it's ~amd64 (wut)
+=dev-libs/libclc-9999

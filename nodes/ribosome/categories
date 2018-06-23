@@ -1,0 +1,14 @@
+
+cross-alpha-unknown-linux-gnu
+cross-sh4-unknown-linux-gnu
+cross-mips64-unknown-linux-gnu
+cross-mips-unknown-linux-gnu
+cross-armv6j-softfp-linux-gnueabi
+cross-i686-pc-linux-gnu
+cross-mips64el-unknown-linux-gnu
+cross-o32
+cross-mips64el-yeeloong-linux-gnu
+cross-mips64el-lemote-linux-gnu
+cross-mipsel-linux
+cross-mipsel-unknown-linux-gnu
+cross-ia64-unknown-linux-gnu

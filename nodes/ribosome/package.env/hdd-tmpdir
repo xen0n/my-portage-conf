@@ -1,0 +1,3 @@
+net-libs/webkit-gtk hdd-tmpdir.conf
+dev-qt/qtwebkit hdd-tmpdir.conf
+www-client/chromium hdd-tmpdir.conf

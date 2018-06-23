@@ -1,0 +1,22 @@
+--- a/liblightdm-gobject/language.c	2017-08-19 18:02:33.773661324 +0800
++++ b/liblightdm-gobject/language.c	2017-08-19 18:09:08.886669723 +0800
+@@ -96,8 +96,18 @@
+             if (strcmp (command, "locale -a") == 0 && !g_strrstr (code, ".utf8"))
+                 continue;
+ 
+-            language = g_object_new (LIGHTDM_TYPE_LANGUAGE, "code", code, NULL);
++            /* Use the correct spelling of "UTF-8". */
++            size_t len_head = strlen (code) - 4;
++            size_t len_result = len_head + 6;
++            gchar *fixed_code = (gchar *) g_malloc (sizeof(gchar) * len_result);
++            strncpy (fixed_code, code, len_head);
++            strncpy (fixed_code + len_head, "UTF-8", 5);
++            *(fixed_code + len_result - 1) = '\0';
++
++            language = g_object_new (LIGHTDM_TYPE_LANGUAGE, "code", fixed_code, NULL);
+             languages = g_list_append (languages, language);
++
++            g_free (fixed_code);
+         }
+ 
+         g_strfreev (tokens);

@@ -1,0 +1,44 @@
+diff -ur a/dlls/winealsa.drv/mmdevdrv.c b/dlls/winealsa.drv/mmdevdrv.c
+--- a/dlls/winealsa.drv/mmdevdrv.c	2017-06-15 10:47:39.854223027 +0800
++++ b/dlls/winealsa.drv/mmdevdrv.c	2017-06-15 10:50:52.590214966 +0800
+@@ -53,9 +53,9 @@
+ 
+ #define NULL_PTR_ERR MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIN32, RPC_X_NULL_REF_POINTER)
+ 
+-static const REFERENCE_TIME DefaultPeriod = 100000;
+-static const REFERENCE_TIME MinimumPeriod = 50000;
+-#define                     EXTRA_SAFE_RT   40000
++static const REFERENCE_TIME DefaultPeriod = 20000;
++static const REFERENCE_TIME MinimumPeriod = 20000;
++#define                     EXTRA_SAFE_RT   10000
+ 
+ struct ACImpl;
+ typedef struct ACImpl ACImpl;
+diff -ur a/dlls/wineoss.drv/mmdevdrv.c b/dlls/wineoss.drv/mmdevdrv.c
+--- a/dlls/wineoss.drv/mmdevdrv.c	2017-06-15 10:47:39.815223028 +0800
++++ b/dlls/wineoss.drv/mmdevdrv.c	2017-06-15 10:51:51.531212501 +0800
+@@ -56,8 +56,8 @@
+ 
+ #define NULL_PTR_ERR MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIN32, RPC_X_NULL_REF_POINTER)
+ 
+-static const REFERENCE_TIME DefaultPeriod = 100000;
+-static const REFERENCE_TIME MinimumPeriod = 50000;
++static const REFERENCE_TIME DefaultPeriod = 20000;
++static const REFERENCE_TIME MinimumPeriod = 20000;
+ 
+ struct ACImpl;
+ typedef struct ACImpl ACImpl;
+diff -ur a/dlls/winepulse.drv/mmdevdrv.c b/dlls/winepulse.drv/mmdevdrv.c
+--- a/dlls/winepulse.drv/mmdevdrv.c	2017-06-15 10:47:39.860223026 +0800
++++ b/dlls/winepulse.drv/mmdevdrv.c	2017-06-15 10:50:35.571215678 +0800
+@@ -68,8 +68,8 @@
+     Priority_Preferred
+ };
+ 
+-static const REFERENCE_TIME MinimumPeriod = 30000;
+-static const REFERENCE_TIME DefaultPeriod = 100000;
++static const REFERENCE_TIME MinimumPeriod = 20000;
++static const REFERENCE_TIME DefaultPeriod = 20000;
+ 
+ static pa_context *pulse_ctx;
+ static pa_mainloop *pulse_ml;
