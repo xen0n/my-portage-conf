@@ -1,25 +1,3 @@
-sys-devel/gcc-config ~amd64
-sys-devel/gcc:4.6 ~amd64
-sys-devel/gcc:4.7 ~amd64
-
-app-arch/xz-utils ~amd64
-virtual/udev ~amd64
-
-sys-libs/timezone-data ~amd64
-
-sys-kernel/e-sources ~amd64
-
-sys-apps/sandbox ~amd64
-
-sys-apps/openrc ~amd64
-sys-apps/sysvinit ~amd64
-
-sys-kernel/linux-headers ~amd64
-sys-kernel/linux-firmware ~amd64
-
-sys-libs/libnih ~amd64
-sys-apps/ureadahead ~amd64
-
 # 20170612 xenon: unneeded now
 # required by sys-devel/llvm-9999::gentoo[clang]
 # required by dev-libs/libclc-9999::x11

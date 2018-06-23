@@ -1,7 +1,0 @@
-#required by www-client/chromium-25.0.1364.29, required by @selected, required by @world (argument)
-#=net-libs/libsrtp-1.4.4_p20121108 ~amd64
-net-libs/libsrtp ~amd64
-#required by www-client/chromium-25.0.1364.29, required by @selected, required by @world (argument)
-#=media-libs/harfbuzz-0.9.11 ~amd64
-media-libs/harfbuzz ~amd64
-
