@@ -1,0 +1,2 @@
+#required by sys-fs/yaffs2-utils (argument)
+=sys-fs/yaffs2-utils-9999 **

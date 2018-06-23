@@ -4,6 +4,3 @@ app-i18n/opencc **
 #app-i18n/fcitx-sunpinyin **
 app-i18n/sunpinyin **
 app-i18n/sunpinyin-frontend **
-
-#required by sys-fs/yaffs2-utils (argument)
-=sys-fs/yaffs2-utils-9999 **
