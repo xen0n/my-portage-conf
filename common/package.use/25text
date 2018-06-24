@@ -11,10 +11,3 @@ app-text/evince dvi xps
 # required by @selected
 # required by @world (argument)
 >=app-text/xmlto-0.0.28-r1 text
-# required by app-editors/gedit-3.22.0::gentoo[python]
-# required by @selected
-# required by @world (argument)
->=dev-libs/libpeas-1.20.0-r1 python_single_target_python3_5
-
-# exactly-one-of ( python_single_target_pypy python_single_target_python2_7 )
-app-text/asciidoc python_single_target_python2_7
