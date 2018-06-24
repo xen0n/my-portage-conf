@@ -45,8 +45,6 @@ sys-devel/flex -nls
 
 net-misc/openssh sctp
 
-sys-fs/bedup python_targets_python3_4
-
 # required by app-emulation/docker-1.10.3::gentoo[seccomp]
 # required by @selected
 # required by @world (argument)
