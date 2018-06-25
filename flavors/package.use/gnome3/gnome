@@ -1,0 +1,26 @@
+# required by gnome-base/gnome-control-center-3.24.4::gentoo[cups]
+# required by gnome-base/gnome-core-apps-3.24.2::gentoo
+# required by gnome-base/gnome-3.24.2::gentoo
+# required by gnome (argument)
+>=net-fs/samba-4.8.2 client
+# required by gnome-extra/gnome-user-share-3.18.3::gentoo
+# required by gnome-base/gnome-extra-apps-3.24.2::gentoo[share]
+# required by gnome-base/gnome-3.24.2::gentoo[extras]
+# required by gnome (argument)
+>=www-servers/apache-2.4.33-r1 apache2_modules_auth_digest
+# required by media-video/totem-3.24.0::gentoo
+# required by gnome-base/gnome-core-apps-3.24.2::gentoo
+# required by gnome-base/gnome-3.24.2::gentoo
+# required by gnome (argument)
+>=media-libs/grilo-0.3.4 playlist
+# required by gnome-extra/gnome-contacts-3.22.1-r1::gentoo
+# required by gnome-base/gnome-core-apps-3.24.2::gentoo
+# required by gnome-base/gnome-3.24.2::gentoo
+# required by gnome (argument)
+>=dev-libs/folks-0.11.4 eds
+# required by dev-libs/folks-0.11.4::gentoo[eds]
+# required by gnome-extra/gnome-contacts-3.22.1-r1::gentoo
+# required by gnome-base/gnome-core-apps-3.24.2::gentoo
+# required by gnome-base/gnome-3.24.2::gentoo
+# required by gnome (argument)
+>=gnome-extra/evolution-data-server-3.24.7 vala

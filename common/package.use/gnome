@@ -1,0 +1,3 @@
+app-misc/tracker -gstreamer ffmpeg
+
+media-libs/libmediaart gtk -qt5
