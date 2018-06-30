@@ -1,0 +1,4 @@
+# gtkdoc-scangobj can't recognize --param xxx=yyy in CFLAGS
+dev-libs/atk cflags-no-params.conf
+app-accessibility/at-spi2-core cflags-no-params.conf
+sci-geosciences/geocode-glib cflags-no-params.conf
