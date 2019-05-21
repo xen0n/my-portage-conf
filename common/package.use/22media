@@ -1,7 +1,7 @@
 # qt5 xor qt4; ffmpeg and postproc
 media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp qt5 -qt4 upnp
 
-media-libs/freetype infinality
+media-libs/freetype harfbuzz infinality
 
 # opencl causes compilation error...
 # 20161023: test opencl again

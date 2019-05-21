@@ -4,4 +4,4 @@ PYTHON_SINGLE_TARGET="python3_6"
 USE_PYTHON="2.7 3.6"
 
 # Ruby
-RUBY_TARGETS="ruby24 ruby25"
+RUBY_TARGETS="ruby26"

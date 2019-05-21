@@ -6,3 +6,8 @@ media-video/ffmpeg -openssl
 
 # this is only about which SHA2 implementation to use
 app-admin/sudo -openssl
+
+# 20190413 libvncserver has no libressl support for now...
+media-video/vlc -vnc
+
+app-text/mupdf -openssl

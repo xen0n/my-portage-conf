@@ -1,0 +1,8 @@
+# 20190126: this version of perf hard depends on dev-libs/openssl, breaking libressl compatibility
+=dev-util/perf-4.20.3 -crypt
+
+# libserf implicitly depends on symbols no longer existing
+# https://bugs.gentoo.org/640872
+=dev-vcs/subversion-1.12.0 -http
+app-portage/layman -subversion
+#dev-vcs/git -subversion

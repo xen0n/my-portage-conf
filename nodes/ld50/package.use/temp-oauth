@@ -1,0 +1,3 @@
+# 20190126
+# bindist? ( nss ) libressl? ( ssl ) at-most-one-of ( nss ssl )
+net-libs/liboauth -nss ssl

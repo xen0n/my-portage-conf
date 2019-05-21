@@ -60,3 +60,7 @@ sys-process/cronie anacron
 
 # exactly-one-of ( gcrypt kernel nettle openssl )
 sys-fs/cryptsetup -gcrypt openssl -kernel -nettle
+
+# these must go together
+sys-apps/dbus user-session
+net-wireless/bluez user-session
