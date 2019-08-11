@@ -1,0 +1,5 @@
+cross-mips64el-unknown-linux-musl/binutils mips ~mips -amd64 -~amd64
+cross-mips64el-unknown-linux-musl/gcc mips ~mips -amd64 -~amd64
+cross-mips64el-unknown-linux-musl/linux-headers mips ~mips -amd64 -~amd64
+cross-mips64el-unknown-linux-musl/musl mips ~mips -amd64 -~amd64
+cross-mips64el-unknown-linux-musl/gdb mips ~mips -amd64 -~amd64

@@ -1,2 +1,3 @@
 cross-mips64el-unknown-linux-gnu
 cross-mips64el-none
+cross-mips64el-unknown-linux-musl
