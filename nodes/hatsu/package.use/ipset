@@ -1,0 +1,2 @@
+# we build ipset module in kernel
+net-firewall/ipset -modules
