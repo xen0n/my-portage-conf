@@ -1,0 +1,2 @@
+# vscode requires v10.x
+>=net-libs/nodejs-11.0.0
