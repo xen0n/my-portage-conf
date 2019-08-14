@@ -1,4 +1,4 @@
-GENTOO_MIRRORS="https://mirrors.aliyun.com/gentoo/"
+GENTOO_MIRRORS="https://mirrors.aliyun.com/gentoo/ https://mirrors.ustc.edu.cn/gentoo/"
 
 LINGUAS="zh_CN zh en_US en"
 L10N="en en-US zh zh-CN zh-TW ja"
