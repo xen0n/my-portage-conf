@@ -1,0 +1,2 @@
+# fcitx4 doesn't support wayland
+app-i18n/mozc ibus -fcitx4
