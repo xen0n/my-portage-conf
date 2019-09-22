@@ -5,7 +5,11 @@ L10N="en en-US zh zh-CN zh-TW ja"
 
 EMERGE_DEFAULT_OPTS="--ask-enter-invalid"
 
-FEATURES="nostrip parallel-install parallel-fetch userfetch userpriv usersandbox"
+FEATURES="parallel-install parallel-fetch userfetch userpriv usersandbox"
+# sandbox
+FEATURES="${FEATURES} cgroup" # ipc-sandbox mount-sandbox pid-sandbox seems enabled by default
+# debuginfo
+FEATURES="${FEATURES} compressdebug splitdebug"
 #FEATURES="${FEATURES} distcc"
 
 # XZ compress docs
