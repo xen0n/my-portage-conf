@@ -1,0 +1,24 @@
+x11-terms/terminator python_targets_python2_7
+dev-libs/libxslt python_targets_python2_7
+net-dns/avahi python_targets_python2_7
+dev-lang/yasm python_targets_python2_7
+net-libs/libproxy python_targets_python2_7
+dev-vcs/subversion python_targets_python2_7
+gnome-base/gconf python_targets_python2_7
+dev-vcs/mercurial python_targets_python2_7
+
+# transitive deps
+dev-libs/libxml2 python_targets_python2_7
+dev-python/setuptools python_targets_python2_7
+dev-python/dbus-python python_targets_python2_7
+dev-python/pycairo python_targets_python2_7
+dev-python/certifi python_targets_python2_7
+dev-util/scons python_targets_python2_7
+dev-python/numpy python_targets_python2_7
+app-i18n/ibus python_targets_python2_7
+dev-python/pygobject python_targets_python2_7
+dev-python/notify-python python_targets_python2_7
+dev-python/zstandard python_targets_python2_7
+dev-python/cffi python_targets_python2_7
+dev-python/pycparser python_targets_python2_7
+dev-python/ply python_targets_python2_7
