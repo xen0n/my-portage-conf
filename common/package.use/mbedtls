@@ -1,0 +1,2 @@
+# disable TLS compression support to prevent CRIME attacks
+net-libs/mbedtls -zlib

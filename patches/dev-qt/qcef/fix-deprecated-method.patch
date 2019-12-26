@@ -1,0 +1,11 @@
+--- a/src/core/qcef_dialog_handler.cpp	2019-12-25 01:25:40.740432082 +0800
++++ b/src/core/qcef_dialog_handler.cpp	2019-12-25 01:24:24.068511657 +0800
+@@ -106,7 +106,7 @@
+ 
+   QFileDialog* dialog = new QFileDialog();
+   dialog->setWindowTitle(title_str);
+-  dialog->setConfirmOverwrite(mode & FILE_DIALOG_OVERWRITEPROMPT_FLAG);
++  dialog->setOption(QFileDialog::DontConfirmOverwrite, !(mode & FILE_DIALOG_OVERWRITEPROMPT_FLAG));
+   const QString path = default_file_path.ToString().c_str();
+   QFileInfo info;
+   if (path.isEmpty()) {

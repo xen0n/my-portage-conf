@@ -1,0 +1,11 @@
+--- a/js/ui/background.js	2019-12-26 09:58:06.489705962 +0800
++++ b/js/ui/background.js	2019-12-26 09:57:46.084106371 +0800
+@@ -617,7 +617,7 @@
+     }
+ 
+     load(callback) {
+-        this._show = new GnomeDesktop.BGSlideShow({ filename: this.file.get_path() });
++        this._show = new GnomeDesktop.BGSlideShow({ file: this.file });
+ 
+         this._show.load_async(null, (object, result) => {
+             this.loaded = true;
