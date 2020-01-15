@@ -6,7 +6,8 @@ media-libs/freetype harfbuzz infinality
 # opencl causes compilation error...
 # 20161023: test opencl again
 #media-libs/mesa gles1 gles2 xa gbm opencl r600-llvm-compiler llvm-shared-libs osmesa openvg
-media-libs/mesa gles1 gles2 xa gbm osmesa openvg openmax d3d9 opencl
+# 20200114 opencl needs dev-libs/ocl-icd which needs ruby26 which I don't want anymore
+media-libs/mesa gles1 gles2 xa gbm osmesa openvg openmax d3d9 # opencl
 
 # 20170613 xenon: the mac plugin fails to compile supposedly because of bit rot
 media-sound/xmms2 curl gvfs  # mac
