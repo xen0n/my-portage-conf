@@ -1,0 +1,13 @@
+--- a/setup.py	2019-07-13 11:28:25.245042600 +0800
++++ b/setup.py	2019-07-13 11:26:45.564040818 +0800
+@@ -63,8 +63,8 @@
+                         '/usr/local/include'
+                     ],
+                     library_dirs = [
+-                        os.path.join(prefix, 'lib'),
+-                        os.path.join(home, 'lib'),
++                        os.path.join(prefix, 'lib64'),
++                        os.path.join(home, 'lib64'),
+                         '/opt/local/lib',
+                         '/usr/local/lib'
+                     ]

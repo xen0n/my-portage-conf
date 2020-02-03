@@ -1,0 +1,13 @@
+diff --git a/tools/build/Makefile.build b/tools/build/Makefile.build
+index cd72016c3cfa..17f0d362bf28 100644
+--- a/tools/build/Makefile.build
++++ b/tools/build/Makefile.build
+@@ -85,7 +85,7 @@ quiet_cmd_ld_multi = LD       $@
+ 
+ quiet_cmd_host_ld_multi = HOSTLD   $@
+       cmd_host_ld_multi = $(if $(strip $(obj-y)),\
+-                          $(HOSTLD) -r -o $@  $(filter $(obj-y),$^),rm -f $@; $(HOSTAR) rcs $@)
++                          $(HOSTLD) -m elf64ltsmip -r -o $@  $(filter $(obj-y),$^),rm -f $@; $(HOSTAR) rcs $@)
+ 
+ ifneq ($(filter $(obj),$(hostprogs)),)
+   host = host_

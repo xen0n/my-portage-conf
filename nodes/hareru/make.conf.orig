@@ -1,0 +1,24 @@
+CHOST=mips64el-unknown-linux-gnu
+
+ACCEPT_KEYWORDS="~mips"
+
+USE="-static-libs pch graphite ipv6 -minimal systemd -nls user-session"
+
+CFLAGS="-O2 -pipe -march=loongson3a -mtune=loongson3a"
+CXXFLAGS="${CFLAGS}"
+
+GENTOO_MIRRORS="https://mirrors.aliyun.com/gentoo/"
+
+FEATURES="parallel-install parallel-fetch userfetch userpriv usersandbox"
+FEATURES="${FEATURES} nostrip"
+
+MAKEFLAGS="-j4"
+
+ABI_MIPS="n64"
+
+PORTAGE_COMPRESS="xz"
+PORTAGE_COMPRESS_FLAGS="-6"
+
+PYTHON_TARGETS="python3_6"
+PYTHON_SINGLE_TARGET="python3_6"
+USE_PYTHON="3.6"

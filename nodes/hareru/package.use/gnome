@@ -1,0 +1,21 @@
+# required by media-gfx/shotwell-0.30.2::gentoo
+# required by gnome-base/gnome-extra-apps-3.30.2::gentoo[shotwell]
+# required by gnome-base/gnome-3.30.2::gentoo[extras]
+# required by gnome-base/gnome (argument)
+media-libs/gexiv2 vala
+# required by gnome-base/gnome-control-center-3.30.3-r1::gentoo[cups]
+# required by gnome-base/gnome-core-apps-3.30.2::gentoo
+# required by gnome-base/gnome-3.30.2::gentoo
+# required by gnome-base/gnome (argument)
+net-fs/samba client
+# required by gnome-extra/gnome-contacts-3.30.2::gentoo
+# required by gnome-base/gnome-core-apps-3.30.2::gentoo
+# required by gnome-base/gnome-3.30.2::gentoo
+# required by gnome-base/gnome (argument)
+dev-libs/folks eds
+# required by dev-libs/folks-0.11.4-r1::gentoo[eds]
+# required by gnome-extra/gnome-contacts-3.30.2::gentoo
+# required by gnome-base/gnome-core-apps-3.30.2::gentoo
+# required by gnome-base/gnome-3.30.2::gentoo
+# required by gnome-base/gnome (argument)
+gnome-extra/evolution-data-server vala

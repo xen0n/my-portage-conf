@@ -1,0 +1,10 @@
+--- a/runtime/src/kmp_affinity.h
++++ b/runtime/src/kmp_affinity.h
+@@ -232,6 +232,7 @@
+ #elif __NR_sched_getaffinity != 5196
+ #error Wrong code for getaffinity system call.
+ #endif /* __NR_sched_getaffinity */
++#else /* KMP_ARCH_ */
+ #error Unknown or unsupported architecture
+ #endif /* KMP_ARCH_* */
+ class KMPNativeAffinity : public KMPAffinity {
