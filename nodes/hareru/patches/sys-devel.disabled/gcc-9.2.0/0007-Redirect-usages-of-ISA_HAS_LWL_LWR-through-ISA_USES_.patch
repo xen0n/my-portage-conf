@@ -1,0 +1,86 @@
+From 2d967d93096c26015b257beadf552cc4a5fc214a Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Tue, 4 Feb 2020 21:41:04 +0800
+Subject: [PATCH 7/8] Redirect usages of ISA_HAS_LWL_LWR through
+ ISA_USES_LWL_LWR for future expansion.
+
+---
+ gcc/config/mips/mips.c  | 6 +++---
+ gcc/config/mips/mips.h  | 2 ++
+ gcc/config/mips/mips.md | 6 +++---
+ 3 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/gcc/config/mips/mips.c b/gcc/config/mips/mips.c
+index 59cea32b032..d64a7425a05 100644
+--- a/gcc/config/mips/mips.c
++++ b/gcc/config/mips/mips.c
+@@ -8039,11 +8039,11 @@ mips_block_move_straight (rtx dest, rtx src, HOST_WIDE_INT length)
+      and lw/lw/sw/sw is usually better than ldl/ldr/sdl/sdr.
+      Otherwise move word-sized chunks.
+ 
+-     For ISA_HAS_LWL_LWR we rely on the lwl/lwr & swl/swr load. Otherwise
++     For ISA_USES_LWL_LWR we rely on the lwl/lwr & swl/swr load. Otherwise
+      picking the minimum of alignment or BITS_PER_WORD gets us the
+      desired size for bits.  */
+ 
+-  if (!ISA_HAS_LWL_LWR)
++  if (!ISA_USES_LWL_LWR)
+     bits = MIN (BITS_PER_WORD, MIN (MEM_ALIGN (src), MEM_ALIGN (dest)));
+   else
+     {
+@@ -8174,7 +8174,7 @@ mips_block_move_loop (rtx dest, rtx src, HOST_WIDE_INT length,
+ bool
+ mips_expand_block_move (rtx dest, rtx src, rtx length)
+ {
+-  if (!ISA_HAS_LWL_LWR
++  if (!ISA_USES_LWL_LWR
+       && (MEM_ALIGN (src) < MIPS_MIN_MOVE_MEM_ALIGN
+ 	  || MEM_ALIGN (dest) < MIPS_MIN_MOVE_MEM_ALIGN))
+     return false;
+diff --git a/gcc/config/mips/mips.h b/gcc/config/mips/mips.h
+index e4aebe66494..28260d647ec 100644
+--- a/gcc/config/mips/mips.h
++++ b/gcc/config/mips/mips.h
+@@ -1157,6 +1157,8 @@ struct mips_cpu_info {
+ 
+ #define ISA_HAS_LWL_LWR		(mips_isa_rev <= 5 && !TARGET_MIPS16)
+ 
++#define ISA_USES_LWL_LWR	ISA_HAS_LWL_LWR
++
+ #define ISA_HAS_IEEE_754_LEGACY	(mips_isa_rev <= 5)
+ 
+ #define ISA_HAS_IEEE_754_2008	(mips_isa_rev >= 2)
+diff --git a/gcc/config/mips/mips.md b/gcc/config/mips/mips.md
+index 8165a63ac48..e41ccc103a6 100644
+--- a/gcc/config/mips/mips.md
++++ b/gcc/config/mips/mips.md
+@@ -4259,7 +4259,7 @@
+ 	(sign_extract:GPR (match_operand:BLK 1 "memory_operand")
+ 			  (match_operand 2 "const_int_operand")
+ 			  (match_operand 3 "const_int_operand")))]
+-  "ISA_HAS_LWL_LWR"
++  "ISA_USES_LWL_LWR"
+ {
+   if (mips_expand_ext_as_unaligned_load (operands[0], operands[1],
+ 					 INTVAL (operands[2]),
+@@ -4296,7 +4296,7 @@
+ 	(zero_extract:GPR (match_operand:BLK 1 "memory_operand")
+ 			  (match_operand 2 "const_int_operand")
+ 			  (match_operand 3 "const_int_operand")))]
+-  "ISA_HAS_LWL_LWR"
++  "ISA_USES_LWL_LWR"
+ {
+   if (mips_expand_ext_as_unaligned_load (operands[0], operands[1],
+ 					 INTVAL (operands[2]),
+@@ -4347,7 +4347,7 @@
+ 			  (match_operand 1 "const_int_operand")
+ 			  (match_operand 2 "const_int_operand"))
+ 	(match_operand:GPR 3 "reg_or_0_operand"))]
+-  "ISA_HAS_LWL_LWR"
++  "ISA_USES_LWL_LWR"
+ {
+   if (mips_expand_ins_as_unaligned_store (operands[0], operands[3],
+ 					  INTVAL (operands[1]),
+-- 
+2.21.0
+

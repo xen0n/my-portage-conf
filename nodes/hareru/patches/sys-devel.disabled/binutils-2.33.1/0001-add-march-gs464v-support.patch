@@ -1,0 +1,236 @@
+From 172b363f1b26e70ba97d2f6ee2782bfbd888a5e3 Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Tue, 4 Feb 2020 23:44:00 +0800
+Subject: [PATCH 1/3] add march=gs464v support
+
+---
+ bfd/archures.c        | 1 +
+ bfd/bfd-in2.h         | 1 +
+ bfd/cpu-mips.c        | 2 ++
+ bfd/elfxx-mips.c      | 8 ++++++++
+ binutils/readelf.c    | 1 +
+ elfcpp/mips.h         | 1 +
+ gas/config/tc-mips.c  | 3 +++
+ gas/doc/c-mips.texi   | 1 +
+ gold/mips.cc          | 7 +++++++
+ include/elf/mips.h    | 1 +
+ include/opcode/mips.h | 1 +
+ opcodes/mips-dis.c    | 5 +++++
+ 12 files changed, 32 insertions(+)
+
+diff --git a/bfd/archures.c b/bfd/archures.c
+index 3465406213..26315886cb 100644
+--- a/bfd/archures.c
++++ b/bfd/archures.c
+@@ -178,6 +178,7 @@ DESCRIPTION
+ .#define bfd_mach_mips_gs464		3003
+ .#define bfd_mach_mips_gs464e		3004
+ .#define bfd_mach_mips_gs264e		3005
++.#define bfd_mach_mips_gs464v		3006
+ .#define bfd_mach_mips_sb1		12310201 {* octal 'SB', 01.  *}
+ .#define bfd_mach_mips_octeon		6501
+ .#define bfd_mach_mips_octeonp		6601
+diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
+index 7b1cfbcf1a..fd5a0ff679 100644
+--- a/bfd/bfd-in2.h
++++ b/bfd/bfd-in2.h
+@@ -2118,6 +2118,7 @@ enum bfd_architecture
+ #define bfd_mach_mips_gs464            3003
+ #define bfd_mach_mips_gs464e           3004
+ #define bfd_mach_mips_gs264e           3005
++#define bfd_mach_mips_gs464v           3006
+ #define bfd_mach_mips_sb1              12310201 /* octal 'SB', 01.  */
+ #define bfd_mach_mips_octeon           6501
+ #define bfd_mach_mips_octeonp          6601
+diff --git a/bfd/cpu-mips.c b/bfd/cpu-mips.c
+index b359491305..6db9686729 100644
+--- a/bfd/cpu-mips.c
++++ b/bfd/cpu-mips.c
+@@ -101,6 +101,7 @@ enum
+   I_gs464,
+   I_gs464e,
+   I_gs264e,
++  I_gs464v,
+   I_mipsocteon,
+   I_mipsocteonp,
+   I_mipsocteon2,
+@@ -155,6 +156,7 @@ static const bfd_arch_info_type arch_info_struct[] =
+   N (64, 64, bfd_mach_mips_gs464, "mips:gs464",	  FALSE, NN(I_gs464)),
+   N (64, 64, bfd_mach_mips_gs464e, "mips:gs464e",	  FALSE, NN(I_gs464e)),
+   N (64, 64, bfd_mach_mips_gs264e, "mips:gs264e",	  FALSE, NN(I_gs264e)),
++  N (64, 64, bfd_mach_mips_gs464v, "mips:gs464v",	  FALSE, NN(I_gs464v)),
+   N (64, 64, bfd_mach_mips_octeon,"mips:octeon",  FALSE, NN(I_mipsocteon)),
+   N (64, 64, bfd_mach_mips_octeonp,"mips:octeon+",  FALSE, NN(I_mipsocteonp)),
+   N (64, 64, bfd_mach_mips_octeon2,"mips:octeon2",  FALSE, NN(I_mipsocteon2)),
+diff --git a/bfd/elfxx-mips.c b/bfd/elfxx-mips.c
+index e3054043df..9d4b73b358 100644
+--- a/bfd/elfxx-mips.c
++++ b/bfd/elfxx-mips.c
+@@ -6984,6 +6984,9 @@ _bfd_elf_mips_mach (flagword flags)
+     case E_MIPS_MACH_GS264E:
+       return bfd_mach_mips_gs264e;
+ 
++    case E_MIPS_MACH_GS464V:
++      return bfd_mach_mips_gs464v;
++
+     case E_MIPS_MACH_OCTEON3:
+       return bfd_mach_mips_octeon3;
+ 
+@@ -12343,6 +12346,10 @@ mips_set_isa_flags (bfd *abfd)
+       val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_GS264E;
+       break;
+ 
++    case bfd_mach_mips_gs464v:
++      val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_GS464V;
++      break;
++
+     case bfd_mach_mips_octeon:
+     case bfd_mach_mips_octeonp:
+       val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_OCTEON;
+@@ -14391,6 +14398,7 @@ static const struct mips_mach_extension mips_mach_extensions[] =
+   { bfd_mach_mips_octeon2, bfd_mach_mips_octeonp },
+   { bfd_mach_mips_octeonp, bfd_mach_mips_octeon },
+   { bfd_mach_mips_octeon, bfd_mach_mipsisa64r2 },
++  { bfd_mach_mips_gs464v, bfd_mach_mips_gs264e },
+   { bfd_mach_mips_gs264e, bfd_mach_mips_gs464e },
+   { bfd_mach_mips_gs464e, bfd_mach_mips_gs464 },
+   { bfd_mach_mips_gs464, bfd_mach_mipsisa64r2 },
+diff --git a/binutils/readelf.c b/binutils/readelf.c
+index 0962877ad8..c3dfb9abf9 100644
+--- a/binutils/readelf.c
++++ b/binutils/readelf.c
+@@ -3441,6 +3441,7 @@ get_machine_flags (Filedata * filedata, unsigned e_flags, unsigned e_machine)
+ 	    case E_MIPS_MACH_GS464: strcat (buf, ", gs464"); break;
+ 	    case E_MIPS_MACH_GS464E: strcat (buf, ", gs464e"); break;
+ 	    case E_MIPS_MACH_GS264E: strcat (buf, ", gs264e"); break;
++	    case E_MIPS_MACH_GS464V: strcat (buf, ", gs464v"); break;
+ 	    case E_MIPS_MACH_OCTEON: strcat (buf, ", octeon"); break;
+ 	    case E_MIPS_MACH_OCTEON2: strcat (buf, ", octeon2"); break;
+ 	    case E_MIPS_MACH_OCTEON3: strcat (buf, ", octeon3"); break;
+diff --git a/elfcpp/mips.h b/elfcpp/mips.h
+index 7293c9fb18..ecdb9f66ad 100644
+--- a/elfcpp/mips.h
++++ b/elfcpp/mips.h
+@@ -238,6 +238,7 @@ enum
+   E_MIPS_MACH_GS464 = 0x00A20000,
+   E_MIPS_MACH_GS464E = 0x00A30000,
+   E_MIPS_MACH_GS264E = 0x00A40000,
++  E_MIPS_MACH_GS464V = 0x00A50000,
+ };
+ 
+ // MIPS architecture
+diff --git a/gas/config/tc-mips.c b/gas/config/tc-mips.c
+index a386d11f6c..03d785ca5c 100644
+--- a/gas/config/tc-mips.c
++++ b/gas/config/tc-mips.c
+@@ -438,6 +438,7 @@ static int mips_32bitmode = 0;
+     || (CPU) == CPU_R5900)		\
+    && ((CPU) != CPU_GS464		\
+     || (CPU) != CPU_GS464E		\
++    || (CPU) != CPU_GS464V		\
+     || (CPU) != CPU_GS264E))
+ 
+ /* Return true if ISA supports move to/from high part of a 64-bit
+@@ -20123,6 +20124,8 @@ static const struct mips_cpu_info mips_cpu_info_table[] =
+      ISA_MIPS64R2,	CPU_GS464 },
+   { "gs464e",         0, ASE_LOONGSON_MMI | ASE_LOONGSON_CAM | ASE_LOONGSON_EXT
+      | ASE_LOONGSON_EXT2,	ISA_MIPS64R2,	CPU_GS464E },
++  { "gs464v",         0, ASE_LOONGSON_MMI | ASE_LOONGSON_CAM | ASE_LOONGSON_EXT
++     | ASE_LOONGSON_EXT2 | ASE_MSA | ASE_MSA64,	ISA_MIPS64R2,	CPU_GS464V },
+   { "gs264e",         0, ASE_LOONGSON_MMI | ASE_LOONGSON_CAM | ASE_LOONGSON_EXT
+      | ASE_LOONGSON_EXT2 | ASE_MSA | ASE_MSA64,	ISA_MIPS64R2,	CPU_GS264E },
+ 
+diff --git a/gas/doc/c-mips.texi b/gas/doc/c-mips.texi
+index 1df28c6d55..315de5b4fe 100644
+--- a/gas/doc/c-mips.texi
++++ b/gas/doc/c-mips.texi
+@@ -455,6 +455,7 @@ loongson2e,
+ loongson2f,
+ gs464,
+ gs464e,
++gs464v,
+ gs264e,
+ octeon,
+ octeon+,
+diff --git a/gold/mips.cc b/gold/mips.cc
+index 65572d8884..885d5f8f4d 100644
+--- a/gold/mips.cc
++++ b/gold/mips.cc
+@@ -3985,6 +3985,7 @@ class Target_mips : public Sized_target<size, big_endian>
+     mach_mips_gs464           = 3003,
+     mach_mips_gs464e          = 3004,
+     mach_mips_gs264e          = 3005,
++    mach_mips_gs464v          = 3006,
+     mach_mips_sb1             = 12310201, // octal 'SB', 01
+     mach_mips_octeon          = 6501,
+     mach_mips_octeonp         = 6601,
+@@ -4150,6 +4151,7 @@ class Target_mips : public Sized_target<size, big_endian>
+     this->add_extension(mach_mips_octeon2, mach_mips_octeonp);
+     this->add_extension(mach_mips_octeonp, mach_mips_octeon);
+     this->add_extension(mach_mips_octeon, mach_mipsisa64r2);
++    this->add_extension(mach_mips_gs464v, mach_mips_gs264e);
+     this->add_extension(mach_mips_gs264e, mach_mips_gs464e);
+     this->add_extension(mach_mips_gs464e, mach_mips_gs464);
+     this->add_extension(mach_mips_gs464, mach_mipsisa64r2);
+@@ -8868,6 +8870,9 @@ Target_mips<size, big_endian>::elf_mips_mach(elfcpp::Elf_Word flags)
+     case elfcpp::E_MIPS_MACH_GS464E:
+       return mach_mips_gs464e;
+ 
++    case elfcpp::E_MIPS_MACH_GS464V:
++      return mach_mips_gs464v;
++
+     case elfcpp::E_MIPS_MACH_GS264E:
+       return mach_mips_gs264e;
+ 
+@@ -12538,6 +12543,8 @@ Target_mips<size, big_endian>::elf_mips_mach_name(elfcpp::Elf_Word e_flags)
+       return "mips:gs464";
+     case elfcpp::E_MIPS_MACH_GS464E:
+       return "mips:gs464e";
++    case elfcpp::E_MIPS_MACH_GS464V:
++      return "mips:gs464v";
+     case elfcpp::E_MIPS_MACH_GS264E:
+       return "mips:gs264e";
+     case elfcpp::E_MIPS_MACH_OCTEON:
+diff --git a/include/elf/mips.h b/include/elf/mips.h
+index cd6779f22c..fe04d2fa4e 100644
+--- a/include/elf/mips.h
++++ b/include/elf/mips.h
+@@ -302,6 +302,7 @@ END_RELOC_NUMBERS (R_MIPS_maxext)
+ #define E_MIPS_MACH_GS464       0x00A20000
+ #define E_MIPS_MACH_GS464E	0x00A30000
+ #define E_MIPS_MACH_GS264E	0x00A40000
++#define E_MIPS_MACH_GS464V	0x00A50000
+ 
+ /* Processor specific section indices.  These sections do not actually
+    exist.  Symbols with a st_shndx field corresponding to one of these
+diff --git a/include/opcode/mips.h b/include/opcode/mips.h
+index 5cba8fb266..eaa8c7c1b6 100644
+--- a/include/opcode/mips.h
++++ b/include/opcode/mips.h
+@@ -1378,6 +1378,7 @@ static const unsigned int mips_isa_table[] = {
+ #define CPU_GS464	3003
+ #define CPU_GS464E	3004
+ #define CPU_GS264E	3005
++#define CPU_GS464V	3006
+ #define CPU_OCTEON	6501
+ #define CPU_OCTEONP	6601
+ #define CPU_OCTEON2	6502
+diff --git a/opcodes/mips-dis.c b/opcodes/mips-dis.c
+index 5bf33d9f8f..06be029d2f 100644
+--- a/opcodes/mips-dis.c
++++ b/opcodes/mips-dis.c
+@@ -645,6 +645,11 @@ const struct mips_arch_choice mips_arch_choices[] =
+     | ASE_LOONGSON_EXT2, mips_cp0_names_numeric, NULL, 0, mips_cp1_names_mips3264,
+     mips_hwr_names_numeric },
+ 
++  { "gs464v",   1, bfd_mach_mips_gs464v, CPU_GS464V,
++    ISA_MIPS64R2, ASE_LOONGSON_MMI | ASE_LOONGSON_CAM | ASE_LOONGSON_EXT
++    | ASE_LOONGSON_EXT2 | ASE_MSA | ASE_MSA64, mips_cp0_names_numeric, NULL,
++    0, mips_cp1_names_mips3264, mips_hwr_names_numeric },
++
+   { "gs264e",   1, bfd_mach_mips_gs464e, CPU_GS264E,
+     ISA_MIPS64R2, ASE_LOONGSON_MMI | ASE_LOONGSON_CAM | ASE_LOONGSON_EXT
+     | ASE_LOONGSON_EXT2 | ASE_MSA | ASE_MSA64, mips_cp0_names_numeric, NULL,
+-- 
+2.24.1
+

@@ -1,0 +1,25 @@
+From 789596d1fc9651011ad9ce5043e2d10dfcadf9f5 Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Wed, 5 Feb 2020 17:36:33 +0800
+Subject: [PATCH 3/3] relax STRICT_ALIGNMENT to only ISA_USES_LWL_LWR
+
+---
+ gcc/config/mips/mips.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gcc/config/mips/mips.h b/gcc/config/mips/mips.h
+index 09ba7fe531f..7af9dcd4c97 100644
+--- a/gcc/config/mips/mips.h
++++ b/gcc/config/mips/mips.h
+@@ -1686,7 +1686,7 @@ FP_ASM_SPEC "\
+   (ISA_HAS_MSA ? BITS_PER_MSA_REG : LONG_DOUBLE_TYPE_SIZE)
+ 
+ /* All accesses must be aligned.  */
+-#define STRICT_ALIGNMENT 1
++#define STRICT_ALIGNMENT ISA_USES_LWL_LWR
+ 
+ /* Define this if you wish to imitate the way many other C compilers
+    handle alignment of bitfields and the structures that contain
+-- 
+2.21.0
+

@@ -1,0 +1,32 @@
+From a1c01712e0340efd8428ba6aa2c939a0b8d2f05d Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Tue, 4 Feb 2020 20:37:24 +0800
+Subject: [PATCH 4/8] future-proof Loongson code from branch-likely
+ instructions
+
+---
+ gcc/config/mips/mips-cpus.def | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gcc/config/mips/mips-cpus.def b/gcc/config/mips/mips-cpus.def
+index 5075f550a68..c3d1db68634 100644
+--- a/gcc/config/mips/mips-cpus.def
++++ b/gcc/config/mips/mips-cpus.def
+@@ -162,10 +162,10 @@ MIPS_CPU ("sr71000", PROCESSOR_SR71000, 64, PTF_AVOID_BRANCHLIKELY_SPEED)
+ MIPS_CPU ("xlr", PROCESSOR_XLR, 64, PTF_AVOID_BRANCHLIKELY_SPEED)
+ 
+ /* MIPS64 Release 2 processors.  */
+-MIPS_CPU ("loongson3a", PROCESSOR_GS464, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+-MIPS_CPU ("gs464", PROCESSOR_GS464, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+-MIPS_CPU ("gs464e", PROCESSOR_GS464E, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+-MIPS_CPU ("gs264e", PROCESSOR_GS264E, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
++MIPS_CPU ("loongson3a", PROCESSOR_GS464, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
++MIPS_CPU ("gs464", PROCESSOR_GS464, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
++MIPS_CPU ("gs464e", PROCESSOR_GS464E, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
++MIPS_CPU ("gs264e", PROCESSOR_GS264E, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
+ MIPS_CPU ("octeon", PROCESSOR_OCTEON, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+ MIPS_CPU ("octeon+", PROCESSOR_OCTEON, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+ MIPS_CPU ("octeon2", PROCESSOR_OCTEON2, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+-- 
+2.21.0
+

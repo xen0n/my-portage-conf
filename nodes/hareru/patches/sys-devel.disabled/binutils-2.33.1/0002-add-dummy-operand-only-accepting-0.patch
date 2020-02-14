@@ -1,0 +1,24 @@
+From ceaccd02dca7e08f40559f518e29e1eccdcee01a Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Thu, 6 Feb 2020 13:07:28 +0800
+Subject: [PATCH 2/3] add dummy operand only accepting 0
+
+---
+ opcodes/mips-opc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/opcodes/mips-opc.c b/opcodes/mips-opc.c
+index 0483a04ede..560a07b65c 100644
+--- a/opcodes/mips-opc.c
++++ b/opcodes/mips-opc.c
+@@ -43,6 +43,7 @@ decode_mips_operand (const char *p)
+     case '-':
+       switch (p[1])
+ 	{
++	case '0': INT_ADJ (0, 0, 0, 0, FALSE);
+ 	case 'a': INT_ADJ (19, 0, 262143, 2, FALSE);
+ 	case 'b': INT_ADJ (18, 0, 131071, 3, FALSE);
+ 	case 'd': SPECIAL (0, 0, REPEAT_DEST_REG);
+-- 
+2.24.1
+
