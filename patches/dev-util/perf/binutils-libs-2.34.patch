@@ -1,0 +1,18 @@
+--- a/util/srcline.c	2019-11-25 08:32:01.000000000 +0800
++++ b/util/srcline.c	2020-02-16 15:17:22.706550117 +0800
+@@ -197,12 +197,12 @@
+ 	if (a2l->found)
+ 		return;
+ 
+-	if ((bfd_get_section_flags(abfd, section) & SEC_ALLOC) == 0)
++	if ((bfd_section_flags(section) & SEC_ALLOC) == 0)
+ 		return;
+ 
+ 	pc = a2l->addr;
+-	vma = bfd_get_section_vma(abfd, section);
+-	size = bfd_get_section_size(section);
++	vma = bfd_section_vma(section);
++	size = bfd_section_size(section);
+ 
+ 	if (pc < vma || pc >= vma + size)
+ 		return;
