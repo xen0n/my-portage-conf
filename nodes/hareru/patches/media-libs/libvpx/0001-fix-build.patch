@@ -1,0 +1,50 @@
+From 17ed992f3f68b0a38b68d228900b36e1e80f898c Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Thu, 20 Feb 2020 18:49:45 +0800
+Subject: [PATCH] fix build
+
+---
+ third_party/libyuv/source/row_msa.cc   | 2 +-
+ third_party/libyuv/source/scale_msa.cc | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/third_party/libyuv/source/row_msa.cc b/third_party/libyuv/source/row_msa.cc
+index 4fb2631f0..ec4ce0299 100644
+--- a/third_party/libyuv/source/row_msa.cc
++++ b/third_party/libyuv/source/row_msa.cc
+@@ -2932,7 +2932,7 @@ void ARGBSetRow_MSA(uint8_t* dst_argb, uint32_t v32, int width) {
+   v4i32 dst0 = __builtin_msa_fill_w(v32);
+ 
+   for (x = 0; x < width; x += 4) {
+-    ST_UB(dst0, dst_argb);
++    ST_UB((v16u8)dst0, dst_argb);
+     dst_argb += 16;
+   }
+ }
+diff --git a/third_party/libyuv/source/scale_msa.cc b/third_party/libyuv/source/scale_msa.cc
+index 482a521f0..202e8a844 100644
+--- a/third_party/libyuv/source/scale_msa.cc
++++ b/third_party/libyuv/source/scale_msa.cc
+@@ -625,7 +625,7 @@ void ScaleFilterCols_MSA(uint8_t* dst_ptr,
+     reg0 = (v8u16)__msa_pckev_h((v8i16)tmp1, (v8i16)tmp0);
+     reg1 = (v8u16)__msa_pckev_h((v8i16)tmp3, (v8i16)tmp2);
+     dst0 = (v16u8)__msa_pckev_b((v16i8)reg1, (v16i8)reg0);
+-    __msa_st_b(dst0, dst_ptr, 0);
++    __msa_st_b((v16i8)dst0, dst_ptr, 0);
+     dst_ptr += 16;
+   }
+ }
+@@ -716,8 +716,8 @@ void ScaleARGBFilterCols_MSA(uint8_t* dst_argb,
+     tmp3 >>= 7;
+     dst0 = (v16u8)__msa_pckev_b((v16i8)tmp1, (v16i8)tmp0);
+     dst1 = (v16u8)__msa_pckev_b((v16i8)tmp3, (v16i8)tmp2);
+-    __msa_st_b(dst0, dst_argb, 0);
+-    __msa_st_b(dst1, dst_argb, 16);
++    __msa_st_b((v16i8)dst0, dst_argb, 0);
++    __msa_st_b((v16i8)dst1, dst_argb, 16);
+     dst_argb += 32;
+   }
+ }
+-- 
+2.25.0
+

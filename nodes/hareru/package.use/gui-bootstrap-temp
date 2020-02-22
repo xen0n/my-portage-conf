@@ -1,0 +1,3 @@
+#media-libs/freetype -harfbuzz
+#x11-libs/libva -vdpau -opengl  # because mesa is too slow to build
+net-dns/avahi -gtk -gtk3
