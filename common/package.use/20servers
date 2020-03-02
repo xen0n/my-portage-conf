@@ -4,4 +4,4 @@ www-servers/nginx nginx_modules_http_dav
 net-ftp/pure-ftpd charconv
 
 # exactly-one-of ( yassl openssl libressl )
-dev-db/mariadb extraengine jemalloc max-idx-128 -perl openssl -yassl -libressl
+dev-db/mariadb extraengine jemalloc max-idx-128 -perl innodb-lzo innodb-snappy
