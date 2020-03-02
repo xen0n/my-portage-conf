@@ -1,2 +1,5 @@
 sci-geosciences/gpsd PYTHON_TARGETS: python3_6
 dev-python/pygobject PYTHON_TARGETS: python3_6
+dev-python/pycairo PYTHON_TARGETS: python3_6
+dev-python/setuptools PYTHON_TARGETS: python3_6
+dev-python/certifi PYTHON_TARGETS: python3_6
