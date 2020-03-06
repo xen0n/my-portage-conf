@@ -1,0 +1,4 @@
+# required by app-portage/layman-2.4.2-r2::gentoo
+# required by @selected
+# required by @world (argument)
+dev-python/ssl-fetch -python_targets_python3_8
