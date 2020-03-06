@@ -31,6 +31,7 @@ FLAG_FILTER_CXX_FORTRAN=(
 	'-std=gnu8*'
 	'-std=gnu9*'
 	'-std=iso*'
+	'-Wimplicit-function-declaration'
 )
 
 FLAG_FILTER_C_FORTRAN=(
@@ -126,8 +127,10 @@ FLAG_FILTER_FORTRAN=(
 	'-fsigned-*'
 	'-fsso-struct*'
 	'-funsigned-*'
-	'-Wformat*'
 	'-Wchkp'
+	'-Wclobbered'
+	'-Wformat*'
+	'-Wvolatile-register-var'
 )
 
 FLAG_FILTER_FFLAGS=(
@@ -153,6 +156,7 @@ FLAG_FILTER_NONGNU=(
 	'-fivopts'
 	'-floop*'
 	'-flto=[0-9]*'
+	'-flto=jobserver'
 	'-flto-partition=*'
 	'-flto-compression-level=*'
 	'-fmodulo*'
@@ -182,7 +186,8 @@ FLAG_FILTER_NONGNU=(
 
 FLAG_FILTER_GNU=(
 	'-emit-llvm'
-	'-flto=[a-z]*'
+	'-flto=full'
+	'-flto=thin'
 	'-flto-jobs=*'
 	'-fopenmp=*'
 	'-frewrite-includes'
@@ -300,7 +305,7 @@ FlagReplaceCFlags() {
 	FlagSub OPTCPPFLAGS "$1"
 }
 
-FlagSetAllCFlags() {
+FlagSetCFlags() {
 	FlagSet CFLAGS "$@"
 	CXXFLAGS=$CFLAGS
 	CPPFLAGS=
@@ -309,30 +314,52 @@ FlagSetAllCFlags() {
 	OPTCPPFLAGS=
 }
 
+FlagAddFFlags() {
+	FlagAdd FFLAGS "$@"
+	FlagAdd FCFLAGS "$@"
+	FlagAdd F77FLAGS "$@"
+}
+
+FlagSubFFlags() {
+	FlagSub FFLAGS "$@"
+	FlagSub FCFLAGS "$@"
+	FlagSub F77FLAGS "$@"
+}
+
+FlagReplaceFFlags() {
+	FlagReplace FFLAGS "$@"
+	FlagReplace FCFLAGS "$@"
+	FlagReplace F77FLAGS "$@"
+}
+
+FlagSetFFlags() {
+	FlagSet FFLAGS "$@"
+	FlagSet FCFLAGS "$@"
+	FlagSet F77FLAGS "$@"
+}
+
 FlagAddAllFlags() {
 	FlagAddCFlags "$@"
+	FlagAddFFlags "$@"
 }
 
 FlagSubAllFlags() {
 	FlagSubCFlags "$@"
+	FlagSubFFlags "$@"
 	FlagSub LDFLAGS "$@"
 	FlagSub OPTLDFLAGS "$@"
-	FlagSub FFLAGS "$@"
-	FlagSub FCLAGS "$@"
-	FlagSub F77LAGS "$@"
 }
 
 FlagReplaceAllFlags() {
 	FlagReplaceCFlags "$@"
+	FlagReplaceFFlags "$@"
 	FlagSub LDFLAGS "$1"
 	FlagSub OPTLDFLAGS "$1"
-	FlagSub FFLAGS "$1"
-	FlagSub FCLAGS "$1"
-	FlagSub F77FLAGS "$1"
 }
 
 FlagSetAllFlags() {
-	FlagSetAllCFlags "$@"
+	FlagSetCFlags "$@"
+	FlagSetFFlags "$@"
 	LDFLAGS=
 	OPTLDFLAGS=
 }
@@ -367,7 +394,7 @@ FlagExecute() {
 			ex=${ex#/}
 			FlagEval FlagReplaceAllFlags "${ex%%/*}" "${ex#*/}";;
 		'-'*)
-			FlagAddAllFlags "$ex";;
+			FlagAddCFlags "$ex";;
 		'+flto*')
 			FlagSubAllFlags '-flto*' '-fuse-linker-plugin' '-emit-llvm';;
 		'+'*)
@@ -377,11 +404,21 @@ FlagExecute() {
 		'C*FLAGS+='*)
 			FlagEval FlagAddCFlags ${ex#*+=};;
 		'C*FLAGS='*)
-			FlagEval FlagSetAllCFlags "${ex#*=}";;
+			FlagEval FlagSetCFlags "${ex#*=}";;
 		'C*FLAGS/=/'*/*)
 			ex=${ex%/}
 			ex=${ex#*/=/}
 			FlagEval FlagReplaceCFlags "${ex%%/*}" "${ex#*/}";;
+		'F*FLAGS-='*)
+			FlagEval FlagSubFFlags ${ex#*-=};;
+		'F*FLAGS+='*)
+			FlagEval FlagAddFFlags ${ex#*+=};;
+		'F*FLAGS='*)
+			FlagEval FlagSetFFlags "${ex#*=}";;
+		'F*FLAGS/=/'*/*)
+			ex=${ex%/}
+			ex=${ex#*/=/}
+			FlagEval FlagReplaceFFlags "${ex%%/*}" "${ex#*/}";;
 		'*FLAGS-='*)
 			FlagEval FlagSubAllFlags ${ex#*-=};;
 		'*FLAGS+='*)
