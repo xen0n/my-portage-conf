@@ -18,7 +18,7 @@ sys-libs/glibc debug
 sys-boot/grub -nls mount
 
 sys-fs/udev gudev introspection keymap hwdb
-sys-apps/systemd gudev introspection kdbus
+sys-apps/systemd gudev introspection kdbus cgroup-hybrid
 virtual/udev gudev introspection keymap hwdb
 virtual/libgudev introspection
 dev-libs/libgudev introspection
