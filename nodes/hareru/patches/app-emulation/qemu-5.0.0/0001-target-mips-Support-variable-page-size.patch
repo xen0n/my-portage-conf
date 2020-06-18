@@ -1,0 +1,35 @@
+From 7391ee66c0d398cbbbe7f3aea6522dabfb3218dd Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 8 Apr 2020 15:30:01 +0800
+Subject: [PATCH 01/11] target/mips: Support variable page size
+
+Traditionally, MIPS use 4KB page size, but Loongson prefer 16KB page
+size in system emulator. So, let's define TARGET_PAGE_BITS_VARY and
+TARGET_PAGE_BITS_MIN to support variable page size.
+
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ target/mips/cpu-param.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/target/mips/cpu-param.h b/target/mips/cpu-param.h
+index 308660d..9c4a6ea 100644
+--- a/target/mips/cpu-param.h
++++ b/target/mips/cpu-param.h
+@@ -23,7 +23,12 @@
+ #  define TARGET_VIRT_ADDR_SPACE_BITS 32
+ #endif
+ #endif
++#ifdef CONFIG_USER_ONLY
+ #define TARGET_PAGE_BITS 12
++#else
++#define TARGET_PAGE_BITS_VARY
++#define TARGET_PAGE_BITS_MIN 12
++#endif
+ #define NB_MMU_MODES 4
+ 
+ #endif
+-- 
+2.25.1
+

@@ -1,0 +1,30 @@
+From 5b854278c87050b612d081b95e5dd469d3f8ff1b Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 18 Dec 2019 18:29:44 +0800
+Subject: [PATCH 10/11] MAINTAINERS: Add myself as Loongson-3 maintainer
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index aa9a057..66c5a41 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1080,6 +1080,11 @@ F: hw/isa/vt82c686.c
+ F: hw/pci-host/bonito.c
+ F: include/hw/isa/vt82c686.h
+ 
++Loongson-3
++M: Huacai Chen <chenhc@lemote.com>
++S: Maintained
++F: hw/mips/mips_loongson3.c
++
+ Boston
+ M: Paul Burton <pburton@wavecomp.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+-- 
+2.25.1
+

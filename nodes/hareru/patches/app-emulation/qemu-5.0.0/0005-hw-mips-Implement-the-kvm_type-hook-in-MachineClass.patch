@@ -1,0 +1,133 @@
+From ceb0e739e177540d6272428899838875717dbc81 Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 18 Dec 2019 18:29:44 +0800
+Subject: [PATCH 05/11] hw/mips: Implement the kvm_type() hook in MachineClass
+
+MIPS has two types of KVM: TE & VZ, and TE is the default type. Now we
+can't create a VZ guest in QEMU because it lacks the kvm_type() hook in
+MachineClass. Besides, libvirt uses a null-machine to detect the kvm
+capability, so by default it will return "KVM not supported" on a VZ
+platform. Thus, null-machine also need the kvm_type() hook.
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ hw/core/Makefile.objs  |  2 +-
+ hw/core/null-machine.c |  4 ++++
+ hw/mips/Makefile.objs  |  2 +-
+ hw/mips/common.c       | 42 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/mips/mips.h |  3 +++
+ 5 files changed, 51 insertions(+), 2 deletions(-)
+ create mode 100644 hw/mips/common.c
+
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index 6215e7c..7cfef1f 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -16,10 +16,10 @@ common-obj-$(CONFIG_SOFTMMU) += vm-change-state-handler.o
+ common-obj-$(CONFIG_SOFTMMU) += qdev-properties-system.o
+ common-obj-$(CONFIG_SOFTMMU) += sysbus.o
+ common-obj-$(CONFIG_SOFTMMU) += machine.o
+-common-obj-$(CONFIG_SOFTMMU) += null-machine.o
+ common-obj-$(CONFIG_SOFTMMU) += loader.o
+ common-obj-$(CONFIG_SOFTMMU) += machine-hmp-cmds.o
+ common-obj-$(CONFIG_SOFTMMU) += numa.o
++obj-$(CONFIG_SOFTMMU) += null-machine.o
+ obj-$(CONFIG_SOFTMMU) += machine-qmp-cmds.o
+ 
+ common-obj-$(CONFIG_EMPTY_SLOT) += empty_slot.o
+diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+index cb47d9d..94a36f9 100644
+--- a/hw/core/null-machine.c
++++ b/hw/core/null-machine.c
+@@ -17,6 +17,7 @@
+ #include "sysemu/sysemu.h"
+ #include "exec/address-spaces.h"
+ #include "hw/core/cpu.h"
++#include "hw/mips/mips.h"
+ 
+ static void machine_none_init(MachineState *mch)
+ {
+@@ -50,6 +51,9 @@ static void machine_none_machine_init(MachineClass *mc)
+     mc->max_cpus = 1;
+     mc->default_ram_size = 0;
+     mc->default_ram_id = "ram";
++#ifdef TARGET_MIPS
++    mc->kvm_type = mips_kvm_type;
++#endif
+ }
+ 
+ DEFINE_MACHINE("none", machine_none_machine_init)
+diff --git a/hw/mips/Makefile.objs b/hw/mips/Makefile.objs
+index 525809a..2f7795b 100644
+--- a/hw/mips/Makefile.objs
++++ b/hw/mips/Makefile.objs
+@@ -1,4 +1,4 @@
+-obj-y += addr.o mips_int.o
++obj-y += addr.o common.o mips_int.o
+ obj-$(CONFIG_R4K) += mips_r4k.o
+ obj-$(CONFIG_MALTA) += gt64xxx_pci.o mips_malta.o
+ obj-$(CONFIG_MIPSSIM) += mips_mipssim.o
+diff --git a/hw/mips/common.c b/hw/mips/common.c
+new file mode 100644
+index 0000000..4d8e141
+--- /dev/null
++++ b/hw/mips/common.c
+@@ -0,0 +1,42 @@
++/*
++ * Common MIPS routines
++ *
++ * Copyright (c) 2020 Huacai Chen (chenhc@lemote.com)
++ * This code is licensed under the GNU GPL v2.
++ */
++
++#include <linux/kvm.h>
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "hw/boards.h"
++#include "hw/mips/mips.h"
++#include "sysemu/kvm_int.h"
++
++#ifndef CONFIG_KVM
++
++int mips_kvm_type(MachineState *machine, const char *vm_type)
++{
++    return 0;
++}
++
++#else
++
++int mips_kvm_type(MachineState *machine, const char *vm_type)
++{
++    int r;
++    KVMState *s = KVM_STATE(machine->accelerator);
++
++    r = kvm_check_extension(s, KVM_CAP_MIPS_VZ);
++    if (r > 0) {
++        return KVM_VM_MIPS_VZ;
++    }
++
++    r = kvm_check_extension(s, KVM_CAP_MIPS_TE);
++    if (r > 0) {
++        return KVM_VM_MIPS_TE;
++    }
++
++    return -1;
++}
++
++#endif
+diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
+index 0af4c3d..2ac0580 100644
+--- a/include/hw/mips/mips.h
++++ b/include/hw/mips/mips.h
+@@ -20,4 +20,7 @@ void rc4030_dma_write(void *dma, uint8_t *buf, int len);
+ 
+ DeviceState *rc4030_init(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);
+ 
++/* common.c */
++int mips_kvm_type(MachineState *machine, const char *vm_type);
++
+ #endif
+-- 
+2.25.1
+

@@ -1,0 +1,37 @@
+From 3798716460d5d8909943aa4465a23b8154c1b867 Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 8 Apr 2020 16:16:50 +0800
+Subject: [PATCH 03/11] MAINTAINERS: Add myself as fulong2e co-maintainer
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+I submitted the MIPS/fulong2e support about ten years ago, and after
+that I became a MIPS kernel developer. Last year, Philippe Mathieu-
+Daudé asked me that whether I can be a reviewer of MIPS/fulong2e, and I
+promised that I will do some QEMU work in the next year (i.e., 2020 and
+later). I think now (and also in future) I can have some spare time, so
+I can finally do some real work on QEMU/MIPS. And if possible, I hope I
+can be a co-maintainer of MIPS/fulong2e.
+
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8cbc1fa..aa9a057 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1073,6 +1073,7 @@ F: hw/mips/mips_r4k.c
+ Fulong 2E
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
++M: Huacai Chen <chenhc@lemote.com>
+ S: Odd Fixes
+ F: hw/mips/mips_fulong2e.c
+ F: hw/isa/vt82c686.c
+-- 
+2.25.1
+

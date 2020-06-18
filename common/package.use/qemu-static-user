@@ -1,0 +1,13 @@
+# required by app-emulation/qemu-5.0.0::gentoo[-static,static-user]
+# required by qemu (argument)
+>=dev-libs/glib-2.64.2 static-libs
+# required by app-emulation/qemu-5.0.0::gentoo[-static,static-user]
+# required by qemu (argument)
+>=sys-libs/zlib-1.2.11-r2 static-libs
+# required by app-emulation/qemu-5.0.0::gentoo[xattr,-static,static-user]
+# required by qemu (argument)
+>=sys-apps/attr-2.4.48-r3 static-libs
+# required by dev-libs/glib-2.64.2::gentoo
+# required by app-emulation/qemu-5.0.0::gentoo[-static,static-user]
+# required by qemu (argument)
+>=dev-libs/libpcre-8.44 static-libs

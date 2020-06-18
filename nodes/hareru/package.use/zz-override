@@ -1,0 +1,2 @@
+# memory instability often leads to wasted work
+sys-devel/gcc -lto

@@ -9,7 +9,7 @@ sys-devel/binutils -nls
 
 # UPDATE 2012-02-27: disable GCC's nls support
 # 20130607 xenon: enable the (seemingly) stable'd LTO
-sys-devel/gcc -nls lto mudflap go
+sys-devel/gcc -nls lto mudflap go zstd
 
 # 20170727: wtf this is why I never managed to enable nightly to look at libc
 # symbols

@@ -1,0 +1,29 @@
+From bced9b536d4a740753003f2b4f790f4679ad115a Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 8 Apr 2020 15:46:14 +0800
+Subject: [PATCH 02/11] mips/mips_fulong2e: Set preferred page size to 16KB
+
+Loongson processor prefers 16KB page size in system emulator, so let's
+define mc->minimum_page_bits to 14.
+
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ hw/mips/mips_fulong2e.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 5040afd..23897d7 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -399,6 +399,7 @@ static void mips_fulong2e_machine_init(MachineClass *mc)
+     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("Loongson-2E");
+     mc->default_ram_size = 256 * MiB;
+     mc->default_ram_id = "fulong2e.ram";
++    mc->minimum_page_bits = 14;
+ }
+ 
+ DEFINE_MACHINE("fulong2e", mips_fulong2e_machine_init)
+-- 
+2.25.1
+

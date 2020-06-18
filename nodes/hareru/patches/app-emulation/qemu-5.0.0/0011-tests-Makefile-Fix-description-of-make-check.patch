@@ -1,0 +1,30 @@
+From f7834cb50ca1bf428761114204a89bdd349bc7fd Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Tue, 5 May 2020 15:08:13 +0800
+Subject: [PATCH 11/11] tests/Makefile: Fix description of "make check"
+
+The description of "make check" is out-of-date, so fix it by adding
+block and softfloat.
+
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ tests/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 51de676..5c495f5 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -4,7 +4,7 @@
+ check-help:
+ 	@echo "Regression testing targets:"
+ 	@echo
+-	@echo " $(MAKE) check                Run unit, qapi-schema, qtest and decodetree"
++	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
+ 	@echo
+ 	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
+ 	@echo " $(MAKE) check-qtest          Run qtest tests"
+-- 
+2.25.1
+

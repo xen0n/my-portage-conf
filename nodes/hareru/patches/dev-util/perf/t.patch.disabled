@@ -1,0 +1,16 @@
+--- build/Makefile.build.old	2020-03-07 11:35:48.100938358 +0800
++++ build/Makefile.build	2020-03-07 11:32:30.354738250 +0800
+@@ -81,11 +81,11 @@
+ # If there's nothing to link, create empty $@ object.
+ quiet_cmd_ld_multi = LD       $@
+       cmd_ld_multi = $(if $(strip $(obj-y)),\
+-                     $(LD) -r -o $@  $(filter $(obj-y),$^),rm -f $@; $(AR) rcs $@)
++                     $(LD) -m elf64ltsmip -r -o $@  $(filter $(obj-y),$^),rm -f $@; $(AR) rcs $@)
+ 
+ quiet_cmd_host_ld_multi = HOSTLD   $@
+       cmd_host_ld_multi = $(if $(strip $(obj-y)),\
+-                          $(HOSTLD) -r -o $@  $(filter $(obj-y),$^),rm -f $@; $(HOSTAR) rcs $@)
++                          $(HOSTLD) -m elf64ltsmip -r -o $@  $(filter $(obj-y),$^),rm -f $@; $(HOSTAR) rcs $@)
+ 
+ ifneq ($(filter $(obj),$(hostprogs)),)
+   host = host_

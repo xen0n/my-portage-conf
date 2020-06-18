@@ -5,7 +5,7 @@
 # vaapi requires staging
 app-emulation/wine -gstreamer -mono osmesa staging
 
-app-emulation/qemu kvm  # xen
+app-emulation/qemu kvm io-uring spice virgl vte zstd
 
 # file collision
 app-emulation/xen-tools -qemu system-qemu

@@ -1,0 +1,30 @@
+From 78f77c53f54f0bf8674be0d48abd0ae7d0e73dd8 Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 18 Dec 2019 18:29:44 +0800
+Subject: [PATCH 04/11] configure: Add KVM target support for MIPS64
+
+Preparing for Loongson-3 virtualization, add KVM target support for
+MIPS64 in configure script.
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 23b5e93..7581e65 100755
+--- a/configure
++++ b/configure
+@@ -198,7 +198,7 @@ supported_kvm_target() {
+         arm:arm | aarch64:aarch64 | \
+         i386:i386 | i386:x86_64 | i386:x32 | \
+         x86_64:i386 | x86_64:x86_64 | x86_64:x32 | \
+-        mips:mips | mipsel:mips | \
++        mips:mips | mipsel:mips | mips64:mips | mips64el:mips | \
+         ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | ppc64:ppc64le | \
+         s390x:s390x)
+             return 0
+-- 
+2.25.1
+

@@ -1,0 +1,39 @@
+From 59b87bb951728eba83826213f5376e62d5e68d89 Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Wed, 18 Dec 2019 18:29:44 +0800
+Subject: [PATCH 06/11] hw/mips: Add CPU IRQ3 delivery for KVM
+
+Currently, KVM/MIPS only deliver I/O interrupt via IP2, this patch add
+IP3 delivery as well, because Loongson-3 based machine use both IRQ2
+(CPU's IP2) and IRQ3 (CPU's IP3).
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ hw/mips/mips_int.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+index 796730b..982ce34 100644
+--- a/hw/mips/mips_int.c
++++ b/hw/mips/mips_int.c
+@@ -48,14 +48,14 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+     if (level) {
+         env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
+ 
+-        if (kvm_enabled() && irq == 2) {
++        if (kvm_enabled() && (irq == 2 || irq == 3)) {
+             kvm_mips_set_interrupt(cpu, irq, level);
+         }
+ 
+     } else {
+         env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
+ 
+-        if (kvm_enabled() && irq == 2) {
++        if (kvm_enabled() && (irq == 2 || irq == 3)) {
+             kvm_mips_set_interrupt(cpu, irq, level);
+         }
+     }
+-- 
+2.25.1
+
