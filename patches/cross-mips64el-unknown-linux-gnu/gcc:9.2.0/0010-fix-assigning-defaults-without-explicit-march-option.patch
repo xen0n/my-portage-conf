@@ -1,0 +1,59 @@
+From ad842556f6bdfeb491e748c24acc3d79c8748551 Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Wed, 5 Feb 2020 16:54:48 +0800
+Subject: [PATCH 2/3] fix assigning defaults without explicit -march= options
+
+---
+ gcc/config/mips/mips.c   | 10 ++++++++++
+ gcc/config/mips/mips.h   |  2 +-
+ gcc/config/mips/mips.opt |  2 +-
+ 3 files changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/mips/mips.c b/gcc/config/mips/mips.c
+index aa1f8280132..360096cd0cc 100644
+--- a/gcc/config/mips/mips.c
++++ b/gcc/config/mips/mips.c
+@@ -20254,6 +20254,16 @@ mips_option_override (void)
+       target_flags |= MASK_LOONGSON_EXT;
+     }
+ 
++  if ((target_flags_explicit & MASK_UNALIGNED_ACCESSES) == 0)
++    {
++      /* Enable TARGET_UNALIGNED_ACCESSES on targets with efficient unaligned
++	 accesses.  */
++      if (ISA_HAS_FAST_UNALIGNED_ACCESSES)
++	target_flags |= MASK_UNALIGNED_ACCESSES;
++      else
++	target_flags &= ~MASK_UNALIGNED_ACCESSES;
++    }
++
+   /* Don't emit R6-style unaligned load/stores on processors without efficient
+      unaligned accesses.  */
+   if (TARGET_UNALIGNED_ACCESSES && !ISA_HAS_FAST_UNALIGNED_ACCESSES)
+diff --git a/gcc/config/mips/mips.h b/gcc/config/mips/mips.h
+index 4b8e5eb95c4..09ba7fe531f 100644
+--- a/gcc/config/mips/mips.h
++++ b/gcc/config/mips/mips.h
+@@ -850,7 +850,7 @@ struct mips_cpu_info {
+ #define MIPS_UNALIGNED_ACCESSES_SPEC \
+   "%{munaligned-accesses|mno-unaligned-accesses:; \
+      mips32r6|mips64r6|march=gs464v: -munaligned-accesses; \
+-     : -mno-unaligned-accesses}"
++     : }"
+ 
+ #if (MIPS_ABI_DEFAULT == ABI_O64 \
+      || MIPS_ABI_DEFAULT == ABI_N32 \
+diff --git a/gcc/config/mips/mips.opt b/gcc/config/mips/mips.opt
+index 7d0a4a35f33..d8e71ff5b86 100644
+--- a/gcc/config/mips/mips.opt
++++ b/gcc/config/mips/mips.opt
+@@ -477,5 +477,5 @@ Target Report Var(TARGET_LOONGSON_EXT2)
+ Use Loongson EXTension R2 (EXT2) instructions.
+ 
+ munaligned-accesses
+-Target Report Var(TARGET_UNALIGNED_ACCESSES)
++Target Report Mask(UNALIGNED_ACCESSES)
+ Emit ordinary load/stores for unaligned memory accesses.
+-- 
+2.21.0
+

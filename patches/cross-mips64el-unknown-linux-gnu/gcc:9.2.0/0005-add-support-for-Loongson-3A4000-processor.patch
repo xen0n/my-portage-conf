@@ -1,0 +1,336 @@
+From baa001b8e60cacfc63444d80250ca7a8496f71ef Mon Sep 17 00:00:00 2001
+From: Wang Xuerui <git@xen0n.name>
+Date: Tue, 4 Feb 2020 20:40:26 +0800
+Subject: [PATCH 5/8] add support for Loongson 3A4000 processor
+
+fix march enum value ordering
+---
+ gcc/config/mips/gs464v.md       | 138 ++++++++++++++++++++++++++++++++
+ gcc/config/mips/mips-cpus.def   |   1 +
+ gcc/config/mips/mips-tables.opt |  21 ++---
+ gcc/config/mips/mips.c          |   6 +-
+ gcc/config/mips/mips.h          |  13 +--
+ gcc/config/mips/mips.md         |   2 +
+ 6 files changed, 166 insertions(+), 15 deletions(-)
+ create mode 100644 gcc/config/mips/gs464v.md
+
+diff --git a/gcc/config/mips/gs464v.md b/gcc/config/mips/gs464v.md
+new file mode 100644
+index 00000000000..03d2ab3e8bc
+--- /dev/null
++++ b/gcc/config/mips/gs464v.md
+@@ -0,0 +1,138 @@
++;; Pipeline model for Loongson gs464v cores.
++;; TODO: for now this is the same as gs464e
++
++;; Copyright (C) 2018-2019 Free Software Foundation, Inc.
++;;
++;; This file is part of GCC.
++;;
++;; GCC is free software; you can redistribute it and/or modify it
++;; under the terms of the GNU General Public License as published
++;; by the Free Software Foundation; either version 3, or (at your
++;; option) any later version.
++;;
++;; GCC is distributed in the hope that it will be useful, but WITHOUT
++;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;; or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
++;; License for more details.
++;;
++;; You should have received a copy of the GNU General Public License
++;; along with GCC; see the file COPYING3.  If not see
++;; <http://www.gnu.org/licenses/>.
++
++;; Uncomment the following line to output automata for debugging.
++;; (automata_option "v")
++
++;; Automaton for integer instructions.
++(define_automaton "gs464v_a_alu")
++
++;; Automaton for floating-point instructions.
++(define_automaton "gs464v_a_falu")
++
++;; Automaton for memory operations.
++(define_automaton "gs464v_a_mem")
++
++;; Describe the resources.
++
++(define_cpu_unit "gs464v_alu1" "gs464v_a_alu")
++(define_cpu_unit "gs464v_alu2" "gs464v_a_alu")
++(define_cpu_unit "gs464v_mem1" "gs464v_a_mem")
++(define_cpu_unit "gs464v_mem2" "gs464v_a_mem")
++(define_cpu_unit "gs464v_falu1" "gs464v_a_falu")
++(define_cpu_unit "gs464v_falu2" "gs464v_a_falu")
++
++;; Describe instruction reservations.
++
++(define_insn_reservation "gs464v_arith" 1
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "arith,clz,const,logical,
++			move,nop,shift,signext,slt"))
++  "gs464v_alu1 | gs464v_alu2")
++
++(define_insn_reservation "gs464v_branch" 1
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "branch,jump,call,condmove,trap"))
++  "gs464v_alu1 | gs464v_alu2")
++
++(define_insn_reservation "gs464v_mfhilo" 1
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "mfhi,mflo,mthi,mtlo"))
++  "gs464v_alu1 | gs464v_alu2")
++
++;; Operation imul3nc is fully pipelined.
++(define_insn_reservation "gs464v_imul3nc" 5
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "imul3nc"))
++  "gs464v_alu1 | gs464v_alu2")
++
++(define_insn_reservation "gs464v_imul" 7
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "imul,imadd"))
++  "gs464v_alu1 | gs464v_alu2")
++
++(define_insn_reservation "gs464v_idiv_si" 12
++  (and (eq_attr "cpu" "gs464v")
++       (and (eq_attr "type" "idiv")
++	    (eq_attr "mode" "SI")))
++  "gs464v_alu1 | gs464v_alu2")
++
++(define_insn_reservation "gs464v_idiv_di" 25
++  (and (eq_attr "cpu" "gs464v")
++       (and (eq_attr "type" "idiv")
++	    (eq_attr "mode" "DI")))
++  "gs464v_alu1 | gs464v_alu2")
++
++(define_insn_reservation "gs464v_load" 4
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "load"))
++  "gs464v_mem1 | gs464v_mem2")
++
++(define_insn_reservation "gs464v_fpload" 5
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "load,mfc,mtc"))
++  "gs464v_mem1 | gs464v_mem2")
++
++(define_insn_reservation "gs464v_prefetch" 0
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "prefetch,prefetchx"))
++  "gs464v_mem1 | gs464v_mem2")
++
++(define_insn_reservation "gs464v_store" 0
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "store,fpstore,fpidxstore"))
++  "gs464v_mem1 | gs464v_mem2")
++
++(define_insn_reservation "gs464v_fadd" 4
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "fadd,fmul,fmadd"))
++  "gs464v_falu1 | gs464v_falu2")
++
++(define_insn_reservation "gs464v_fcmp" 2
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "fabs,fcmp,fmove,fneg"))
++  "gs464v_falu1 | gs464v_falu2")
++
++(define_insn_reservation "gs464v_fcvt" 4
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "fcvt"))
++  "gs464v_falu1 | gs464v_falu2")
++
++(define_insn_reservation "gs464v_fdiv_sf" 12
++  (and (eq_attr "cpu" "gs464v")
++       (and (eq_attr "type" "fdiv,frdiv,fsqrt,frsqrt")
++	    (eq_attr "mode" "SF")))
++  "gs464v_falu1 | gs464v_falu2")
++
++(define_insn_reservation "gs464v_fdiv_df" 19
++  (and (eq_attr "cpu" "gs464v")
++       (and (eq_attr "type" "fdiv,frdiv,fsqrt,frsqrt")
++	    (eq_attr "mode" "DF")))
++  "gs464v_falu1 | gs464v_falu2")
++
++;; Force single-dispatch for unknown or multi.
++(define_insn_reservation "gs464v_unknown" 1
++  (and (eq_attr "cpu" "gs464v")
++       (eq_attr "type" "unknown,multi,atomic,syncloop"))
++  "gs464v_alu1 + gs464v_alu2 + gs464v_falu1
++   + gs464v_falu2 + gs464v_mem1 + gs464v_mem2")
++
++;; End of DFA-based pipeline description for gs464v
+diff --git a/gcc/config/mips/mips-cpus.def b/gcc/config/mips/mips-cpus.def
+index c3d1db68634..53270dc79b1 100644
+--- a/gcc/config/mips/mips-cpus.def
++++ b/gcc/config/mips/mips-cpus.def
+@@ -165,6 +165,7 @@ MIPS_CPU ("xlr", PROCESSOR_XLR, 64, PTF_AVOID_BRANCHLIKELY_SPEED)
+ MIPS_CPU ("loongson3a", PROCESSOR_GS464, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
+ MIPS_CPU ("gs464", PROCESSOR_GS464, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
+ MIPS_CPU ("gs464e", PROCESSOR_GS464E, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
++MIPS_CPU ("gs464v", PROCESSOR_GS464V, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
+ MIPS_CPU ("gs264e", PROCESSOR_GS264E, 65, PTF_AVOID_BRANCHLIKELY_ALWAYS)
+ MIPS_CPU ("octeon", PROCESSOR_OCTEON, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+ MIPS_CPU ("octeon+", PROCESSOR_OCTEON, 65, PTF_AVOID_BRANCHLIKELY_SPEED)
+diff --git a/gcc/config/mips/mips-tables.opt b/gcc/config/mips/mips-tables.opt
+index 652a0495d13..799cd584069 100644
+--- a/gcc/config/mips/mips-tables.opt
++++ b/gcc/config/mips/mips-tables.opt
+@@ -685,29 +685,32 @@ EnumValue
+ Enum(mips_arch_opt_value) String(gs464e) Value(98) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(gs264e) Value(99) Canonical
++Enum(mips_arch_opt_value) String(gs464v) Value(99) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(octeon) Value(100) Canonical
++Enum(mips_arch_opt_value) String(gs264e) Value(100) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(octeon+) Value(101) Canonical
++Enum(mips_arch_opt_value) String(octeon) Value(101) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(octeon2) Value(102) Canonical
++Enum(mips_arch_opt_value) String(octeon+) Value(102) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(octeon3) Value(103) Canonical
++Enum(mips_arch_opt_value) String(octeon2) Value(103) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(xlp) Value(104) Canonical
++Enum(mips_arch_opt_value) String(octeon3) Value(104) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(i6400) Value(105) Canonical
++Enum(mips_arch_opt_value) String(xlp) Value(105) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(i6500) Value(106) Canonical
++Enum(mips_arch_opt_value) String(i6400) Value(106) Canonical
+ 
+ EnumValue
+-Enum(mips_arch_opt_value) String(p6600) Value(107) Canonical
++Enum(mips_arch_opt_value) String(i6500) Value(107) Canonical
++
++EnumValue
++Enum(mips_arch_opt_value) String(p6600) Value(108) Canonical
+ 
+diff --git a/gcc/config/mips/mips.c b/gcc/config/mips/mips.c
+index 2dfc7c73cce..59cea32b032 100644
+--- a/gcc/config/mips/mips.c
++++ b/gcc/config/mips/mips.c
+@@ -842,6 +842,9 @@ static const struct mips_rtx_cost_data
+   { /* Loongson gs464e.  */
+     DEFAULT_COSTS
+   },
++  { /* Loongson gs464v.  */
++    DEFAULT_COSTS
++  },
+   { /* Loongson gs264e.  */
+     DEFAULT_COSTS
+   },
+@@ -14651,6 +14654,7 @@ mips_issue_rate (void)
+     case PROCESSOR_LOONGSON_2F:
+     case PROCESSOR_GS464:
+     case PROCESSOR_GS464E:
++    case PROCESSOR_GS464V:
+     case PROCESSOR_P5600:
+     case PROCESSOR_P6600:
+       return 4;
+@@ -14782,7 +14786,7 @@ mips_multipass_dfa_lookahead (void)
+   if (TUNE_SB1)
+     return 4;
+ 
+-  if (TUNE_LOONGSON_2EF || TUNE_GS464 || TUNE_GS464E)
++  if (TUNE_LOONGSON_2EF || TUNE_GS464 || TUNE_GS464E || TUNE_GS464V)
+     return 4;
+ 
+   if (TUNE_OCTEON || TUNE_GS264E)
+diff --git a/gcc/config/mips/mips.h b/gcc/config/mips/mips.h
+index 953d82e85c2..ad262a65fc3 100644
+--- a/gcc/config/mips/mips.h
++++ b/gcc/config/mips/mips.h
+@@ -268,6 +268,7 @@ struct mips_cpu_info {
+ #define TARGET_LOONGSON_2EF         (TARGET_LOONGSON_2E || TARGET_LOONGSON_2F)
+ #define TARGET_GS464		    (mips_arch == PROCESSOR_GS464)
+ #define TARGET_GS464E		    (mips_arch == PROCESSOR_GS464E)
++#define TARGET_GS464V		    (mips_arch == PROCESSOR_GS464V)
+ #define TARGET_GS264E		    (mips_arch == PROCESSOR_GS264E)
+ #define TARGET_MIPS3900             (mips_arch == PROCESSOR_R3900)
+ #define TARGET_MIPS4000             (mips_arch == PROCESSOR_R4000)
+@@ -302,6 +303,7 @@ struct mips_cpu_info {
+ 				     || mips_tune == PROCESSOR_LOONGSON_2F)
+ #define TUNE_GS464		    (mips_tune == PROCESSOR_GS464)
+ #define TUNE_GS464E		    (mips_tune == PROCESSOR_GS464E)
++#define TUNE_GS464V		    (mips_tune == PROCESSOR_GS464V)
+ #define TUNE_GS264E		    (mips_tune == PROCESSOR_GS264E)
+ #define TUNE_MIPS3000               (mips_tune == PROCESSOR_R3000)
+ #define TUNE_MIPS3900               (mips_tune == PROCESSOR_R3900)
+@@ -796,10 +798,9 @@ struct mips_cpu_info {
+      %{march=mips32r6: -mips32r6} \
+      %{march=mips64|march=5k*|march=20k*|march=sb1*|march=sr71000 \
+        |march=xlr: -mips64} \
+-     %{march=mips64r2|march=loongson3a|march=gs464|march=gs464e|march=gs264e \
+-       |march=octeon|march=xlp: -mips64r2} \
++     %{march=mips64r2|march=loongson3a|march=gs464|march=gs464e|march=gs464v \
++       |march=gs264e|march=octeon|march=xlp: -mips64r2} \
+      %{march=mips64r3: -mips64r3} \
+-     %{march=mips64r5: -mips64r5} \
+      %{march=mips64r6|march=i6400|march=i6500|march=p6600: -mips64r6}}"
+ 
+ /* A spec that injects the default multilib ISA if no architecture is
+@@ -917,12 +918,12 @@ struct mips_cpu_info {
+ #define MIPS_ASE_LOONGSON_EXT_SPEC						\
+   "%{!mno-loongson-ext:								\
+      %{march=loongson3a|march=gs464: -mloongson-ext}				\
+-     %{march=gs464e|march=gs264e: %{!mno-loongson-ext2:			\
++     %{march=gs464e|march=gs464v|march=gs264e: %{!mno-loongson-ext2:		\
+        -mloongson-ext2 -mloongson-ext}}}"
+ 
+ #define MIPS_ASE_MSA_SPEC						\
+   "%{!mno-msa:								\
+-     %{march=gs264e: -mmsa}}"
++     %{march=gs464v|march=gs264e: -mmsa}}"
+ 
+ #define DRIVER_SELF_SPECS \
+   MIPS_ISA_LEVEL_SPEC,	  \
+@@ -1113,6 +1114,7 @@ struct mips_cpu_info {
+ 				 && (TARGET_MIPS8000			\
+ 				     || TARGET_GS464			\
+ 				     || TARGET_GS464E			\
++				     || TARGET_GS464V			\
+ 				     || TARGET_GS264E))
+ 
+ /* ISA has 4 operand unfused madd instructions of the form
+@@ -1122,6 +1124,7 @@ struct mips_cpu_info {
+ 				 && !TARGET_MIPS8000			\
+ 				 && !TARGET_GS464			\
+ 				 && !TARGET_GS464E			\
++				 && !TARGET_GS464V			\
+ 				 && !TARGET_GS264E)
+ 
+ /* ISA has 3 operand r6 fused madd instructions of the form
+diff --git a/gcc/config/mips/mips.md b/gcc/config/mips/mips.md
+index 600fa6deb55..8165a63ac48 100644
+--- a/gcc/config/mips/mips.md
++++ b/gcc/config/mips/mips.md
+@@ -39,6 +39,7 @@
+   loongson_2f
+   gs464
+   gs464e
++  gs464v
+   gs264e
+   m4k
+   octeon
+@@ -1187,6 +1188,7 @@
+ (include "loongson2ef.md")
+ (include "gs464.md")
+ (include "gs464e.md")
++(include "gs464v.md")
+ (include "gs264e.md")
+ (include "octeon.md")
+ (include "sb1.md")
+-- 
+2.21.0
+

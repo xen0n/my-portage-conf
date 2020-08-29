@@ -1,0 +1,54 @@
+From 38732d65362910a7c965bac76fe548a6d57dc28b Mon Sep 17 00:00:00 2001
+From: Chenghua Xu <xuchenghua@loongson.cn>
+Date: Thu, 17 May 2018 15:36:32 +0800
+Subject: [PATCH 2/8] Disable gss[bhwd] and gsl[bhwd] on o32 abi.
+
+    gcc/config/mips/
+    * mips.md: Added TARGET_64BIT in index address load/store.
+---
+ gcc/config/mips/mips.md | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gcc/config/mips/mips.md b/gcc/config/mips/mips.md
+index 95aaaf125e9..d7e2e0b95a7 100644
+--- a/gcc/config/mips/mips.md
++++ b/gcc/config/mips/mips.md
+@@ -4941,7 +4941,7 @@
+         (mem:GPR
+                 (plus:P (match_operand:P 1 "register_operand" "d")
+                         (match_operand:P 2 "register_operand" "d"))))]
+-  "TARGET_LOONGSON_EXT"
++  "TARGET_LOONGSON_EXT && TARGET_64BIT"
+   "<GPR:gsloadx>\t%0,0(%1,%2)"
+   [(set_attr "type" "load")
+    (set_attr "mode" "<GPR:MODE>")])
+@@ -4950,7 +4950,7 @@
+   [(set (mem:GPR (plus:P (match_operand:P 1 "register_operand" "d")
+                          (match_operand:P 2 "register_operand" "d")))
+         (match_operand:GPR 0 "register_operand" "d"))]
+-  "TARGET_LOONGSON_EXT"
++  "TARGET_LOONGSON_EXT && TARGET_64BIT"
+   "<GPR:gsstorex>\t%0,0(%1,%2)"
+   [(set_attr "type" "store")
+    (set_attr "mode" "<GPR:MODE>")])
+@@ -4962,7 +4962,7 @@
+           (mem:SHORT
+             (plus:P (match_operand:P 1 "register_operand" "d")
+                     (match_operand:P 2 "register_operand" "d")))))]
+-  "TARGET_LOONGSON_EXT"
++  "TARGET_LOONGSON_EXT && TARGET_64BIT"
+   "<SHORT:gsloadx>\t%0,0(%1,%2)"
+   [(set_attr "type" "load")
+    (set_attr "mode" "<GPR:MODE>")])
+@@ -4971,7 +4971,7 @@
+   [(set (mem:SHORT (plus:P (match_operand:P 1 "register_operand" "d")
+                            (match_operand:P 2 "register_operand" "d")))
+         (match_operand:SHORT 0 "register_operand" "d"))]
+-  "TARGET_LOONGSON_EXT"
++  "TARGET_LOONGSON_EXT && TARGET_64BIT"
+   "<SHORT:gsstorex>\t%0,0(%1,%2)"
+   [(set_attr "type" "store")
+    (set_attr "mode" "SI")])
+-- 
+2.21.0
+
