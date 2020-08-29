@@ -19,6 +19,6 @@ USE="${USE} ftp ipv6 idn -gnutls ssl openssl tcpd ldap -dhcpcd dhclient"
 # L10N things
 USE="${USE} cjk unicode iconv icu nls spell"
 # Security
-USE="${USE} caps cracklib crypt sasl"  # hardened
+USE="${USE} caps crypt sasl"  # hardened
 # Init system
 USE="${USE} -consolekit systemd"
