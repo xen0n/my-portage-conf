@@ -65,3 +65,14 @@ sys-fs/cryptsetup -gcrypt openssl -kernel -nettle
 # these must go together
 sys-apps/dbus user-session
 net-wireless/bluez user-session
+
+# required by dev-libs/elfutils-0.180::gentoo[bzip2]
+# required by dev-util/debugedit-4.15.1::gentoo
+# required by @selected
+# required by @world (argument)
+app-arch/bzip2 static-libs
+# required by dev-libs/elfutils-0.180::gentoo[lzma]
+# required by dev-util/debugedit-4.15.1::gentoo
+# required by @selected
+# required by @world (argument)
+app-arch/xz-utils static-libs
