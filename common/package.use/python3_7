@@ -1,0 +1,6 @@
+# 12.4
+<dev-db/postgresql-12.5 PYTHON_SINGLE_TARGET: python3_7
+# 25.0.8
+<media-video/obs-studio-25.0.9 PYTHON_SINGLE_TARGET: python3_7
+# 0.2.5
+dev-libs/marisa PYTHON_TARGETS: python3_7
