@@ -63,9 +63,9 @@ media-gfx/librecad tools
 
 media-sound/pulseaudio realtime -libsamplerate
 
-# for wayland: gles
+# for wayland: gles2
 # 20180512 wine-staging: haptic
-media-libs/libsdl2 gles haptic
+media-libs/libsdl2 gles2 haptic
 
 # python
 media-libs/gexiv2 introspection
