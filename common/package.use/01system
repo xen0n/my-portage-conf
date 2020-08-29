@@ -13,7 +13,7 @@ sys-devel/gcc -nls lto mudflap go zstd
 
 # 20170727: wtf this is why I never managed to enable nightly to look at libc
 # symbols
-sys-libs/glibc debug
+sys-libs/glibc debug static-pie
 
 sys-boot/grub -nls mount
 

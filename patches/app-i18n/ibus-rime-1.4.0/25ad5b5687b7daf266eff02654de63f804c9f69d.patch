@@ -1,0 +1,23 @@
+From 25ad5b5687b7daf266eff02654de63f804c9f69d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=93=E8=BE=B0?= <chen.sst@gmail.com>
+Date: Fri, 7 Feb 2020 22:52:23 +0800
+Subject: [PATCH] fix(rime_settings.h): compile with gcc 10
+
+Closes #90
+---
+ rime_settings.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rime_settings.h b/rime_settings.h
+index 026245c..481c3ad 100644
+--- a/rime_settings.h
++++ b/rime_settings.h
+@@ -20,7 +20,7 @@ struct IBusRimeSettings {
+   struct ColorSchemeDefinition* color_scheme;
+ };
+ 
+-struct IBusRimeSettings g_ibus_rime_settings;
++extern struct IBusRimeSettings g_ibus_rime_settings;
+ 
+ void
+ ibus_rime_load_settings();
