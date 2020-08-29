@@ -26,7 +26,7 @@ USE="${USE} a52 aac flac jack ladspa lame libsamplerate mad mp3 vorbis wavpack p
 # image formats
 USE="${USE} exif gif jpeg jpeg2k mng png raw svg tiff xpm"
 # Miscellaneous flags
-USE="${USE} branding firefox lock -minimal nsplugin session startup-notification xml"
+USE="${USE} branding firefox lock -minimal session startup-notification xml"
 USE="${USE} steamruntime"
 
 
