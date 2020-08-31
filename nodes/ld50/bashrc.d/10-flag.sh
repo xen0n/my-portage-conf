@@ -1,5 +1,6 @@
 #!/bin/bash
-# (C) Martin V\"ath <martin@mvath.de>
+# (C) Martin V\"ath <martin at mvath.de>
+# SPDX-License-Identifier: GPL-2.0-only
 
 FLAG_FILTER_C_CXX=(
 	'-fall-intrinsics'
@@ -154,8 +155,10 @@ FLAG_FILTER_NONGNU=(
 	'-fira-loop-pressure'
 	'-fisolate-erroneous-paths-attribute'
 	'-fivopts'
+	'-flimit-function-alignment'
 	'-floop*'
 	'-flto=[0-9]*'
+	'-flto=auto'
 	'-flto=jobserver'
 	'-flto-partition=*'
 	'-flto-compression-level=*'
@@ -178,6 +181,7 @@ FLAG_FILTER_NONGNU=(
 	'-fvect-cost-model'
 	'-fweb'
 	'-fwhole-program'
+	'-malign-data*'
 	'-mfunction-return*'
 	'-mindirect-branch*'
 	'-mvectorize*'
@@ -250,28 +254,21 @@ FlagSub() {
 }
 
 FlagReplace() {
-	local repres repf repcurr repvar reppat repfound
+	local repres repf repcurr repvar reppat
 	repvar=$1
 	shift
 	eval repf=\$$repvar
 	reppat=$1
 	shift
-	if [ -z "${repf:++}" ]
-	then	eval $repvar=\$*
-		return
-	fi
 	repres=
-	repfound=:
 	for repcurr in $repf
 	do	case $repcurr in
 		$reppat)
 			$repfound && FlagAdd repres "$@"
-			repfound=false
 			continue;;
 		esac
 		repres=$repres${repres:+\ }$repcurr
 	done
-	$repfound && FlagAdd repres "$@"
 	eval $repvar=\$repres
 }
 
@@ -704,8 +701,12 @@ FlagInfoExport() {
 	elif $use_pgo
 	then	BashrcdEcho "Using PGO from $PGO_DIR"
 	fi
-	out=`gcc --version | head -n 1` || out=
+	out=`${CC:-gcc} --version | head -n 1` || out=
 	BashrcdEcho "${out:-cannot determine gcc version}"
+	out=`${CXX:-g++} --version | head -n 1` || out=
+	BashrcdEcho "${out:-cannot determine g++ version}"
+	out=`${LD:-ld} --version | head -n 1` || out=
+	BashrcdEcho "${out:-cannot determine ld version}"
 	BashrcdEcho "`uname -a`"
 }
 
