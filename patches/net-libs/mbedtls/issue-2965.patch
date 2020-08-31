@@ -1,6 +1,6 @@
-diff -pNur mbedtls-mbedtls-2.19.1-orig/crypto/include/CMakeLists.txt mbedtls-mbedtls-2.19.1/crypto/include/CMakeLists.txt
---- mbedtls-mbedtls-2.19.1-orig/crypto/include/CMakeLists.txt   2019-12-20 09:24:46.806987628 +0100
-+++ mbedtls-mbedtls-2.19.1/crypto/include/CMakeLists.txt        2019-12-20 09:25:51.257199271 +0100
+diff -pNur mbedtls-mbedtls-2.19.1-orig/include/CMakeLists.txt mbedtls-mbedtls-2.19.1/include/CMakeLists.txt
+--- mbedtls-mbedtls-2.19.1-orig/include/CMakeLists.txt   2019-12-20 09:24:46.806987628 +0100
++++ mbedtls-mbedtls-2.19.1/include/CMakeLists.txt        2019-12-20 09:25:51.257199271 +0100
 @@ -5,6 +5,9 @@ if(INSTALL_MBEDTLS_HEADERS)
      file(GLOB headers "mbedtls/*.h")
      file(GLOB psa_headers "psa/*.h")

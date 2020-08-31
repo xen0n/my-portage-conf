@@ -1,5 +1,5 @@
---- a/crypto/library/padlock.c	2019-12-23 20:07:51.243981210 +0800
-+++ b/crypto/library/padlock.c	2019-12-23 20:09:56.627587219 +0800
+--- a/library/padlock.c	2019-12-23 20:07:51.243981210 +0800
++++ b/library/padlock.c	2019-12-23 20:09:56.627587219 +0800
 @@ -58,10 +58,10 @@
               "cpuid                     \n\t"
               "cmpl  $0xC0000001, %%eax  \n\t"
