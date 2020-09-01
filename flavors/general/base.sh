@@ -13,5 +13,7 @@ FEATURES="${FEATURES} compressdebug splitdebug"
 #FEATURES="${FEATURES} distcc"
 
 # XZ compress docs
-PORTAGE_COMPRESS="xz"
+PORTAGE_COMPRESS="zstd"
 PORTAGE_COMPRESS_FLAGS="-6"
+
+BINPKGS_COMPRESS="zstd"
