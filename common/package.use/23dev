@@ -1,5 +1,6 @@
 # git[subversion]
-dev-vcs/subversion -dso perl
+# 20200907: https://bugs.gentoo.org/725850  -- USE=python breaks with python3.7+
+dev-vcs/subversion -dso perl -python
 
 dev-lang/python wininst
 
