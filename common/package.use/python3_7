@@ -4,3 +4,14 @@
 <media-video/obs-studio-25.0.9 PYTHON_SINGLE_TARGET: python3_7
 # 0.2.5
 dev-libs/marisa PYTHON_TARGETS: python3_7
+# 99999999999999
+=dev-util/gyp-99999999999999 PYTHON_SINGLE_TARGET: python3_7
+# required by dev-python/setuptools_scm-4.1.2::gentoo
+>=dev-python/setuptools-46.4.0-r2 python_targets_python3_7
+# required by dev-python/setuptools-46.4.0-r2::gentoo
+# required by dev-python/setuptools_scm-4.1.2::gentoo
+>=dev-python/certifi-10001 python_targets_python3_7
+# required by dev-python/setuptools-46.4.0-r2::gentoo
+# required by dev-util/gyp-99999999999999::gentoo[python_single_target_python3_7]
+# required by gyp (argument)
+>=dev-python/setuptools_scm-4.1.2 python_targets_python3_7
