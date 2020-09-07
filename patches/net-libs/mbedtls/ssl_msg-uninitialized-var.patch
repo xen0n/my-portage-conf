@@ -1,0 +1,11 @@
+--- a/library/ssl_msg.c	2020-09-01 13:56:01.571421606 +0800
++++ b/library/ssl_msg.c	2020-09-01 13:57:12.829701921 +0800
+@@ -3367,7 +3367,7 @@
+ static int ssl_handle_possible_reconnect( mbedtls_ssl_context *ssl )
+ {
+     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
+-    size_t len;
++    size_t len = 0;
+ 
+     if( ssl->conf->f_cookie_write == NULL ||
+         ssl->conf->f_cookie_check == NULL )
