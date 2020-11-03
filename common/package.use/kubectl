@@ -1,0 +1,1 @@
+sys-cluster/kubernetes -kube-apiserver -kube-controller-manager -kube-proxy -kube-scheduler -kubelet kubectl
