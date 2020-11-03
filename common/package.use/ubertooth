@@ -1,0 +1,1 @@
+net-libs/libbtbb PYTHON_SINGLE_TARGET: -* python2_7
