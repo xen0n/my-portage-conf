@@ -1,0 +1,2 @@
+# html2text conflicts with /usr/share/man{1,5} obviously
+app-text/lesspipe -html2text
