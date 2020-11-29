@@ -1,0 +1,2 @@
+# fapi must be used with openssl as of 20201129
+app-crypt/tpm2-tss -openssl mbedtls -fapi
