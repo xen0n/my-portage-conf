@@ -1,0 +1,7 @@
+# tlsv1.3 broken with all components (libressl, cryptography) at latest version
+# breaking YCM
+#
+# https://github.com/pyca/pyopenssl/commit/124a0134fdb7decb0136b4b6f7892b87b919e74e
+# https://github.com/pyca/cryptography/blob/master/src/_cffi_src/openssl/ssl.py
+# https://github.com/libressl-portable/portable/issues/228
+=dev-python/pyopenssl-20.0.0
