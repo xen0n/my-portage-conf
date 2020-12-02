@@ -1,0 +1,2 @@
+cross-*/binutils -nls
+cross-*/gcc -nls zstd
