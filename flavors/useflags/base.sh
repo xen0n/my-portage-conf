@@ -13,8 +13,6 @@ USE="${USE} udisks upower"  # after hardened profile switch
 # Kernel and system
 USE="${USE} modules syslog xattr"
 # Network
-# libressl cannot be used right now because of some hard deps
-#USE="${USE} ssl -gnutls libressl -openssl"
 USE="${USE} ftp ipv6 idn -gnutls ssl openssl tcpd ldap -dhcpcd dhclient"
 # L10N things
 USE="${USE} cjk unicode iconv icu nls spell"

@@ -1,2 +1,0 @@
-# plain libressl build doesn't compile due to broken DTLS code etc.
-net-vpn/openconnect gnutls

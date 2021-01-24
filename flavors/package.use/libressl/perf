@@ -1,2 +1,0 @@
-# wtf dev-util/perf[crypt] brings in openssl
->=dev-util/perf-4.20.0 -crypt
