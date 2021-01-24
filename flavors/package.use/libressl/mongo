@@ -1,0 +1,5 @@
+# apparently this package is not adapted
+app-admin/mongo-tools -ssl
+# 4.4.2 is broken with latest libressl
+# I'm only installing this for testing libraries locally so this doesn't matter
+=dev-db/mongodb-4.4.2 -ssl -libressl

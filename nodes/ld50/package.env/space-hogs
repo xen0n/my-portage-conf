@@ -2,3 +2,5 @@ net-libs/webkit-gtk var-tmp-portage.conf
 net-libs/webkit-gtk no-debug.conf
 sys-devel/llvm var-tmp-portage.conf
 sys-devel/clang var-tmp-portage.conf
+dev-qt/qtwebkit var-tmp-portage.conf
+dev-qt/qtwebkit no-debug.conf
