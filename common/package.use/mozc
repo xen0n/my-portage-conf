@@ -1,0 +1,4 @@
+# required by app-i18n/mozc-2.26.4220_p20201212102434_p20201219202429::gentoo
+# required by @selected
+# required by @world (argument)
+>=dev-cpp/abseil-cpp-20200923.2 cxx17

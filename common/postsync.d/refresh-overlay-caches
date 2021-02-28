@@ -22,3 +22,5 @@ do
         egencache --jobs="${NJOBS}" --repo="${repo}" --update
     eend "$?"
 done
+
+exit 0

@@ -1,1 +1,6 @@
 =dev-lang/spidermonkey-52.4.0_pre20171003-r1
+
+app-portage/portage-bashrc-mv::mv
+app-shells/push::mv
+app-shells/quoter::mv
+app-shells/runtitle::mv

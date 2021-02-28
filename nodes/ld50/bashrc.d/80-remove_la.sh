@@ -6,7 +6,7 @@ Remove_la() {
 	BashrcdTrue $NOLAFILEREMOVE && return
 # Some packages are known to rely on .la files (e.g. for building of plugins):
 	case "$CATEGORY/$PN" in
-	'media-libs/gst-plugins-base'|'media-libs/libsidplay')
+	'media-libs/gst-plugins-base'|'media-libs/libsidplay'|'dev-util/colm')
 		return 0;;
 	esac
 	einfo 'removing unneeded *.la files'
