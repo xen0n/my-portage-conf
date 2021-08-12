@@ -76,3 +76,7 @@ app-arch/bzip2 static-libs
 # required by @selected
 # required by @world (argument)
 app-arch/xz-utils static-libs
+
+# required by virtual/libcrypt-2::gentoo
+# required by virtual/libcrypt (argument)
+sys-libs/libxcrypt static-libs
