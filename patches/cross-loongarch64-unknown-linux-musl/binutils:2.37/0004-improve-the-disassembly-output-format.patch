@@ -1,0 +1,43 @@
+From 46f0cef65e58bc04406921753fa21e4236c9c8c8 Mon Sep 17 00:00:00 2001
+From: Xiaotian Wu <wuxiaotian@loongson.cn>
+Date: Fri, 8 Jan 2021 12:56:44 +0800
+Subject: [PATCH 04/11] improve the disassembly output format
+
+---
+ opcodes/loongarch-dis.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/opcodes/loongarch-dis.c b/opcodes/loongarch-dis.c
+index 6c6cb8ceb16..fe067f4535e 100644
+--- a/opcodes/loongarch-dis.c
++++ b/opcodes/loongarch-dis.c
+@@ -123,7 +123,7 @@ dis_one_arg (char esc1, char esc2, const char *bit_field,
+   if (esc1)
+     {
+       if (need_comma)
+-        info->fprintf_func (info->stream, ",");
++        info->fprintf_func (info->stream, ", ");
+       need_comma = 1;
+       imm = loongarch_decode_imm (bit_field, insn, 1);
+       u_imm = loongarch_decode_imm (bit_field, insn, 0);
+@@ -233,7 +233,7 @@ disassemble_one (insn_t insn, struct disassemble_info *info)
+     }
+ 
+   info->insn_type = dis_nonbranch;
+-  info->fprintf_func (info->stream, "%s", opc->name);
++  info->fprintf_func (info->stream, "%-12s", opc->name);
+ 
+   {
+     char fake_args[strlen (opc->format) + 1];
+@@ -247,7 +247,7 @@ disassemble_one (insn_t insn, struct disassemble_info *info)
+ 
+   if (info->insn_type == dis_branch || info->insn_type == dis_condbranch
+       /* || someother if we have extra info to print */)
+-    info->fprintf_func (info->stream, " #");
++    info->fprintf_func (info->stream, "\t#");
+ 
+   if (info->insn_type == dis_branch || info->insn_type == dis_condbranch)
+     {
+-- 
+2.30.1
+

@@ -1,0 +1,27 @@
+From a0417237dab8232029ecf4be2eb0d700980f0a52 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Mon, 17 May 2021 17:08:06 +0800
+Subject: [PATCH 07/19] add instruction li.w and li.d
+
+original patch has no Git info, applied manually.
+---
+ opcodes/loongarch-opc.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index 617ac93827c..f9cad2fdda0 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -139,7 +139,9 @@ static struct loongarch_opcode loongarch_macro_opcodes[] = {
+ /* match,    mask,       name, format, macro, include, exclude, pinfo */
+ {0, 0, "throw_error", "l", "%f", 0, 0, 0},
+ {0, 0, "li", "r,sc", "%f", 0, 0, 0},
++{0, 0, "li.w", "r,sc", "%f", 0, 0, 0},
+ {0, 0, "dli", "r,sc", "%f", 0, 0, 0},
++{0, 0, "li.d", "r,sc", "%f", 0, 0, 0},
+ 
+ {0, 0, "la", "r,la", "la.global %1,%2", 0, 0, 0},
+ 
+-- 
+2.30.1
+

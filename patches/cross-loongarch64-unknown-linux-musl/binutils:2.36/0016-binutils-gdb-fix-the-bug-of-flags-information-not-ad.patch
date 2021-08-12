@@ -1,0 +1,59 @@
+From 32933ec847d9dd099e8cd56991ae527cc4302777 Mon Sep 17 00:00:00 2001
+From: sutong <sutong@loongson.cn>
+Date: Tue, 20 Apr 2021 09:48:19 +0800
+Subject: [PATCH 16/19] binutils-gdb: fix the bug of flags information not add
+ into objcopy
+
+        bfd/elfnn-loongarch.c
+        elfnn-loongarch.c : add _loongarch_bfd_set_section_contents() into elfnn-loongarch.c
+
+Change-Id: I16066c85ca6508c532a36703514f567d1074afd1
+---
+ bfd/elfnn-loongarch.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/bfd/elfnn-loongarch.c b/bfd/elfnn-loongarch.c
+index 52eb3c42966..d7ed65bfb29 100644
+--- a/bfd/elfnn-loongarch.c
++++ b/bfd/elfnn-loongarch.c
+@@ -3224,6 +3224,27 @@ loongarch_elf_gc_mark_hook (asection *sec,
+   return _bfd_elf_gc_mark_hook (sec, info, rel, h, sym);
+ }
+ 
++static bfd_boolean
++_loongarch_bfd_set_section_contents(bfd *abfd,
++					sec_ptr section,
++					const void *location,
++					file_ptr offset,
++					bfd_size_type conut)
++
++{
++	if (elf_elfheader(abfd)->e_flags ==0)
++	   if(abfd->arch_info->arch == bfd_arch_loongarch)
++		if (abfd->arch_info->mach ==bfd_mach_loongarch32)
++			elf_elfheader(abfd)->e_flags = EF_LARCH_ABI_LP32;	
++		else if (abfd->arch_info->mach ==bfd_mach_loongarch64)
++		      elf_elfheader(abfd)->e_flags = EF_LARCH_ABI_LP64;	
++		else 
++		      return FALSE;
++	return _bfd_elf_set_section_contents(abfd,section,location,offset,conut);
++}
++
++
++
+ #define TARGET_LITTLE_SYM		loongarch_elfNN_vec
+ #define TARGET_LITTLE_NAME		"elfNN-loongarch"
+ #define ELF_ARCH			bfd_arch_loongarch
+@@ -3238,6 +3259,9 @@ loongarch_elf_gc_mark_hook (asection *sec,
+ #define bfd_elfNN_bfd_merge_private_bfd_data \
+   _bfd_loongarch_elf_merge_private_bfd_data
+ 
++#define bfd_elfNN_set_section_contents       _loongarch_bfd_set_section_contents 
++
++
+ #define elf_backend_reloc_type_class	     loongarch_reloc_type_class
+ #define elf_backend_copy_indirect_symbol     loongarch_elf_copy_indirect_symbol
+ #define elf_backend_create_dynamic_sections  loongarch_elf_create_dynamic_sections
+-- 
+2.30.1
+

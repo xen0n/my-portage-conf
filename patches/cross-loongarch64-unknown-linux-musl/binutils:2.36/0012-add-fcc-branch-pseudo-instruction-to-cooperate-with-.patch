@@ -1,0 +1,84 @@
+From 2f43231704ae59c8107fa5dc169e904a56cdc137 Mon Sep 17 00:00:00 2001
+From: YingkunZhou <zhouyingkun19@163.com>
+Date: Sat, 16 Jan 2021 16:36:10 +0800
+Subject: [PATCH 12/19] add fcc branch pseudo-instruction to cooperate with gcc
+ branch template
+
+Change-Id: Ic15ca66c273b5745865e53bfb5022ae0355dcc1b
+---
+ opcodes/loongarch-opc.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index 9b58d52abdd..893a79a524a 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -953,17 +953,21 @@ static struct loongarch_opcode loongarch_4opt_opcodes[] = {
+ {0x0c008000, 0xffff8018, "fcmp.saf.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c010000, 0xffff8018, "fcmp.clt.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c018000, 0xffff8018, "fcmp.slt.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c018000, 0xffff8018, "fcmp.sgt.h", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c020000, 0xffff8018, "fcmp.ceq.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c028000, 0xffff8018, "fcmp.seq.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c030000, 0xffff8018, "fcmp.cle.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c038000, 0xffff8018, "fcmp.sle.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c038000, 0xffff8018, "fcmp.sge.h", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c040000, 0xffff8018, "fcmp.cun.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c048000, 0xffff8018, "fcmp.sun.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c050000, 0xffff8018, "fcmp.cult.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c050000, 0xffff8018, "fcmp.cugt.h", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c058000, 0xffff8018, "fcmp.sult.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c060000, 0xffff8018, "fcmp.cueq.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c068000, 0xffff8018, "fcmp.sueq.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c070000, 0xffff8018, "fcmp.cule.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c070000, 0xffff8018, "fcmp.cuge.h", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c078000, 0xffff8018, "fcmp.sule.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c080000, 0xffff8018, "fcmp.cne.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c088000, 0xffff8018, "fcmp.sne.h", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+@@ -975,17 +979,21 @@ static struct loongarch_opcode loongarch_4opt_opcodes[] = {
+ {0x0c108000, 0xffff8018, "fcmp.saf.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c110000, 0xffff8018, "fcmp.clt.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c118000, 0xffff8018, "fcmp.slt.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c118000, 0xffff8018, "fcmp.sgt.s", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c120000, 0xffff8018, "fcmp.ceq.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c128000, 0xffff8018, "fcmp.seq.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c130000, 0xffff8018, "fcmp.cle.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c138000, 0xffff8018, "fcmp.sle.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c138000, 0xffff8018, "fcmp.sge.s", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c140000, 0xffff8018, "fcmp.cun.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c148000, 0xffff8018, "fcmp.sun.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c150000, 0xffff8018, "fcmp.cult.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c150000, 0xffff8018, "fcmp.cugt.s", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c158000, 0xffff8018, "fcmp.sult.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c160000, 0xffff8018, "fcmp.cueq.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c168000, 0xffff8018, "fcmp.sueq.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c170000, 0xffff8018, "fcmp.cule.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c170000, 0xffff8018, "fcmp.cuge.s", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c178000, 0xffff8018, "fcmp.sule.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c180000, 0xffff8018, "fcmp.cne.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c188000, 0xffff8018, "fcmp.sne.s", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+@@ -997,17 +1005,21 @@ static struct loongarch_opcode loongarch_4opt_opcodes[] = {
+ {0x0c208000, 0xffff8018, "fcmp.saf.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c210000, 0xffff8018, "fcmp.clt.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c218000, 0xffff8018, "fcmp.slt.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c218000, 0xffff8018, "fcmp.sgt.d", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c220000, 0xffff8018, "fcmp.ceq.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c228000, 0xffff8018, "fcmp.seq.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c230000, 0xffff8018, "fcmp.cle.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c238000, 0xffff8018, "fcmp.sle.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c238000, 0xffff8018, "fcmp.sge.d", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c240000, 0xffff8018, "fcmp.cun.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c248000, 0xffff8018, "fcmp.sun.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c250000, 0xffff8018, "fcmp.cult.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c250000, 0xffff8018, "fcmp.cugt.d", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c258000, 0xffff8018, "fcmp.sult.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c260000, 0xffff8018, "fcmp.cueq.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c268000, 0xffff8018, "fcmp.sueq.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c270000, 0xffff8018, "fcmp.cule.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
++{0x0c270000, 0xffff8018, "fcmp.cuge.d", "c0:3,f10:5,f5:5", 0, 0, 0, 0},
+ {0x0c278000, 0xffff8018, "fcmp.sule.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c280000, 0xffff8018, "fcmp.cne.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+ {0x0c288000, 0xffff8018, "fcmp.sne.d", "c0:3,f5:5,f10:5", 0, 0, 0, 0},
+-- 
+2.30.1
+

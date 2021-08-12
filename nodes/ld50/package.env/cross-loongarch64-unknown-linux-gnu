@@ -1,0 +1,5 @@
+cross-loongarch64-unknown-linux-gnu/binutils cross-loongarch64-unknown-linux-gnu/binutils.conf
+cross-loongarch64-unknown-linux-gnu/gcc cross-loongarch64-unknown-linux-gnu/gcc.conf
+cross-loongarch64-unknown-linux-gnu/linux-headers cross-loongarch64-unknown-linux-gnu/linux-headers.conf
+cross-loongarch64-unknown-linux-gnu/glibc cross-loongarch64-unknown-linux-gnu/glibc.conf
+cross-loongarch64-unknown-linux-gnu/gdb cross-loongarch64-unknown-linux-gnu/gdb.conf

@@ -1,0 +1,28 @@
+From a9fa53666385ea5cce58781454ff33f97e410590 Mon Sep 17 00:00:00 2001
+From: chenglulu <chenglulu@loongson.cn>
+Date: Thu, 29 Jul 2021 17:16:54 +0800
+Subject: [PATCH 03/10] LoongArch Port: libgomp
+
+	* configure.tgt:  Add LoongArch tuple.
+---
+ libgomp/configure.tgt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/libgomp/configure.tgt b/libgomp/configure.tgt
+index fe2bf1dac51..bdfd8eb909f 100644
+--- a/libgomp/configure.tgt
++++ b/libgomp/configure.tgt
+@@ -56,6 +56,10 @@ if test x$enable_linux_futex = xyes; then
+ 	config_path="linux/ia64 linux posix"
+ 	;;
+ 
++    loongarch*-*-linux*)
++	config_path="linux posix"
++	;;
++
+     mips*-*-linux*)
+ 	config_path="linux/mips linux posix"
+ 	;;
+-- 
+2.30.1
+

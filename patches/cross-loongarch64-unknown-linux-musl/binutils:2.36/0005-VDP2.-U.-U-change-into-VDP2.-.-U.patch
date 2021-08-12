@@ -1,0 +1,47 @@
+From b21458bdeef3b096309f88c8e6d7dfc0ba58efe4 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Mon, 17 May 2021 17:06:28 +0800
+Subject: [PATCH 05/19] VDP2.[]U.[]U change into VDP2.[].[]U
+
+original patch has no Git info, applied manually.
+---
+ opcodes/loongarch-opc.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index 4107c5cac46..a48e420cde0 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -1826,10 +1826,10 @@ static struct loongarch_opcode loongarch_128vec_opcodes[] = {
+ {0x70c48000, 0xffff8000, "vdp2.w.h", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x70c50000, 0xffff8000, "vdp2.d.w", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x70c58000, 0xffff8000, "vdp2.q.d", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x70c60000, 0xffff8000, "vdp2.hu.bu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x70c68000, 0xffff8000, "vdp2.wu.hu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x70c70000, 0xffff8000, "vdp2.du.wu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x70c78000, 0xffff8000, "vdp2.qu.du", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x70c60000, 0xffff8000, "vdp2.h.bu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x70c68000, 0xffff8000, "vdp2.w.hu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x70c70000, 0xffff8000, "vdp2.d.wu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x70c78000, 0xffff8000, "vdp2.q.du", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x70c80000, 0xffff8000, "vdp2.h.bu.b", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x70c88000, 0xffff8000, "vdp2.w.hu.h", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x70c90000, 0xffff8000, "vdp2.d.wu.w", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+@@ -2970,10 +2970,10 @@ static struct loongarch_opcode loongarch_256vec_opcodes[] = {
+ {0x74c48000, 0xffff8000, "xvdp2.w.h", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+ {0x74c50000, 0xffff8000, "xvdp2.d.w", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+ {0x74c58000, 0xffff8000, "xvdp2.q.d", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+-{0x74c60000, 0xffff8000, "xvdp2.hu.bu", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+-{0x74c68000, 0xffff8000, "xvdp2.wu.hu", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+-{0x74c70000, 0xffff8000, "xvdp2.du.wu", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+-{0x74c78000, 0xffff8000, "xvdp2.qu.du", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
++{0x74c60000, 0xffff8000, "xvdp2.h.bu", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
++{0x74c68000, 0xffff8000, "xvdp2.w.hu", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
++{0x74c70000, 0xffff8000, "xvdp2.d.wu", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
++{0x74c78000, 0xffff8000, "xvdp2.q.du", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+ {0x74c80000, 0xffff8000, "xvdp2.h.bu.b", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+ {0x74c88000, 0xffff8000, "xvdp2.w.hu.h", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+ {0x74c90000, 0xffff8000, "xvdp2.d.wu.w", "x0:5,x5:5,x10:5", 0, 0, 0, 0},
+-- 
+2.30.1
+

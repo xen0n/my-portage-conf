@@ -5,7 +5,8 @@
 # vaapi requires staging
 app-emulation/wine -gstreamer -mono osmesa staging
 
-app-emulation/qemu kvm io-uring spice virgl vte zstd
+# 20210517 add smartcard for running loongarch qemu binary
+app-emulation/qemu kvm io-uring spice virgl vte zstd smartcard
 
 # file collision
 app-emulation/xen-tools -qemu system-qemu

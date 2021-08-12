@@ -1,0 +1,65 @@
+From 78a190f1f06abaca51c08612b69ba4e315bdc731 Mon Sep 17 00:00:00 2001
+From: chenglulu <chenglulu@loongson.cn>
+Date: Thu, 29 Jul 2021 17:35:27 +0800
+Subject: [PATCH 05/10] LoongArch Port: configure
+
+	* config/picflag.m4: Add LoongArch tuples.
+	* configure: Likewise.
+	* configure.ac: Likewise.
+---
+ config/picflag.m4 |  3 +++
+ configure.ac      | 10 +++++++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/config/picflag.m4 b/config/picflag.m4
+index 8b106f9af88..0aefcf619bf 100644
+--- a/config/picflag.m4
++++ b/config/picflag.m4
+@@ -44,6 +44,9 @@ case "${$2}" in
+ 	# sets the default TLS model and affects inlining.
+ 	$1=-fPIC
+ 	;;
++    loongarch*-*-*)
++	$1=-fpic
++	;;
+     mips-sgi-irix6*)
+ 	# PIC is the default.
+ 	;;
+diff --git a/configure.ac b/configure.ac
+index 626e2106cba..2ff48941754 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -353,7 +353,7 @@ case "${ENABLE_GOLD}" in
+       # Check for target supported by gold.
+       case "${target}" in
+         i?86-*-* | x86_64-*-* | sparc*-*-* | powerpc*-*-* | arm*-*-* \
+-        | aarch64*-*-* | tilegx*-*-* | mips*-*-* | s390*-*-*)
++        | aarch64*-*-* | tilegx*-*-* | mips*-*-* | s390*-*-* | loongarch*-*-*)
+ 	  configdirs="$configdirs gold"
+ 	  if test x${ENABLE_GOLD} = xdefault; then
+ 	    default_ld=gold
+@@ -899,6 +899,9 @@ case "${target}" in
+   i[[3456789]]86-*-*)
+     libgloss_dir=i386
+     ;;
++  loongarch*-*-*)
++    libgloss_dir=loongarch
++    ;;
+   m68hc11-*-*|m6811-*-*|m68hc12-*-*|m6812-*-*)
+     libgloss_dir=m68hc11
+     ;;
+@@ -1283,6 +1286,11 @@ case "${target}" in
+   wasm32-*-*)
+     noconfigdirs="$noconfigdirs ld"
+     ;;
++  loongarch*-*-linux*)
++    ;;
++  loongarch*-*-*)
++    noconfigdirs="$noconfigdirs gprof"
++    ;;
+ esac
+ 
+ # If we aren't building newlib, then don't build libgloss, since libgloss
+-- 
+2.30.1
+

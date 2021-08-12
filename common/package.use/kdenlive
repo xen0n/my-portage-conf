@@ -1,0 +1,5 @@
+# required by kde-apps/kdenlive-20.12.2::gentoo
+# required by kdenlive (argument)
+>=media-libs/mlt-6.24.0-r1 frei0r
+
+media-libs/opencv -gtk3 qt5

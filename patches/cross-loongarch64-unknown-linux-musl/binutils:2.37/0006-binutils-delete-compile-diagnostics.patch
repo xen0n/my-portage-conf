@@ -1,0 +1,188 @@
+From cc41d345097ed820fa3f6fdadbda5661afc88331 Mon Sep 17 00:00:00 2001
+From: liuzhensong <liuzhensong@loongson.cn>
+Date: Thu, 5 Aug 2021 14:52:48 +0800
+Subject: [PATCH 06/11] binutils: delete compile diagnostics
+
+  gas/config/loongarch-parse.y
+  gas/config/tc-loongarch.c
+  opcodes/loongarch-dis.c
+---
+ gas/config/loongarch-parse.y |  4 +---
+ gas/config/tc-loongarch.c    | 24 +++++++-----------------
+ opcodes/loongarch-dis.c      | 14 ++++++--------
+ 3 files changed, 14 insertions(+), 28 deletions(-)
+
+diff --git a/gas/config/loongarch-parse.y b/gas/config/loongarch-parse.y
+index 561a152f778..7485a6ed38e 100644
+--- a/gas/config/loongarch-parse.y
++++ b/gas/config/loongarch-parse.y
+@@ -170,8 +170,6 @@ reloc (const char *op_c_str, const char *id_c_str, offsetT addend)
+     as_fatal (_("unknown reloc hint: %s"), op_c_str);
+ }
+ 
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+ static void
+ emit_unary (char op)
+ {
+@@ -205,6 +203,7 @@ emit_unary (char op)
+ 	{
+ 	case '!':
+ 	  top->type = BFD_RELOC_LARCH_SOP_NOT;
++	  break;
+ 	default:
+ 	  abort ();
+ 	}
+@@ -212,7 +211,6 @@ emit_unary (char op)
+       top++;
+     }
+ }
+-#pragma GCC diagnostic pop
+ 
+ static void
+ emit_bin (int op)
+diff --git a/gas/config/tc-loongarch.c b/gas/config/tc-loongarch.c
+index 1bcd392dffe..692930ae82f 100644
+--- a/gas/config/tc-loongarch.c
++++ b/gas/config/tc-loongarch.c
+@@ -906,8 +906,6 @@ md_pcrel_from (fixS *fixP ATTRIBUTE_UNUSED)
+   return 0;
+ }
+ 
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+ void
+ md_apply_fix (fixS *fixP, valueT *valP, segT seg ATTRIBUTE_UNUSED)
+ {
+@@ -925,6 +923,10 @@ md_apply_fix (fixS *fixP, valueT *valP, segT seg ATTRIBUTE_UNUSED)
+     case BFD_RELOC_LARCH_SOP_PUSH_TLS_GOT:
+       if (fixP->fx_addsy)
+         S_SET_THREAD_LOCAL (fixP->fx_addsy);
++      else
++        as_bad_where (fixP->fx_file, fixP->fx_line,
++                      _ ("Relocation against a constant"));
++      break;
+     case BFD_RELOC_LARCH_SOP_PUSH_PCREL:
+     case BFD_RELOC_LARCH_SOP_PUSH_PLT_PCREL:
+       if (fixP->fx_addsy == NULL)
+@@ -1100,7 +1102,6 @@ md_apply_fix (fixS *fixP, valueT *valP, segT seg ATTRIBUTE_UNUSED)
+       break;
+     }
+ }
+-#pragma GCC diagnostic pop
+ 
+ int
+ loongarch_relax_frag (asection *sec ATTRIBUTE_UNUSED,
+@@ -1177,8 +1178,6 @@ md_show_usage (FILE *stream)
+ }
+ 
+ /* Fill in an rs_align_code fragment.  We want to fill 'andi $r0,$r0,0'.  */
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+ void
+ loongarch_handle_align (fragS *fragp)
+ {
+@@ -1205,22 +1204,13 @@ loongarch_handle_align (fragS *fragp)
+ 
+   gas_assert (excess < 4);
+   fragp->fr_fix += excess;
+-  switch (excess)
+-    {
+-    case 3:
+-      *p++ = '\0';
+-    case 2:
+-      *p++ = '\0';
+-    case 1:
+-      *p++ = '\0';
+-    case 0:
+-      break;
+-    }
++
++  while(excess-- != 0)
++    *p++ = 0;
+ 
+   md_number_to_chars (p, opcode, size);
+   fragp->fr_var = size;
+ }
+-#pragma GCC diagnostic pop
+ 
+ void
+ loongarch_elf_final_processing (void)
+diff --git a/opcodes/loongarch-dis.c b/opcodes/loongarch-dis.c
+index bbd5dc0f388..993749d9749 100644
+--- a/opcodes/loongarch-dis.c
++++ b/opcodes/loongarch-dis.c
+@@ -22,6 +22,7 @@
+ #include "disassemble.h"
+ #include "opintl.h"
+ #include "opcode/loongarch.h"
++#include "libiberty.h"
+ #include <stdlib.h>
+ 
+ static const struct loongarch_opcode *
+@@ -92,8 +93,6 @@ parse_loongarch_dis_option (const char *option)
+   return -1;
+ }
+ 
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wstack-usage="
+ static int
+ parse_loongarch_dis_options (const char *opts_in)
+ {
+@@ -102,7 +101,8 @@ parse_loongarch_dis_options (const char *opts_in)
+   if (opts_in == NULL)
+     return 0;
+ 
+-  char opts[strlen (opts_in) + 1], *opt, *opt_end;
++  char *opts, *opt, *opt_end;
++  opts = xmalloc(strlen(opts_in) + 1);
+   strcpy (opts, opts_in);
+ 
+   for (opt = opt_end = opts; opt_end != NULL; opt = opt_end + 1)
+@@ -112,9 +112,9 @@ parse_loongarch_dis_options (const char *opts_in)
+       if (parse_loongarch_dis_option (opt) != 0)
+         return -1;
+     }
++  free(opts);
+   return 0;
+ }
+-#pragma GCC diagnostic pop
+ 
+ static int32_t
+ dis_one_arg (char esc1, char esc2, const char *bit_field,
+@@ -179,8 +179,6 @@ dis_one_arg (char esc1, char esc2, const char *bit_field,
+   return 0;
+ }
+ 
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wstack-usage="
+ static void
+ disassemble_one (insn_t insn, struct disassemble_info *info)
+ {
+@@ -241,13 +239,14 @@ disassemble_one (insn_t insn, struct disassemble_info *info)
+   info->fprintf_func (info->stream, "%-12s", opc->name);
+ 
+   {
+-    char fake_args[strlen (opc->format) + 1];
++    char *fake_args = xmalloc(strlen(opc->format) + 1);
+     const char *fake_arg_strs[MAX_ARG_NUM_PLUS_2];
+     strcpy (fake_args, opc->format);
+     if (0 < loongarch_split_args_by_comma (fake_args, fake_arg_strs))
+       info->fprintf_func (info->stream, "\t");
+     info->private_data = &insn;
+     loongarch_foreach_args (opc->format, fake_arg_strs, dis_one_arg, info);
++    free(fake_args);
+   }
+ 
+   if (info->insn_type == dis_branch || info->insn_type == dis_condbranch
+@@ -260,7 +259,6 @@ disassemble_one (insn_t insn, struct disassemble_info *info)
+       info->print_address_func (info->target, info);
+     }
+ }
+-#pragma GCC diagnostic pop
+ 
+ int
+ print_insn_loongarch (bfd_vma memaddr, struct disassemble_info *info)
+-- 
+2.30.1
+

@@ -1,0 +1,51 @@
+From eeaf0fd0a66507d7f5048bbcb81a4befc151913a Mon Sep 17 00:00:00 2001
+From: sutong <sutong@loongson.cn>
+Date: Fri, 9 Apr 2021 11:51:49 +0800
+Subject: [PATCH 15/19] binutils-gdb: fix the bug of li.w and li.d
+
+	gas/config/tc-loongarch.c
+	tc-loongarch.c : fix the bug of li.w and li.d not add into codes.
+
+Change-Id: If39e111ac674df9b3611b0cc45dedc00033b574b
+---
+ gas/config/tc-loongarch.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/gas/config/tc-loongarch.c b/gas/config/tc-loongarch.c
+index 1451bdc44cc..80acc2ff99d 100644
+--- a/gas/config/tc-loongarch.c
++++ b/gas/config/tc-loongarch.c
+@@ -812,7 +812,9 @@ assember_macro_helper (const char * const args[], void *context_ptr)
+   struct loongarch_cl_insn *insn = context_ptr;
+   char *ret = NULL;
+   if (strcmp (insn->name, "li") == 0
+-      || strcmp (insn->name, "dli") == 0)
++      || strcmp (insn->name, "dli") == 0
++      || strcmp (insn->name, "li.d") == 0
++      || strcmp (insn->name, "li.w") == 0)
+     {
+       char args_buf[50], insns_buf[200];
+       const char *arg_strs[6];
+@@ -833,9 +835,19 @@ assember_macro_helper (const char * const args[], void *context_ptr)
+ 	  hi32 = lo32 & 0x80000000 ? 0xffffffff : 0;
+ 	}
+ 
++      if (strcmp (insn->name, "li.w") == 0)
++        {
++          if (hi32 != 0 && hi32 != 0xffffffff)
++            as_fatal (_("li overflow: hi32:0x%x lo32:0x%x"), hi32, lo32);
++          hi32 = lo32 & 0x80000000 ? 0xffffffff : 0;
++        }
++
+       if (strcmp (insn->name, "dli") == 0 && LARCH_opts.rlen_is_32)
+ 	as_fatal (_("we can't dli on 32bit-arch"));
+ 
++      if (strcmp (insn->name, "li.d") == 0 && LARCH_opts.rlen_is_32)
++        as_fatal (_("we can't li.d on 32bit-arch"));
++
+       snprintf (args_buf, sizeof (args_buf), "0x%x,0x%x,0x%x,0x%x,%s",
+ 		(hi32 >> 20) & 0xfff, hi32 & 0xfffff,
+ 		(lo32 >> 12) & 0xfffff, lo32 & 0xfff, args[0]);
+-- 
+2.30.1
+

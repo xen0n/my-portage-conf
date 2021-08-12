@@ -1,0 +1,73 @@
+From 7b6da09257397df4f3cd92efe58e37d4c6824971 Mon Sep 17 00:00:00 2001
+From: sutong <sutong@loongson.cn>
+Date: Sat, 20 Mar 2021 12:49:37 +0800
+Subject: [PATCH 10/19] Change the name of some privilege instructions, such as
+ ERET -> ERTN.
+
+Change-Id: Ie8c5614e07309acb4a47250f422f604f482b202e
+---
+ opcodes/loongarch-opc.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index 6f1e8f74e29..cd99833e12f 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -362,9 +362,9 @@ static struct loongarch_opcode loongarch_fix_opcodes[] = {
+ {0x00290000, 0xffff8000, "addu12i.w", "r0:5,r5:5,s10:5", 0, 0, 0, 0},
+ {0x00298000, 0xffff8000, "addu12i.d", "r0:5,r5:5,s10:5", 0, 0, 0, 0},
+ {0x002a0000, 0xffff8000, "break", "u0:15", 0, 0, 0, 0},
+-{0x002a8000, 0xffff8000, "dbgcall", "u0:15", 0, 0, 0, 0},
++{0x002a8000, 0xffff8000, "dbcl", "u0:15", 0, 0, 0, 0},
+ {0x002b0000, 0xffff8000, "syscall", "u0:15", 0, 0, 0, 0},
+-{0x002b8000, 0xffff8000, "hypcall", "u0:15", 0, 0, 0, 0},
++{0x002b8000, 0xffff8000, "hvcl", "u0:15", 0, 0, 0, 0},
+ {0x002c0000, 0xfffe0000, "alsl.d", "r0:5,r5:5,r10:5,u15:2+1", 0, 0, 0, 0},
+ {0x00300000, 0xffff8000, "adc.b", "r0:5,r5:5,r10:5", 0, 0, 0, 0},
+ {0x00308000, 0xffff8000, "adc.h", "r0:5,r5:5,r10:5", 0, 0, 0, 0},
+@@ -873,7 +873,7 @@ static struct loongarch_opcode loongarch_privilege_opcodes[] = {
+ {0x05000000, 0xff0003e0, "gcsrrd", "r0:5,u10:14", 0, 0, 0, 0},
+ {0x05000020, 0xff0003e0, "gcsrwr", "r0:5,u10:14", 0, 0, 0, 0},
+ {0x05000000, 0xff000000, "gcsrxchg", "r0:5,r5:5,u10:14", 0, 0, 0, 0},
+-{0x06000000, 0xffc00000, "cache", "u0:5,r5:5,s10:12", 0, 0, 0, 0},
++{0x06000000, 0xffc00000, "cacop", "u0:5,r5:5,s10:12", 0, 0, 0, 0},
+ {0x06400000, 0xfffc0000, "lddir", "r0:5,r5:5,u10:8", 0, 0, 0, 0},
+ {0x06440000, 0xfffc001f, "ldpte", "r5:5,u10:8", 0, 0, 0, 0},
+ {0x06480000, 0xfffffc00, "iocsrrd.b", "r0:5,r5:5", 0, 0, 0, 0},
+@@ -884,21 +884,21 @@ static struct loongarch_opcode loongarch_privilege_opcodes[] = {
+ {0x06481400, 0xfffffc00, "iocsrwr.h", "r0:5,r5:5", 0, 0, 0, 0},
+ {0x06481800, 0xfffffc00, "iocsrwr.w", "r0:5,r5:5", 0, 0, 0, 0},
+ {0x06481c00, 0xfffffc00, "iocsrwr.d", "r0:5,r5:5", 0, 0, 0, 0},
+-{0x06482000, 0xffffffff, "tlbinv", "", 0, 0, 0, 0},
+-{0x06482001, 0xffffffff, "gtlbinv", "", 0, 0, 0, 0},
++{0x06482000, 0xffffffff, "tlbclr", "", 0, 0, 0, 0},
++{0x06482001, 0xffffffff, "gtlbclr", "", 0, 0, 0, 0},
+ {0x06482400, 0xffffffff, "tlbflush", "", 0, 0, 0, 0},
+ {0x06482401, 0xffffffff, "gtlbflush", "", 0, 0, 0, 0},
+-{0x06482800, 0xffffffff, "tlbp", "", 0, 0, 0, 0},
+-{0x06482801, 0xffffffff, "gtlbp", "", 0, 0, 0, 0},
+-{0x06482c00, 0xffffffff, "tlbr", "", 0, 0, 0, 0},
+-{0x06482c01, 0xffffffff, "gtlbr", "", 0, 0, 0, 0},
+-{0x06483000, 0xffffffff, "tlbwi", "", 0, 0, 0, 0},
+-{0x06483001, 0xffffffff, "gtlbwi", "", 0, 0, 0, 0},
+-{0x06483400, 0xffffffff, "tlbwr", "", 0, 0, 0, 0},
+-{0x06483401, 0xffffffff, "gtlbwr", "", 0, 0, 0, 0},
+-{0x06483800, 0xffffffff, "eret", "", 0, 0, 0, 0},
++{0x06482800, 0xffffffff, "tlbsrch", "", 0, 0, 0, 0},
++{0x06482801, 0xffffffff, "gtlbsrch", "", 0, 0, 0, 0},
++{0x06482c00, 0xffffffff, "tlbrd", "", 0, 0, 0, 0},
++{0x06482c01, 0xffffffff, "gtlbrd", "", 0, 0, 0, 0},
++{0x06483000, 0xffffffff, "tlbwr", "", 0, 0, 0, 0},
++{0x06483001, 0xffffffff, "gtlbwr", "", 0, 0, 0, 0},
++{0x06483400, 0xffffffff, "tlbfill", "", 0, 0, 0, 0},
++{0x06483401, 0xffffffff, "gtlbfill", "", 0, 0, 0, 0},
++{0x06483800, 0xffffffff, "ertn", "", 0, 0, 0, 0},
+ {0x06483c00, 0xffffffff, "deret", "", 0, 0, 0, 0},
+-{0x06488000, 0xffff8000, "wait", "u0:15", 0, 0, 0, 0},
++{0x06488000, 0xffff8000, "idle", "u0:15", 0, 0, 0, 0},
+ {0x06498000, 0xffff8000, "invtlb", "u0:5,r5:5,r10:5", 0, 0, 0, 0},
+ {0} /* Terminate the list.  */
+ };
+-- 
+2.30.1
+

@@ -1,0 +1,862 @@
+From 961318771df2104ec10a5af7a83d12e1a17762ad Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Sat, 8 May 2021 16:12:07 +0800
+Subject: [PATCH 3/6] fix build
+
+---
+ gcc/config/loongarch/frame-header-opt.c |   4 +-
+ gcc/config/loongarch/loongarch.c        | 570 +++---------------------
+ 2 files changed, 59 insertions(+), 515 deletions(-)
+
+diff --git a/gcc/config/loongarch/frame-header-opt.c b/gcc/config/loongarch/frame-header-opt.c
+index 86e5d423d3b..4d44036ff34 100644
+--- a/gcc/config/loongarch/frame-header-opt.c
++++ b/gcc/config/loongarch/frame-header-opt.c
+@@ -4,7 +4,7 @@
+    targets, if a frame header is required, it is allocated by the callee.
+ 
+ 
+-   Copyright (C) 2015-2018 Free Software Foundation, Inc.
++   Copyright (C) 2015-2020 Free Software Foundation, Inc.
+ 
+ This file is part of GCC.
+ 
+@@ -29,13 +29,13 @@ along with GCC; see the file COPYING3.  If not see
+ #include "system.h"
+ #include "context.h"
+ #include "coretypes.h"
++#include "backend.h"
+ #include "tree.h"
+ #include "tree-core.h"
+ #include "tree-pass.h"
+ #include "target.h"
+ #include "target-globals.h"
+ #include "profile-count.h"
+-#include "cfg.h"
+ #include "cgraph.h"
+ #include "function.h"
+ #include "basic-block.h"
+diff --git a/gcc/config/loongarch/loongarch.c b/gcc/config/loongarch/loongarch.c
+index 5f24ead807d..1207f87a3b0 100644
+--- a/gcc/config/loongarch/loongarch.c
++++ b/gcc/config/loongarch/loongarch.c
+@@ -390,9 +390,9 @@ unsigned int loongarch_base_compression_flags;
+ static int loongarch_base_schedule_insns; /* flag_schedule_insns */
+ static int loongarch_base_reorder_blocks_and_partition; /* flag_reorder... */
+ static int loongarch_base_move_loop_invariants; /* flag_move_loop_invariants */
+-static int loongarch_base_align_loops; /* align_loops */
+-static int loongarch_base_align_jumps; /* align_jumps */
+-static int loongarch_base_align_functions; /* align_functions */
++static const char *loongarch_base_align_loops; /* align_loops */
++static const char *loongarch_base_align_jumps; /* align_jumps */
++static const char *loongarch_base_align_functions; /* align_functions */
+ 
+ /* Index [M][R] is true if register R is allowed to hold a value of mode M.  */
+ static bool loongarch_hard_regno_mode_ok_p[MAX_MACHINE_MODE][FIRST_PSEUDO_REGISTER];
+@@ -891,28 +891,27 @@ n_loongarch_get_arg_info (struct n_loongarch_arg_info *info, const CUMULATIVE_AR
+ /* Implement TARGET_FUNCTION_ARG.  */
+ 
+ static rtx
+-n_loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+-		    const_tree type, bool named)
++n_loongarch_function_arg (cumulative_args_t cum_v, const function_arg_info &arg)
+ {
+   CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
+   struct n_loongarch_arg_info info;
+ 
+-  if (mode == VOIDmode)
++  if (arg.mode == VOIDmode)
+     return NULL;
+ 
+-  return n_loongarch_get_arg_info (&info, cum, mode, type, named, false);
++  return n_loongarch_get_arg_info (&info, cum, arg.mode, arg.type, arg.named, false);
+ }
+ 
+ /* Implement TARGET_FUNCTION_ARG_ADVANCE.  */
+ 
+ static void
+-n_loongarch_function_arg_advance (cumulative_args_t cum_v, machine_mode mode,
+-			    const_tree type, bool named)
++n_loongarch_function_arg_advance (cumulative_args_t cum_v,
++			    const function_arg_info &arg)
+ {
+   CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
+   struct n_loongarch_arg_info info;
+ 
+-  n_loongarch_get_arg_info (&info, cum, mode, type, named, false);
++  n_loongarch_get_arg_info (&info, cum, arg.mode, arg.type, arg.named, false);
+ 
+   /* Advance the register count.  This has the effect of setting
+      num_gprs to MAX_ARGS_IN_REGISTERS if a doubleword-aligned
+@@ -925,13 +924,12 @@ n_loongarch_function_arg_advance (cumulative_args_t cum_v, machine_mode mode,
+ /* Implement TARGET_ARG_PARTIAL_BYTES.  */
+ 
+ static int
+-n_loongarch_arg_partial_bytes (cumulative_args_t cum,
+-			 machine_mode mode, tree type, bool named)
++n_loongarch_arg_partial_bytes (cumulative_args_t cum, const function_arg_info &arg)
+ {
+-  struct n_loongarch_arg_info arg;
++  struct n_loongarch_arg_info info;
+ 
+-  n_loongarch_get_arg_info (&arg, get_cumulative_args (cum), mode, type, named, false);
+-  return arg.stack_p ? arg.num_gprs * UNITS_PER_WORD : 0;
++  n_loongarch_get_arg_info (&info, get_cumulative_args (cum), arg.mode, arg.type, arg.named, false);
++  return info.stack_p ? info.num_gprs * UNITS_PER_WORD : 0;
+ }
+ 
+ /* Implement FUNCTION_VALUE and LIBCALL_VALUE.  For normal calls,
+@@ -962,10 +960,9 @@ n_loongarch_function_value (const_tree type, const_tree func, machine_mode mode)
+ /* Implement TARGET_PASS_BY_REFERENCE. */
+ 
+ static bool
+-n_loongarch_pass_by_reference (cumulative_args_t cum_v, machine_mode mode,
+-			 const_tree type, bool named)
++n_loongarch_pass_by_reference (cumulative_args_t cum_v, const function_arg_info &arg)
+ {
+-  HOST_WIDE_INT size = type ? int_size_in_bytes (type) : GET_MODE_SIZE (mode);
++  HOST_WIDE_INT size = arg.type ? int_size_in_bytes (arg.type) : GET_MODE_SIZE (arg.mode);
+   struct n_loongarch_arg_info info;
+   CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
+ 
+@@ -975,7 +972,7 @@ n_loongarch_pass_by_reference (cumulative_args_t cum_v, machine_mode mode,
+   if (cum != NULL)
+     {
+       /* Don't pass by reference if we can use a floating-point register.  */
+-      n_loongarch_get_arg_info (&info, cum, mode, type, named, false);
++      n_loongarch_get_arg_info (&info, cum, arg.mode, arg.type, arg.named, false);
+       if (info.num_fprs)
+ 	return false;
+     }
+@@ -995,15 +992,16 @@ n_loongarch_return_in_memory (const_tree type, const_tree fndecl ATTRIBUTE_UNUSE
+   /* The rules for returning in memory are the same as for passing the
+      first named argument by reference.  */
+   memset (&args, 0, sizeof args);
+-  return n_loongarch_pass_by_reference (cum, TYPE_MODE (type), type, true);
++  function_arg_info arg (const_cast<tree> (type), /*named=*/true);
++  return n_loongarch_pass_by_reference (cum, arg);
+ }
+ 
+ /* Implement TARGET_SETUP_INCOMING_VARARGS.  */
+ 
+ static void
+-n_loongarch_setup_incoming_varargs (cumulative_args_t cum, machine_mode mode,
+-			     tree type, int *pretend_size ATTRIBUTE_UNUSED,
+-			     int no_rtl)
++n_loongarch_setup_incoming_varargs (cumulative_args_t cum,
++			     const function_arg_info &arg,
++			     int *pretend_size ATTRIBUTE_UNUSED, int no_rtl)
+ {
+   CUMULATIVE_ARGS local_cum;
+   int gp_saved;
+@@ -1012,7 +1010,7 @@ n_loongarch_setup_incoming_varargs (cumulative_args_t cum, machine_mode mode,
+      argument.  Advance a local copy of CUM past the last "real" named
+      argument, to find out how many registers are left over.  */
+   local_cum = *get_cumulative_args (cum);
+-  n_loongarch_function_arg_advance (pack_cumulative_args (&local_cum), mode, type, 1);
++  n_loongarch_function_arg_advance (pack_cumulative_args (&local_cum), arg);
+ 
+   /* Found out how many registers we need to save.  */
+   gp_saved = MAX_ARGS_IN_REGISTERS - local_cum.num_gprs;
+@@ -3707,113 +3705,6 @@ loongarch_address_cost (rtx addr, machine_mode mode,
+   return loongarch_address_insns (addr, mode, false);
+ }
+ 
+-
+-/* Information about a single instruction in a multi-instruction
+-   asm sequence.  */
+-struct loongarch_multi_member {
+-  /* True if this is a label, false if it is code.  */
+-  bool is_label_p;
+-
+-  /* The output_asm_insn format of the instruction.  */
+-  const char *format;
+-
+-  /* The operands to the instruction.  */
+-  rtx operands[MAX_RECOG_OPERANDS];
+-};
+-typedef struct loongarch_multi_member loongarch_multi_member;
+-
+-/* The instructions that make up the current multi-insn sequence.  */
+-static vec<loongarch_multi_member> loongarch_multi_members;
+-
+-/* How many instructions (as opposed to labels) are in the current
+-   multi-insn sequence.  */
+-static unsigned int loongarch_multi_num_insns;
+-
+-/* Start a new multi-insn sequence.  */
+-
+-static void
+-loongarch_multi_start (void)
+-{
+-  loongarch_multi_members.truncate (0);
+-  loongarch_multi_num_insns = 0;
+-}
+-
+-/* Add a new, zero initialized member to the current multi-insn sequence.  */
+-
+-static struct loongarch_multi_member *
+-loongarch_multi_add (void)
+-{
+-  loongarch_multi_member empty;
+-  memset (&empty, 0, sizeof (empty));
+-  return loongarch_multi_members.safe_push (empty);
+-}
+-
+-/* Add a normal insn with the given asm format to the current multi-insn
+-   sequence.  The other arguments are a null-terminated list of operands.  */
+-
+-static void
+-loongarch_multi_add_insn (const char *format, ...)
+-{
+-  struct loongarch_multi_member *member;
+-  va_list ap;
+-  unsigned int i;
+-  rtx op;
+-
+-  member = loongarch_multi_add ();
+-  member->is_label_p = false;
+-  member->format = format;
+-  va_start (ap, format);
+-  i = 0;
+-  while ((op = va_arg (ap, rtx)))
+-    member->operands[i++] = op;
+-  va_end (ap);
+-  loongarch_multi_num_insns++;
+-}
+-
+-/* Add the given label definition to the current multi-insn sequence.
+-   The definition should include the colon.  */
+-
+-static void
+-loongarch_multi_add_label (const char *label)
+-{
+-  struct loongarch_multi_member *member;
+-
+-  member = loongarch_multi_add ();
+-  member->is_label_p = true;
+-  member->format = label;
+-}
+-
+-/* Return the index of the last member of the current multi-insn sequence.  */
+-
+-static unsigned int
+-loongarch_multi_last_index (void)
+-{
+-  return loongarch_multi_members.length () - 1;
+-}
+-
+-/* Add a copy of an existing instruction to the current multi-insn
+-   sequence.  I is the index of the instruction that should be copied.  */
+-
+-static void
+-loongarch_multi_copy_insn (unsigned int i)
+-{
+-  struct loongarch_multi_member *member;
+-
+-  member = loongarch_multi_add ();
+-  memcpy (member, &loongarch_multi_members[i], sizeof (*member));
+-  gcc_assert (!member->is_label_p);
+-}
+-
+-/* Change the operand of an existing instruction in the current
+-   multi-insn sequence.  I is the index of the instruction,
+-   OP is the index of the operand, and X is the new value.  */
+-
+-static void
+-loongarch_multi_set_operand (unsigned int i, unsigned int op, rtx x)
+-{
+-  loongarch_multi_members[i].operands[op] = x;
+-}
+-
+ 
+ /* Return one word of double-word value OP, taking into account the fixed
+    endianness of certain registers.  HIGH_P is true to select the high part,
+@@ -4683,8 +4574,7 @@ loongarch_strict_argument_naming (cumulative_args_t ca ATTRIBUTE_UNUSED)
+ /* Implement TARGET_FUNCTION_ARG.  */
+ 
+ static rtx
+-loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+-		   const_tree type, bool named)
++loongarch_function_arg (cumulative_args_t cum_v, const function_arg_info &arg)
+ {
+   CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
+   struct loongarch_arg_info info;
+@@ -4692,12 +4582,12 @@ loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+   /* We will be called with a mode of VOIDmode after the last argument
+      has been seen.  Whatever we return will be passed to the call expander.
+   */
+-  if (mode == VOIDmode)
++  if (arg.mode == VOIDmode)
+     {
+ 	return NULL;
+     }
+ 
+-  loongarch_get_arg_info (&info, cum, mode, type, named);
++  loongarch_get_arg_info (&info, cum, arg.mode, arg.type, arg.named);
+ 
+   /* Return straight away if the whole argument is passed on the stack.  */
+   if (info.reg_offset == MAX_ARGS_IN_REGISTERS)
+@@ -4708,16 +4598,16 @@ loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+      in a floating-point register.  */
+   if (TARGET_NEWABI
+       && TARGET_HARD_FLOAT
+-      && named
+-      && type != 0
+-      && TREE_CODE (type) == RECORD_TYPE
+-      && TYPE_SIZE_UNIT (type)
+-      && tree_fits_uhwi_p (TYPE_SIZE_UNIT (type)))
++      && arg.named
++      && arg.type != 0
++      && TREE_CODE (arg.type) == RECORD_TYPE
++      && TYPE_SIZE_UNIT (arg.type)
++      && tree_fits_uhwi_p (TYPE_SIZE_UNIT (arg.type)))
+     {
+       tree field;
+ 
+       /* First check to see if there is any such field.  */
+-      for (field = TYPE_FIELDS (type); field; field = DECL_CHAIN (field))
++      for (field = TYPE_FIELDS (arg.type); field; field = DECL_CHAIN (field))
+ 	if (TREE_CODE (field) == FIELD_DECL
+ 	    && SCALAR_FLOAT_TYPE_P (TREE_TYPE (field))
+ 	    && TYPE_PRECISION (TREE_TYPE (field)) == BITS_PER_WORD
+@@ -4736,10 +4626,10 @@ loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+ 
+ 	  /* assign_parms checks the mode of ENTRY_PARM, so we must
+ 	     use the actual mode here.  */
+-	  ret = gen_rtx_PARALLEL (mode, rtvec_alloc (info.reg_words));
++	  ret = gen_rtx_PARALLEL (arg.mode, rtvec_alloc (info.reg_words));
+ 
+ 	  bitpos = 0;
+-	  field = TYPE_FIELDS (type);
++	  field = TYPE_FIELDS (arg.type);
+ 	  for (i = 0; i < info.reg_words; i++)
+ 	    {
+ 	      rtx reg;
+@@ -4772,13 +4662,13 @@ loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+      and the imaginary part goes in the upper register.  */
+   if (TARGET_NEWABI
+       && info.fpr_p
+-      && GET_MODE_CLASS (mode) == MODE_COMPLEX_FLOAT)
++      && GET_MODE_CLASS (arg.mode) == MODE_COMPLEX_FLOAT)
+     {
+       rtx real, imag;
+       machine_mode inner;
+       unsigned int regno;
+ 
+-      inner = GET_MODE_INNER (mode);
++      inner = GET_MODE_INNER (arg.mode);
+       regno = FP_ARG_FIRST + info.reg_offset;
+       if (info.reg_words * UNITS_PER_WORD == GET_MODE_SIZE (inner))
+ 	{
+@@ -4796,56 +4686,11 @@ loongarch_function_arg (cumulative_args_t cum_v, machine_mode mode,
+ 				    gen_rtx_REG (inner,
+ 						 regno + info.reg_words / 2),
+ 				    GEN_INT (GET_MODE_SIZE (inner)));
+-	  return gen_rtx_PARALLEL (mode, gen_rtvec (2, real, imag));
++	  return gen_rtx_PARALLEL (arg.mode, gen_rtvec (2, real, imag));
+ 	}
+     }
+ 
+-  return gen_rtx_REG (mode, loongarch_arg_regno (&info, TARGET_HARD_FLOAT));
+-}
+-
+-/* Implement TARGET_FUNCTION_ARG_ADVANCE.  */
+-
+-static void
+-loongarch_function_arg_advance (cumulative_args_t cum_v, machine_mode mode,
+-			   const_tree type, bool named)
+-{
+-  CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
+-  struct loongarch_arg_info info;
+-
+-  loongarch_get_arg_info (&info, cum, mode, type, named);
+-
+-  if (!info.fpr_p)
+-    cum->gp_reg_found = true;
+-
+-  /* See the comment above the CUMULATIVE_ARGS structure in loongarch.h for
+-     an explanation of what this code does.  It assumes that we're using
+-     either the o32 or the o64 ABI, both of which pass at most 2 arguments
+-     in FPRs.  */
+-  if (cum->arg_number < 2 && info.fpr_p)
+-    cum->fp_code += (mode == SFmode ? 1 : 2) << (cum->arg_number * 2);
+-
+-  /* Advance the register count.  This has the effect of setting
+-     num_gprs to MAX_ARGS_IN_REGISTERS if a doubleword-aligned
+-     argument required us to skip the final GPR and pass the whole
+-     argument on the stack.  */
+-   cum->num_gprs = info.reg_offset + info.reg_words;
+-  /* Advance the stack word count.  */
+-  if (info.stack_words > 0)
+-    cum->stack_words = info.stack_offset + info.stack_words;
+-
+-  cum->arg_number++;
+-}
+-
+-/* Implement TARGET_ARG_PARTIAL_BYTES.  */
+-
+-static int
+-loongarch_arg_partial_bytes (cumulative_args_t cum,
+-			machine_mode mode, tree type, bool named)
+-{
+-  struct loongarch_arg_info info;
+-
+-  loongarch_get_arg_info (&info, get_cumulative_args (cum), mode, type, named);
+-  return info.stack_words > 0 ? info.reg_words * UNITS_PER_WORD : 0;
++  return gen_rtx_REG (arg.mode, loongarch_arg_regno (&info, TARGET_HARD_FLOAT));
+ }
+ 
+ /* Implement TARGET_FUNCTION_ARG_BOUNDARY.  Every parameter gets at
+@@ -4865,14 +4710,6 @@ loongarch_function_arg_boundary (machine_mode mode, const_tree type)
+   return alignment;
+ }
+ 
+-/* Implement TARGET_GET_RAW_RESULT_MODE and TARGET_GET_RAW_ARG_MODE.  */
+-
+-static fixed_size_mode
+-loongarch_get_reg_raw_mode (int regno)
+-{
+-  return default_get_reg_raw_mode (regno);
+-}
+-
+ /* Implement TARGET_FUNCTION_ARG_PADDING; return PAD_UPWARD if the first
+    byte of the stack slot has useful data, PAD_DOWNWARD if the last byte
+    does.  */
+@@ -4914,26 +4751,6 @@ loongarch_pad_reg_upward (machine_mode mode, tree type)
+   return loongarch_function_arg_padding (mode, type) == PAD_UPWARD;
+ }
+ 
+-/* Return nonzero when an argument must be passed by reference.  */
+-
+-static bool
+-loongarch_pass_by_reference (cumulative_args_t cum ATTRIBUTE_UNUSED,
+-			machine_mode mode, const_tree type,
+-			bool named ATTRIBUTE_UNUSED)
+-{
+-      /* If we have a variable-sized parameter, we have no choice.  */
+-  return targetm.calls.must_pass_in_stack (mode, type);
+-}
+-
+-/* Implement TARGET_CALLEE_COPIES.  */
+-
+-static bool
+-loongarch_callee_copies (cumulative_args_t cum ATTRIBUTE_UNUSED,
+-		    machine_mode mode ATTRIBUTE_UNUSED,
+-		    const_tree type ATTRIBUTE_UNUSED, bool named)
+-{
+-  return 0;
+-}
+ 
+ /* See whether VALTYPE is a record whose fields should be returned in
+    floating-point registers.  If so, return the number of fields and
+@@ -5138,149 +4955,7 @@ loongarch_function_value_1 (const_tree valtype, const_tree fn_decl_or_type,
+ 
+   return gen_rtx_REG (mode, GP_RETURN);
+ }
+-
+-/* Implement TARGET_FUNCTION_VALUE.  */
+-
+-static rtx
+-loongarch_function_value (const_tree valtype, const_tree fn_decl_or_type,
+-		     bool outgoing ATTRIBUTE_UNUSED)
+-{
+-  return loongarch_function_value_1 (valtype, fn_decl_or_type, VOIDmode);
+-}
+-
+-/* Implement TARGET_LIBCALL_VALUE.  */
+-
+-static rtx
+-loongarch_libcall_value (machine_mode mode, const_rtx fun ATTRIBUTE_UNUSED)
+-{
+-  return loongarch_function_value_1 (NULL_TREE, NULL_TREE, mode);
+-}
+-
+-/* Implement TARGET_FUNCTION_VALUE_REGNO_P.
+-
+-   On the LARCH, R2 R3 and F0 F2 are the only register thus used.  */
+-
+-static bool
+-loongarch_function_value_regno_p (const unsigned int regno)
+-{
+-  /* Most types only require one GPR or one FPR for return values but for
+-     hard-float two FPRs can be used for _Complex types (for all ABIs)
+-     and long doubles (for n64).  */
+-  if (regno == GP_RETURN
+-      || regno == FP_RETURN
+-      || (FP_RETURN != GP_RETURN
+-	  && regno == FP_RETURN + 1))
+-    return true;
+-
+-  /* For o32 FP32, _Complex double will be returned in four 32-bit registers.
+-     This does not apply to o32 FPXX as floating-point function argument and
+-     return registers are described as 64-bit even though floating-point
+-     registers are primarily described as 32-bit internally.
+-     See: loongarch_get_reg_raw_mode.  */
+-  if ((loongarch_abi == ABILP32 && TARGET_FLOAT32)
+-      && FP_RETURN != GP_RETURN
+-      && (regno == FP_RETURN + 1
+-	  || regno == FP_RETURN + 3))
+-    return true;
+-
+-  return false;
+-}
+-
+-/* Implement TARGET_RETURN_IN_MEMORY.  Under the o32 and o64 ABIs,
+-   all BLKmode objects are returned in memory.  Under the n32, n64
+-   and embedded ABIs, small structures are returned in a register.
+-   Objects with varying size must still be returned in memory, of
+-   course.  */
+-
+-static bool
+-loongarch_return_in_memory (const_tree type, const_tree fndecl ATTRIBUTE_UNUSED)
+-{
+-  if (TARGET_OLDABI)
+-    /* Ensure that any floating point vector types are returned via memory
+-       even if they are supported through a vector mode with some ASEs.  */
+-    return (VECTOR_FLOAT_TYPE_P (type)
+-	    || TYPE_MODE (type) == BLKmode);
+-
+-  return (!IN_RANGE (int_size_in_bytes (type), 0, 2 * UNITS_PER_WORD));
+-}
+ 
+-/* Implement TARGET_SETUP_INCOMING_VARARGS.  */
+-
+-static void
+-loongarch_setup_incoming_varargs (cumulative_args_t cum, machine_mode mode,
+-			     tree type, int *pretend_size ATTRIBUTE_UNUSED,
+-			     int no_rtl)
+-{
+-  CUMULATIVE_ARGS local_cum;
+-  int gp_saved, fp_saved;
+-
+-  /* The caller has advanced CUM up to, but not beyond, the last named
+-     argument.  Advance a local copy of CUM past the last "real" named
+-     argument, to find out how many registers are left over.  */
+-  local_cum = *get_cumulative_args (cum);
+-  loongarch_function_arg_advance (pack_cumulative_args (&local_cum), mode, type,
+-			     true);
+-
+-  /* Found out how many registers we need to save.  */
+-  gp_saved = MAX_ARGS_IN_REGISTERS - local_cum.num_gprs;
+-  fp_saved = 0;
+-
+-  if (!no_rtl)
+-    {
+-      if (gp_saved > 0)
+-	{
+-	  rtx ptr, mem;
+-
+-	  ptr = plus_constant (Pmode, virtual_incoming_args_rtx,
+-			       REG_PARM_STACK_SPACE (cfun->decl)
+-			       - gp_saved * UNITS_PER_WORD);
+-	  mem = gen_frame_mem (BLKmode, ptr);
+-	  set_mem_alias_set (mem, get_varargs_alias_set ());
+-
+-	  move_block_from_reg (local_cum.num_gprs + GP_ARG_FIRST,
+-			       mem, gp_saved);
+-	}
+-      if (fp_saved > 0)
+-	{
+-	  /* We can't use move_block_from_reg, because it will use
+-	     the wrong mode.  */
+-	  machine_mode mode;
+-	  int off, i;
+-
+-	  /* Set OFF to the offset from virtual_incoming_args_rtx of
+-	     the first float register.  The FP save area lies below
+-	     the integer one, and is aligned to UNITS_PER_FPVALUE bytes.  */
+-	  off = ROUND_DOWN (-gp_saved * UNITS_PER_WORD, UNITS_PER_FPVALUE);
+-	  off -= fp_saved * UNITS_PER_FPREG;
+-
+-	  mode = TARGET_SINGLE_FLOAT ? SFmode : DFmode;
+-
+-	  for (i = local_cum.num_fprs; i < MAX_ARGS_IN_REGISTERS;
+-	       i += MAX_FPRS_PER_FMT)
+-	    {
+-	      rtx ptr, mem;
+-
+-	      ptr = plus_constant (Pmode, virtual_incoming_args_rtx, off);
+-	      mem = gen_frame_mem (mode, ptr);
+-	      set_mem_alias_set (mem, get_varargs_alias_set ());
+-	      loongarch_emit_move (mem, gen_rtx_REG (mode, FP_ARG_FIRST + i));
+-	      off += UNITS_PER_HWFPVALUE;
+-	    }
+-	}
+-    }
+-  if (REG_PARM_STACK_SPACE (cfun->decl) == 0)
+-    cfun->machine->varargs_size = (gp_saved * UNITS_PER_WORD
+-				   + fp_saved * UNITS_PER_FPREG);
+-}
+-
+-/* Implement TARGET_BUILTIN_VA_LIST.  */
+-
+-static tree
+-loongarch_build_builtin_va_list (void)
+-{
+-  return ptr_type_node;
+-}
+-
+ /* Implement TARGET_EXPAND_BUILTIN_VA_START.  */
+ 
+ static void
+@@ -5289,115 +4964,6 @@ loongarch_va_start (tree valist, rtx nextarg)
+   nextarg = plus_constant (Pmode, nextarg, -cfun->machine->varargs_size);
+   std_expand_builtin_va_start (valist, nextarg);
+ }
+-
+-/* Like std_gimplify_va_arg_expr, but apply alignment to zero-sized
+-   types as well.  */
+-
+-static tree
+-loongarch_std_gimplify_va_arg_expr (tree valist, tree type, gimple_seq *pre_p,
+-			       gimple_seq *post_p)
+-{
+-  tree addr, t, type_size, rounded_size, valist_tmp;
+-  unsigned HOST_WIDE_INT align, boundary;
+-  bool indirect;
+-
+-  indirect = pass_by_reference (NULL, TYPE_MODE (type), type, false);
+-  if (indirect)
+-    type = build_pointer_type (type);
+-
+-  align = PARM_BOUNDARY / BITS_PER_UNIT;
+-  boundary = targetm.calls.function_arg_boundary (TYPE_MODE (type), type);
+-
+-  /* When we align parameter on stack for caller, if the parameter
+-     alignment is beyond MAX_SUPPORTED_STACK_ALIGNMENT, it will be
+-     aligned at MAX_SUPPORTED_STACK_ALIGNMENT.  We will match callee
+-     here with caller.  */
+-  if (boundary > MAX_SUPPORTED_STACK_ALIGNMENT)
+-    boundary = MAX_SUPPORTED_STACK_ALIGNMENT;
+-
+-  boundary /= BITS_PER_UNIT;
+-
+-  /* Hoist the valist value into a temporary for the moment.  */
+-  valist_tmp = get_initialized_tmp_var (valist, pre_p, NULL);
+-
+-  /* va_list pointer is aligned to PARM_BOUNDARY.  If argument actually
+-     requires greater alignment, we must perform dynamic alignment.  */
+-  if (boundary > align)
+-    {
+-      t = build2 (MODIFY_EXPR, TREE_TYPE (valist), valist_tmp,
+-		  fold_build_pointer_plus_hwi (valist_tmp, boundary - 1));
+-      gimplify_and_add (t, pre_p);
+-
+-      t = build2 (MODIFY_EXPR, TREE_TYPE (valist), valist_tmp,
+-		  fold_build2 (BIT_AND_EXPR, TREE_TYPE (valist),
+-			       valist_tmp,
+-			       build_int_cst (TREE_TYPE (valist), -boundary)));
+-      gimplify_and_add (t, pre_p);
+-    }
+-  else
+-    boundary = align;
+-
+-  /* If the actual alignment is less than the alignment of the type,
+-     adjust the type accordingly so that we don't assume strict alignment
+-     when dereferencing the pointer.  */
+-  boundary *= BITS_PER_UNIT;
+-  if (boundary < TYPE_ALIGN (type))
+-    {
+-      type = build_variant_type_copy (type);
+-      SET_TYPE_ALIGN (type, boundary);
+-    }
+-
+-  /* Compute the rounded size of the type.  */
+-  type_size = size_in_bytes (type);
+-  rounded_size = round_up (type_size, align);
+-
+-  /* Reduce rounded_size so it's sharable with the postqueue.  */
+-  gimplify_expr (&rounded_size, pre_p, post_p, is_gimple_val, fb_rvalue);
+-
+-  /* Get AP.  */
+-  addr = valist_tmp;
+-  if (PAD_VARARGS_DOWN && !integer_zerop (rounded_size))
+-    {
+-      /* Small args are padded downward.  */
+-      t = fold_build2_loc (input_location, GT_EXPR, sizetype,
+-		       rounded_size, size_int (align));
+-      t = fold_build3 (COND_EXPR, sizetype, t, size_zero_node,
+-		       size_binop (MINUS_EXPR, rounded_size, type_size));
+-      addr = fold_build_pointer_plus (addr, t);
+-    }
+-
+-  /* Compute new value for AP.  */
+-  t = fold_build_pointer_plus (valist_tmp, rounded_size);
+-  t = build2 (MODIFY_EXPR, TREE_TYPE (valist), valist, t);
+-  gimplify_and_add (t, pre_p);
+-
+-  addr = fold_convert (build_pointer_type (type), addr);
+-
+-  if (indirect)
+-    addr = build_va_arg_indirect_ref (addr);
+-
+-  return build_va_arg_indirect_ref (addr);
+-}
+-
+-/* Implement TARGET_GIMPLIFY_VA_ARG_EXPR.  */
+-
+-static tree
+-loongarch_gimplify_va_arg_expr (tree valist, tree type, gimple_seq *pre_p,
+-			   gimple_seq *post_p)
+-{
+-  tree addr;
+-  bool indirect_p;
+-
+-  indirect_p = pass_by_reference (NULL, TYPE_MODE (type), type, 0);
+-  if (indirect_p)
+-    type = build_pointer_type (type);
+-
+-  addr = loongarch_std_gimplify_va_arg_expr (valist, type, pre_p, post_p);
+-  if (indirect_p)
+-    addr = build_va_arg_indirect_ref (addr);
+-
+-  return addr;
+-}
+ 
+ /* Start a definition of function NAME. */
+ 
+@@ -5572,7 +5138,7 @@ loongarch_block_move_straight (rtx dest, rtx src, HOST_WIDE_INT length)
+       src = adjust_address (src, BLKmode, offset);
+       dest = adjust_address (dest, BLKmode, offset);
+       move_by_pieces (dest, src, length - offset,
+-  		  MIN (MEM_ALIGN (src), MEM_ALIGN (dest)), 0);
++  		  MIN (MEM_ALIGN (src), MEM_ALIGN (dest)), RETURN_BEGIN);
+     }
+ }
+ 
+@@ -7942,7 +7508,7 @@ loongarch_hard_regno_scratch_ok (unsigned int regno)
+    FPXX as they will be clobbered when run on an FR=1 FPU.*/
+ 
+ static bool
+-loongarch_hard_regno_call_part_clobbered (unsigned int regno, machine_mode mode)
++loongarch_hard_regno_call_part_clobbered (unsigned int, unsigned int, machine_mode)
+ {
+   return false;
+ }
+@@ -7974,20 +7540,20 @@ loongarch_class_max_nregs (enum reg_class rclass, machine_mode mode)
+   HARD_REG_SET left;
+ 
+   size = 0x8000;
+-  COPY_HARD_REG_SET (left, reg_class_contents[(int) rclass]);
++  left = reg_class_contents[(int) rclass];
+   if (hard_reg_set_intersect_p (left, reg_class_contents[(int) ST_REGS]))
+     {
+       if (loongarch_hard_regno_mode_ok (ST_REG_FIRST, mode))
+ 	size = MIN (size, 4);
+ 
+-      AND_COMPL_HARD_REG_SET (left, reg_class_contents[(int) ST_REGS]);
++      left &= ~reg_class_contents[(int) ST_REGS];
+     }
+   if (hard_reg_set_intersect_p (left, reg_class_contents[(int) FP_REGS]))
+     {
+       if (loongarch_hard_regno_mode_ok (FP_REG_FIRST, mode))
+ 	size = MIN (size, UNITS_PER_FPREG);
+ 
+-      AND_COMPL_HARD_REG_SET (left, reg_class_contents[(int) FP_REGS]);
++      left &= ~reg_class_contents[(int) FP_REGS];
+     }
+   if (!hard_reg_set_empty_p (left))
+     size = MIN (size, UNITS_PER_WORD);
+@@ -8267,18 +7833,6 @@ loongarch_secondary_reload_class (enum reg_class rclass,
+ 
+   return NO_REGS;
+ }
+-
+-/* Implement TARGET_MODE_REP_EXTENDED.  */
+-
+-static int
+-loongarch_mode_rep_extended (scalar_int_mode mode, scalar_int_mode mode_rep)
+-{
+-  /* On 64-bit targets, SImode register values are sign-extended to DImode.  */
+-  if (TARGET_64BIT && mode == SImode && mode_rep == DImode)
+-    return SIGN_EXTEND;
+-
+-  return UNKNOWN;
+-}
+ 
+ /* Implement TARGET_VALID_POINTER_MODE.  */
+ 
+@@ -9157,14 +8711,6 @@ loongarch_builtin_decl (unsigned int code, bool initialize_p ATTRIBUTE_UNUSED)
+   return loongarch_builtin_decls[code];
+ }
+ 
+-/* Implement TARGET_VECTORIZE_BUILTIN_VECTORIZED_FUNCTION.  */
+-
+-static tree
+-loongarch_builtin_vectorized_function (unsigned int fn, tree type_out, tree type_in)
+-{
+-  return NULL_TREE;
+-}
+-
+ /* Take argument ARGNO from EXP's argument list and convert it into
+    an expand operand.  Store the operand in *OP.  */
+ 
+@@ -9816,20 +9362,20 @@ loongarch_set_compression_mode (unsigned int compression_mode)
+   flag_schedule_insns = loongarch_base_schedule_insns;
+   flag_reorder_blocks_and_partition = loongarch_base_reorder_blocks_and_partition;
+   flag_move_loop_invariants = loongarch_base_move_loop_invariants;
+-  align_loops = loongarch_base_align_loops;
+-  align_jumps = loongarch_base_align_jumps;
+-  align_functions = loongarch_base_align_functions;
++  str_align_loops = loongarch_base_align_loops;
++  str_align_jumps = loongarch_base_align_jumps;
++  str_align_functions = loongarch_base_align_functions;
+   target_flags |= compression_mode;
+ 
+       /* Provide default values for align_* for 64-bit targets.  */
+   if (TARGET_64BIT)
+     {
+-      if (align_loops == 0)
+-        align_loops = 8;
+-      if (align_jumps == 0)
+-        align_jumps = 8;
+-      if (align_functions == 0)
+-        align_functions = 8;
++      if (str_align_loops == 0)
++        str_align_loops = "8";
++      if (str_align_jumps == 0)
++        str_align_jumps = "8";
++      if (str_align_functions == 0)
++        str_align_functions = "8";
+     }
+   
+   targetm.min_anchor_offset = -32768;
+@@ -10157,9 +9703,9 @@ loongarch_option_override (void)
+   loongarch_base_schedule_insns = flag_schedule_insns;
+   loongarch_base_reorder_blocks_and_partition = flag_reorder_blocks_and_partition;
+   loongarch_base_move_loop_invariants = flag_move_loop_invariants;
+-  loongarch_base_align_loops = align_loops;
+-  loongarch_base_align_jumps = align_jumps;
+-  loongarch_base_align_functions = align_functions;
++  loongarch_base_align_loops = str_align_loops;
++  loongarch_base_align_jumps = str_align_jumps;
++  loongarch_base_align_functions = str_align_functions;
+ 
+   /* Now select the ISA mode.
+ 
+@@ -10191,10 +9737,8 @@ loongarch_conditional_register_usage (void)
+ {
+   if (!TARGET_HARD_FLOAT)
+     {
+-      AND_COMPL_HARD_REG_SET (accessible_reg_set,
+-			      reg_class_contents[(int) FP_REGS]);
+-      AND_COMPL_HARD_REG_SET (accessible_reg_set,
+-			      reg_class_contents[(int) ST_REGS]);
++      accessible_reg_set &= ~reg_class_contents[(int) FP_REGS];
++      accessible_reg_set &= ~reg_class_contents[(int) ST_REGS];
+     }
+ }
+ 
+@@ -10693,7 +10237,7 @@ loongarch_hard_regno_caller_save_mode (unsigned int regno,
+   /* For performance, avoid saving/restoring upper parts of a register
+      by returning MODE as save mode when the mode is known.  */
+   if (mode == VOIDmode)
+-    return choose_hard_reg_mode (regno, nregs, false);
++    return choose_hard_reg_mode (regno, nregs, NULL);
+   else
+     return mode;
+ }
+-- 
+2.30.1
+

@@ -1,0 +1,29 @@
+From 0c095d9a5c3f038a3a428b440984a361c17db093 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Mon, 17 May 2021 17:05:14 +0800
+Subject: [PATCH 04/19] abandon liblp64
+
+original patch has no Git info, applied manually.
+---
+ bfd/elfnn-loongarch.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/bfd/elfnn-loongarch.c b/bfd/elfnn-loongarch.c
+index 72cac8fd7b6..535f16dd385 100644
+--- a/bfd/elfnn-loongarch.c
++++ b/bfd/elfnn-loongarch.c
+@@ -1268,9 +1268,9 @@ loongarch_elf_size_dynamic_sections (bfd *output_bfd,
+ 	  s = bfd_get_linker_section (dynobj, ".interp");
+ 	  BFD_ASSERT (s != NULL);
+ 	  if ((flags & EF_LARCH_ABI) == EF_LARCH_ABI_LP32)
+-	    interpreter = "/liblp32/ld.so.1";
++	    interpreter = "/lib32/ld.so.1";
+ 	  else if ((flags & EF_LARCH_ABI) == EF_LARCH_ABI_LP64)
+-	    interpreter = "/liblp64/ld.so.1";
++	    interpreter = "/lib64/ld.so.1";
+ 	  else
+ 	    interpreter = "/lib/ld.so.1";
+ 	  s->contents = (unsigned char *) interpreter;
+-- 
+2.30.1
+

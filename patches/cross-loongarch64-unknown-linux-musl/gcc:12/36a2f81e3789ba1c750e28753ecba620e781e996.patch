@@ -1,0 +1,28 @@
+commit 36a2f81e3789ba1c750e28753ecba620e781e996
+Author: chenglulu <chenglulu@loongson.cn>
+Date:   Fri Aug 6 17:45:28 2021 +0800
+
+    LoongArch: Regenerate gcc/configure.
+
+diff --git a/gcc/configure b/gcc/configure
+index d22ceef4610..9c2298e17e8 100755
+--- a/gcc/configure
++++ b/gcc/configure
+@@ -25400,6 +25400,17 @@ foo:	data8	25
+ 	tls_first_minor=13
+ 	tls_as_opt=--fatal-warnings
+ 	;;
++  loongarch*-*-*)
++    conftest_s='
++	.section .tdata,"awT",@progbits
++x:	.word 2
++	.text
++	la.tls.gd $a0,x
++	bl __tls_get_addr'
++	tls_first_major=0
++	tls_first_minor=0
++	tls_as_opt='--fatal-warnings'
++	;;
+   microblaze*-*-*)
+     conftest_s='
+ 	.section .tdata,"awT",@progbits

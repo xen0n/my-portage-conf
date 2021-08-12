@@ -1,0 +1,47 @@
+From e44d76dad69ddc5e0136a102fe73c3ccab7a8b19 Mon Sep 17 00:00:00 2001
+From: YingkunZhou <zhouyingkun19@163.com>
+Date: Fri, 15 Jan 2021 01:40:57 +0800
+Subject: [PATCH 11/19] add branch pseudo-instruction to cooperate with gcc
+ branch template
+
+Change-Id: I03511a93301eb75caebfafb0e5526d1b6403d8ba
+---
+ opcodes/loongarch-opc.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index cd99833e12f..9b58d52abdd 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -1415,12 +1415,28 @@ static struct loongarch_opcode loongarch_jmp_opcodes[] = {
+ {0x5c000000, 0xfc000000, "bne", "r5:5,r0:5,sb10:16<<2", 0, 0, 0, 0},
+ {0, 0, "blt", "r,r,la", "blt %1,%2,%%pcrel(%3)", 0, 0, 0},
+ {0x60000000, 0xfc000000, "blt", "r5:5,r0:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "bgt", "r,r,la", "bgt %1,%2,%%pcrel(%3)", 0, 0, 0},
++{0x60000000, 0xfc000000, "bgt", "r0:5,r5:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "bltz", "r,la", "bltz %1,%%pcrel(%2)", 0, 0, 0},
++{0x60000000, 0xfc00001f, "bltz", "r5:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "bgtz", "r,la", "bgtz %1,%%pcrel(%2)", 0, 0, 0},
++{0x60000000, 0xfc0003e0, "bgtz", "r0:5,sb10:16<<2", 0, 0, 0, 0},
+ {0, 0, "bge", "r,r,la", "bge %1,%2,%%pcrel(%3)", 0, 0, 0},
+ {0x64000000, 0xfc000000, "bge", "r5:5,r0:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "ble", "r,r,la", "ble %1,%2,%%pcrel(%3)", 0, 0, 0},
++{0x64000000, 0xfc000000, "ble", "r0:5,r5:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "bgez", "r,la", "bgez %1,%%pcrel(%2)", 0, 0, 0},
++{0x64000000, 0xfc00001f, "bgez", "r5:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "blez", "r,la", "blez %1,%%pcrel(%2)", 0, 0, 0},
++{0x64000000, 0xfc0003e0, "blez", "r0:5,sb10:16<<2", 0, 0, 0, 0},
+ {0, 0, "bltu", "r,r,la", "bltu %1,%2,%%pcrel(%3)", 0, 0, 0},
+ {0x68000000, 0xfc000000, "bltu", "r5:5,r0:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "bgtu", "r,r,la", "bgtu %1,%2,%%pcrel(%3)", 0, 0, 0},
++{0x68000000, 0xfc000000, "bgtu", "r0:5,r5:5,sb10:16<<2", 0, 0, 0, 0},
+ {0, 0, "bgeu", "r,r,la", "bgeu %1,%2,%%pcrel(%3)", 0, 0, 0},
+ {0x6c000000, 0xfc000000, "bgeu", "r5:5,r0:5,sb10:16<<2", 0, 0, 0, 0},
++{0, 0, "bleu", "r,r,la", "bleu %1,%2,%%pcrel(%3)", 0, 0, 0},
++{0x6c000000, 0xfc000000, "bleu", "r0:5,r5:5,sb10:16<<2", 0, 0, 0, 0},
+ {0, 0, "fbceqz", "c,s", "bceqz %1,%2", 0, 0, 0},
+ {0, 0, "fbceqz", "c,l", "bceqz %1,%2", 0, 0, 0},
+ {0, 0, "vbceqz", "c,s", "bceqz %1,%2", 0, 0, 0},
+-- 
+2.30.1
+

@@ -1,0 +1,267 @@
+From f3eb6feaf9490a3c1dfee044db95b6538e5f929c Mon Sep 17 00:00:00 2001
+From: chenglulu <chenglulu@loongson.cn>
+Date: Thu, 29 Jul 2021 17:18:29 +0800
+Subject: [PATCH 04/10] LoongArch Port: gcc/testsuite
+
+	* lib/target-supports.exp: Define the LoongArch target.
+	* g++.dg/cpp0x/constexpr-rom.C: Skip on LoongArch.
+	* g++.old-deja/g++.abi/ptrmem.C: Likewise.
+	* gcc.dg/loop-8.c: Likewise.
+	* gcc.dg/torture/stackalign/builtin-apply-2.c: Likewise.
+	* gcc.dg/tree-ssa/ssa-fre-3.c: Likewise.
+	* g++.old-deja/g++.pt/ptrmem6.C: Add support LoongArch.
+	* gcc.dg/20020312-2.c: Likewise.
+	* gcc.target/loongarch/loongarch.exp: New file.
+	* gcc.target/loongarch/tst-asm-const.c: Likewise.
+---
+ gcc/testsuite/g++.dg/cpp0x/constexpr-rom.C    |  2 +-
+ gcc/testsuite/g++.old-deja/g++.abi/ptrmem.C   |  2 +-
+ gcc/testsuite/g++.old-deja/g++.pt/ptrmem6.C   |  2 +-
+ gcc/testsuite/gcc.dg/20020312-2.c             |  2 +
+ gcc/testsuite/gcc.dg/loop-8.c                 |  2 +-
+ .../torture/stackalign/builtin-apply-2.c      |  2 +-
+ gcc/testsuite/gcc.dg/tree-ssa/ssa-fre-3.c     |  2 +-
+ .../gcc.target/loongarch/loongarch.exp        | 40 +++++++++++++++++++
+ .../gcc.target/loongarch/tst-asm-const.c      | 16 ++++++++
+ gcc/testsuite/go.test/go-test.exp             |  3 ++
+ gcc/testsuite/lib/target-supports.exp         | 16 ++++++++
+ 11 files changed, 83 insertions(+), 6 deletions(-)
+ create mode 100644 gcc/testsuite/gcc.target/loongarch/loongarch.exp
+ create mode 100644 gcc/testsuite/gcc.target/loongarch/tst-asm-const.c
+
+diff --git a/gcc/testsuite/g++.dg/cpp0x/constexpr-rom.C b/gcc/testsuite/g++.dg/cpp0x/constexpr-rom.C
+index 2e0ef685f36..424979a604b 100644
+--- a/gcc/testsuite/g++.dg/cpp0x/constexpr-rom.C
++++ b/gcc/testsuite/g++.dg/cpp0x/constexpr-rom.C
+@@ -1,6 +1,6 @@
+ // PR c++/49673: check that test_data goes into .rodata
+ // { dg-do compile { target c++11 } }
+-// { dg-additional-options -G0 { target { { alpha*-*-* frv*-*-* ia64-*-* lm32*-*-* m32r*-*-* microblaze*-*-* mips*-*-* nios2-*-* powerpc*-*-* rs6000*-*-* } && { ! { *-*-darwin* *-*-aix* alpha*-*-*vms* } } } } }
++// { dg-additional-options -G0 { target { { alpha*-*-* frv*-*-* ia64-*-* lm32*-*-* m32r*-*-* microblaze*-*-* mips*-*-* loongarch*-*-* nios2-*-* powerpc*-*-* rs6000*-*-* } && { ! { *-*-darwin* *-*-aix* alpha*-*-*vms* } } } } }
+ // { dg-final { scan-assembler "\\.rdata" { target mips*-*-* } } }
+ // { dg-final { scan-assembler "rodata" { target { { *-*-linux-gnu *-*-gnu* *-*-elf } && { ! { mips*-*-* riscv*-*-* } } } } } }
+ 
+diff --git a/gcc/testsuite/g++.old-deja/g++.abi/ptrmem.C b/gcc/testsuite/g++.old-deja/g++.abi/ptrmem.C
+index bda7960d8a2..f69000e9081 100644
+--- a/gcc/testsuite/g++.old-deja/g++.abi/ptrmem.C
++++ b/gcc/testsuite/g++.old-deja/g++.abi/ptrmem.C
+@@ -7,7 +7,7 @@
+    function.  However, some platforms use all bits to encode a
+    function pointer.  Such platforms use the lowest bit of the delta,
+    that is shifted left by one bit.  */
+-#if defined __MN10300__ || defined __SH5__ || defined __arm__ || defined __thumb__ || defined __mips__ || defined __aarch64__ || defined __PRU__
++#if defined __MN10300__ || defined __SH5__ || defined __arm__ || defined __thumb__ || defined __mips__ || defined __aarch64__ || defined __PRU__ || defined __loongarch__
+ #define ADJUST_PTRFN(func, virt) ((void (*)())(func))
+ #define ADJUST_DELTA(delta, virt) (((delta) << 1) + !!(virt))
+ #else
+diff --git a/gcc/testsuite/g++.old-deja/g++.pt/ptrmem6.C b/gcc/testsuite/g++.old-deja/g++.pt/ptrmem6.C
+index 9f4bbe43f89..8f8f7017ab7 100644
+--- a/gcc/testsuite/g++.old-deja/g++.pt/ptrmem6.C
++++ b/gcc/testsuite/g++.old-deja/g++.pt/ptrmem6.C
+@@ -25,7 +25,7 @@ int main() {
+   h<&B::j>(); // { dg-error "" } 
+   g<(void (A::*)()) &A::f>(); // { dg-error "" "" { xfail c++11 } }
+   h<(int A::*) &A::i>(); // { dg-error "" "" { xfail c++11 } }
+-  g<(void (A::*)()) &B::f>(); // { dg-error "" "" { xfail { c++11 && { aarch64*-*-* arm*-*-* mips*-*-* } } } }
++  g<(void (A::*)()) &B::f>(); // { dg-error "" "" { xfail { c++11 && { aarch64*-*-* arm*-*-* mips*-*-* loongarch*-*-* } } } }
+   h<(int A::*) &B::j>(); // { dg-error "" } 
+   g<(void (A::*)()) 0>(); // { dg-error "" "" { target { ! c++11 } } }
+   h<(int A::*) 0>(); // { dg-error "" "" { target { ! c++11 } } }
+diff --git a/gcc/testsuite/gcc.dg/20020312-2.c b/gcc/testsuite/gcc.dg/20020312-2.c
+index 52c33d09b90..2e35d443a1d 100644
+--- a/gcc/testsuite/gcc.dg/20020312-2.c
++++ b/gcc/testsuite/gcc.dg/20020312-2.c
+@@ -49,6 +49,8 @@ extern void abort (void);
+ # define PIC_REG "r20"
+ #elif defined(__mips__)
+ /* PIC register is $28, but is used even without -fpic.  */
++#elif defined(__loongarch__)
++/* PIC register is $r2, but is used even without -fpic.  */
+ #elif defined(__MMIX__)
+ /* No pic register.  */
+ #elif defined(__mn10300__)
+diff --git a/gcc/testsuite/gcc.dg/loop-8.c b/gcc/testsuite/gcc.dg/loop-8.c
+index 90ea1c45524..b0643d9f5c5 100644
+--- a/gcc/testsuite/gcc.dg/loop-8.c
++++ b/gcc/testsuite/gcc.dg/loop-8.c
+@@ -1,6 +1,6 @@
+ /* { dg-do compile } */
+ /* { dg-options "-O1 -fdump-rtl-loop2_invariant" } */
+-/* { dg-skip-if "unexpected IV" { "hppa*-*-* mips*-*-* visium-*-* powerpc*-*-* riscv*-*-* mmix-*-* vax-*-*" } } */
++/* { dg-skip-if "unexpected IV" { "hppa*-*-* mips*-*-* visium-*-* powerpc*-*-* riscv*-*-* mmix-*-* vax-*-* loongarch*-*-*" } } */
+ /* Load immediate on condition is available from z13 on and prevents moving
+    the load out of the loop, so always run this test with -march=zEC12 that
+    does not have load immediate on condition.  */
+diff --git a/gcc/testsuite/gcc.dg/torture/stackalign/builtin-apply-2.c b/gcc/testsuite/gcc.dg/torture/stackalign/builtin-apply-2.c
+index 5ec05587dba..552ca1433f4 100644
+--- a/gcc/testsuite/gcc.dg/torture/stackalign/builtin-apply-2.c
++++ b/gcc/testsuite/gcc.dg/torture/stackalign/builtin-apply-2.c
+@@ -9,7 +9,7 @@
+ /* arm_hf_eabi: Variadic funcs use Base AAPCS.  Normal funcs use VFP variant.
+    avr: Variadic funcs don't pass arguments in registers, while normal funcs
+         do.  */
+-/* { dg-skip-if "Variadic funcs use different argument passing from normal funcs" { arm_hf_eabi || { csky*-*-* avr-*-* riscv*-*-* or1k*-*-* msp430-*-* amdgcn-*-* pru-*-* } } } */
++/* { dg-skip-if "Variadic funcs use different argument passing from normal funcs" { arm_hf_eabi || { csky*-*-* avr-*-* riscv*-*-* or1k*-*-* msp430-*-* amdgcn-*-* pru-*-* loongarch*-*-* } } } */
+ /* { dg-skip-if "Variadic funcs have all args on stack. Normal funcs have args in registers." { nds32*-*-* } { v850*-*-* } } */
+ /* { dg-require-effective-target untyped_assembly } */
+    
+diff --git a/gcc/testsuite/gcc.dg/tree-ssa/ssa-fre-3.c b/gcc/testsuite/gcc.dg/tree-ssa/ssa-fre-3.c
+index 6b6255b9713..224dd4f72ef 100644
+--- a/gcc/testsuite/gcc.dg/tree-ssa/ssa-fre-3.c
++++ b/gcc/testsuite/gcc.dg/tree-ssa/ssa-fre-3.c
+@@ -5,7 +5,7 @@
+ 
+    When the condition is true, we distribute "(int) (a + b)" as
+    "(int) a + (int) b", otherwise we keep the original.  */
+-/* { dg-do compile { target { ! mips64 } } } */
++/* { dg-do compile { target { ! mips64 } && { ! loongarch64 } } } */
+ /* { dg-options "-O -fno-tree-forwprop -fno-tree-ccp -fwrapv -fdump-tree-fre1-details" } */
+ 
+ /* From PR14844.  */
+diff --git a/gcc/testsuite/gcc.target/loongarch/loongarch.exp b/gcc/testsuite/gcc.target/loongarch/loongarch.exp
+new file mode 100644
+index 00000000000..db1590a7d34
+--- /dev/null
++++ b/gcc/testsuite/gcc.target/loongarch/loongarch.exp
+@@ -0,0 +1,40 @@
++# Copyright (C) 2017-2018 Free Software Foundation, Inc.
++
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 3 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with GCC; see the file COPYING3.  If not see
++# <http://www.gnu.org/licenses/>.
++
++# GCC testsuite that uses the `dg.exp' driver.
++
++# Exit immediately if this isn't a LoongArch target.
++if ![istarget loongarch*-*-*] then {
++  return
++}
++
++# Load support procs.
++load_lib gcc-dg.exp
++
++# If a testcase doesn't have special options, use these.
++global DEFAULT_CFLAGS
++if ![info exists DEFAULT_CFLAGS] then {
++    set DEFAULT_CFLAGS " "
++}
++
++# Initialize `dg'.
++dg-init
++
++# Main loop.
++dg-runtest [lsort [glob -nocomplain $srcdir/$subdir/*.\[cS\]]] \
++	"" $DEFAULT_CFLAGS
++# All done.
++dg-finish
+diff --git a/gcc/testsuite/gcc.target/loongarch/tst-asm-const.c b/gcc/testsuite/gcc.target/loongarch/tst-asm-const.c
+new file mode 100644
+index 00000000000..2e04b99e301
+--- /dev/null
++++ b/gcc/testsuite/gcc.target/loongarch/tst-asm-const.c
+@@ -0,0 +1,16 @@
++/* Test asm const. */
++/* { dg-do compile } */
++/* { dg-final { scan-assembler-times "foo:.*\\.long 1061109567.*\\.long 52" 1 } } */
++int foo ()
++{
++  __asm__ volatile (
++          "foo:"
++          "\n\t"
++	  ".long %a0\n\t"
++	  ".long %a1\n\t"
++	  :
++	  :"i"(0x3f3f3f3f), "i"(52)
++	  :
++	  );
++}
++
+diff --git a/gcc/testsuite/go.test/go-test.exp b/gcc/testsuite/go.test/go-test.exp
+index f16754513e4..63755aed106 100644
+--- a/gcc/testsuite/go.test/go-test.exp
++++ b/gcc/testsuite/go.test/go-test.exp
+@@ -232,6 +232,9 @@ proc go-set-goarch { } {
+ 	"riscv64-*-*" {
+ 	    set goarch "riscv64"
+ 	}
++	"loongarch64-*-*" {
++	    set goarch "loongarch64"
++	}
+ 	"s390*-*-*" {
+ 	    if [check_effective_target_ilp32] {
+ 		set goarch "s390"
+diff --git a/gcc/testsuite/lib/target-supports.exp b/gcc/testsuite/lib/target-supports.exp
+index 7f78c5593ac..de0c264f869 100644
+--- a/gcc/testsuite/lib/target-supports.exp
++++ b/gcc/testsuite/lib/target-supports.exp
+@@ -290,6 +290,10 @@ proc check_weak_available { } {
+         return 1
+     }
+ 
++    if { [ string first "loongarch" $target_cpu ] >= 0 } {
++        return 1
++    }
++
+     # All AIX targets should support it
+ 
+     if { [istarget *-*-aix*] } {
+@@ -727,6 +731,7 @@ proc check_profiling_available { test_what } {
+ 	     || [istarget m68k-*-elf]
+ 	     || [istarget m68k-*-uclinux*]
+ 	     || [istarget mips*-*-elf*]
++	     || [istarget loongarch*-*-elf*]
+ 	     || [istarget mmix-*-*]
+ 	     || [istarget mn10300-*-elf*]
+ 	     || [istarget moxie-*-elf*]
+@@ -1303,6 +1308,14 @@ proc check_effective_target_hard_float { } {
+ 	}]
+     }
+ 
++    if { [istarget loongarch*-*-*] } {
++	return [check_no_compiler_messages hard_float assembly {
++		#if (defined __loongarch_soft_float)
++		#error __loongarch_soft_float
++		#endif
++	}]
++    }
++
+     # This proc is actually checking the availabilty of FPU
+     # support for doubles, so on the RX we must fail if the
+     # 64-bit double multilib has been selected.
+@@ -6612,6 +6625,7 @@ proc check_effective_target_vect_float { } {
+       expr { [istarget i?86-*-*] || [istarget x86_64-*-*]
+ 	     || [istarget powerpc*-*-*]
+ 	     || [istarget mips-sde-elf]
++	     || [istarget loongarch-sde-elf]
+ 	     || [istarget mipsisa64*-*-*]
+ 	     || [istarget ia64-*-*]
+ 	     || [istarget aarch64*-*-*]
+@@ -8022,6 +8036,7 @@ proc check_effective_target_sync_char_short { } {
+ 	     || [istarget cris-*-*]
+ 	     || ([istarget sparc*-*-*] && [check_effective_target_sparc_v9])
+ 	     || ([istarget arc*-*-*] && [check_effective_target_arc_atomic])
++       || [istarget loongarch*-*-*]
+ 	     || [check_effective_target_mips_llsc] }}]
+ }
+ 
+@@ -10093,6 +10108,7 @@ proc check_effective_target_branch_cost {} {
+ 	 || [istarget frv*-*-*]
+ 	 || [istarget i?86-*-*] || [istarget x86_64-*-*]
+ 	 || [istarget mips*-*-*]
++	 || [istarget loongarch*-*-*]
+ 	 || [istarget s390*-*-*]
+ 	 || [istarget riscv*-*-*]
+ 	 || [istarget sh*-*-*] } {
+-- 
+2.30.1
+

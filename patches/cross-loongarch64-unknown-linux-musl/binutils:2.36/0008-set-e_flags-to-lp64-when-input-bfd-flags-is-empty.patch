@@ -1,0 +1,63 @@
+From e893359665f1bee88f7721550bd5f0001989c684 Mon Sep 17 00:00:00 2001
+From: Chenghua Xu <xuchenghua@loongson.cn>
+Date: Sat, 9 Jan 2021 14:36:24 +0800
+Subject: [PATCH 08/19] set e_flags to lp64 when input bfd flags is empty.
+
+Change-Id: Iafe2615601a18366c0d1c0d8b128804ddd2740e0
+---
+ bfd/elfnn-loongarch.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/bfd/elfnn-loongarch.c b/bfd/elfnn-loongarch.c
+index 535f16dd385..52eb3c42966 100644
+--- a/bfd/elfnn-loongarch.c
++++ b/bfd/elfnn-loongarch.c
+@@ -390,11 +390,27 @@ _bfd_loongarch_elf_merge_private_bfd_data (bfd *ibfd,
+ 					   struct bfd_link_info *info)
+ {
+   bfd *obfd = info->output_bfd;
+-  flagword new_flags = elf_elfheader (ibfd)->e_flags;
+-  flagword old_flags = elf_elfheader (obfd)->e_flags;
++  flagword in_flags = elf_elfheader (ibfd)->e_flags;
++  flagword out_flags = elf_elfheader (obfd)->e_flags;
+ 
+   if (!is_loongarch_elf (ibfd) || !is_loongarch_elf (obfd))
+-    return TRUE;
++    {
++      /* Make sure one of ibfd or obfd e_flags must be set.  */
++      /* FIXME: EF_LARCH_ABI_LP64 ? .  */
++      if (!is_loongarch_elf (ibfd) && !elf_flags_init (obfd))
++	{
++	  elf_flags_init (obfd) = TRUE;
++	  elf_elfheader (obfd)->e_flags = EF_LARCH_ABI_LP64;
++	}
++
++      if (!is_loongarch_elf (obfd) && !elf_flags_init (ibfd))
++	{
++	  elf_flags_init (ibfd) = TRUE;
++	  elf_elfheader (ibfd)->e_flags = EF_LARCH_ABI_LP64;
++	}
++
++      return TRUE;
++    }
+ 
+   if (strcmp (bfd_get_target (ibfd), bfd_get_target (obfd)) != 0)
+     {
+@@ -411,12 +427,12 @@ _bfd_loongarch_elf_merge_private_bfd_data (bfd *ibfd,
+   if (!elf_flags_init (obfd))
+     {
+       elf_flags_init (obfd) = TRUE;
+-      elf_elfheader (obfd)->e_flags = new_flags;
++      elf_elfheader (obfd)->e_flags = in_flags;
+       return TRUE;
+     }
+ 
+   /* Disallow linking different float ABIs.  */
+-  if ((old_flags ^ new_flags) & EF_LARCH_ABI)
++  if ((out_flags ^ in_flags) & EF_LARCH_ABI)
+     {
+       _bfd_error_handler
+ 	(_("%pB: can't link different ABI object."), ibfd);
+-- 
+2.30.1
+

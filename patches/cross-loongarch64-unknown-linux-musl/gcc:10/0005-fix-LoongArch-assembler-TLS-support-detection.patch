@@ -1,0 +1,42 @@
+From 84aed0b6faf6e521e93e479825a3583d32bf5e19 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Fri, 18 Jun 2021 17:26:56 +0800
+Subject: [PATCH 5/6] fix LoongArch assembler TLS support detection
+
+---
+ gcc/configure.ac | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
+
+diff --git a/gcc/configure.ac b/gcc/configure.ac
+index f7d5cf022c4..f2d8b2f8db7 100644
+--- a/gcc/configure.ac
++++ b/gcc/configure.ac
+@@ -3641,19 +3641,13 @@ x:
+   loongarch*-*-*)
+     conftest_s='
+ 	.section .tdata,"awT",@progbits
+-x:
+-	.word 2
++x:	.word 2
+ 	.text
+-	addiu $4, $28, %tlsgd(x)
+-	addiu $4, $28, %tlsldm(x)
+-	lui $4, %dtprel_hi(x)
+-	addiu $4, $4, %dtprel_lo(x)
+-	lw $4, %gottprel(x)($28)
+-	lui $4, %tprel_hi(x)
+-	addiu $4, $4, %tprel_lo(x)'
+-	tls_first_major=2
+-	tls_first_minor=16
+-	tls_as_opt='-32 --fatal-warnings'
++	la.tls.gd $a0,x
++	bl __tls_get_addr'
++	tls_first_major=0
++	tls_first_minor=0
++	tls_as_opt='--fatal-warnings'
+ 	;;
+   m68k-*-*)
+     conftest_s='
+-- 
+2.30.1
+

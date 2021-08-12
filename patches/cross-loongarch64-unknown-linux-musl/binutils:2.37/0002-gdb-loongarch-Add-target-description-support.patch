@@ -1,0 +1,216 @@
+From 0b0d760e07216910b7090529913fa6dade570534 Mon Sep 17 00:00:00 2001
+From: liuzhensong <liuzhensong@loongson.cn>
+Date: Fri, 30 Jul 2021 10:03:47 +0800
+Subject: [PATCH 02/11] gdb/loongarch: Add target description support.
+
+  bfd/elf.c
+  gdb/Makefile.in
+  gdb/arch/loongarch-linux-nat.c
+  gdb/arch/loongarch-linux-nat.h
+  gdb/arch/loongarch.c
+  gdb/arch/loongarch.h
+  gdb/configure.host
+  gdb/configure.nat
+  gdb/configure.tgt
+  gdb/corelow.c
+  gdb/features/Makefile
+  gdb/features/loongarch/base32.c
+  gdb/features/loongarch/base32.xml
+  gdb/features/loongarch/base64.c
+  gdb/features/loongarch/base64.xml
+  gdb/features/loongarch/fpu32.c
+  gdb/features/loongarch/fpu32.xml
+  gdb/features/loongarch/fpu64.c
+  gdb/features/loongarch/fpu64.xml
+  gdb/features/loongarch/lasx.c
+  gdb/features/loongarch/lasx.xml
+  gdb/features/loongarch/lbt32.c
+  gdb/features/loongarch/lbt32.xml
+  gdb/features/loongarch/lbt64.c
+  gdb/features/loongarch/lbt64.xml
+  gdb/features/loongarch/lsx.c
+  gdb/features/loongarch/lsx.xml
+  gdb/loongarch-linux-nat.c
+  gdb/loongarch-linux-tdep.c
+  gdb/loongarch-linux-tdep.h
+  gdb/loongarch-tdep.c
+  gdb/loongarch-tdep.h
+  gdb/nat/loongarch-linux-watch.c
+  gdb/nat/loongarch-linux-watch.h
+  gdb/remote.c
+  gdb/target.h
+  gdb/testsuite/gdb.base/dump.exp
+  gdb/testsuite/gdb.base/float.exp
+  gdb/testsuite/gdb.trace/entry-values.exp
+  gdb/testsuite/gdb.xml/tdesc-regs.exp
+  include/elf/common.h
+---
+ bfd/elf.c            | 109 +++++++++++++++++++++++++++++++++++++++++++
+ include/elf/common.h |  10 ++++
+ 2 files changed, 119 insertions(+)
+
+diff --git a/bfd/elf.c b/bfd/elf.c
+index de5abafabf0..8811cfc4671 100644
+--- a/bfd/elf.c
++++ b/bfd/elf.c
+@@ -9975,6 +9975,30 @@ elfcore_grok_gdb_tdesc (bfd *abfd, Elf_Internal_Note *note)
+   return elfcore_make_note_pseudosection (abfd, ".gdb-tdesc", note);
+ }
+ 
++static bool
++elfcore_grok_loongarch_cpucfg (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-loongarch-cpucfg", note);
++}
++
++static bool
++elfcore_grok_loongarch_lbt (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-loongarch-lbt", note);
++}
++
++static bool
++elfcore_grok_loongarch_lsx (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-loongarch-lsx", note);
++}
++
++static bool
++elfcore_grok_loongarch_lasx (bfd *abfd, Elf_Internal_Note *note)
++{
++  return elfcore_make_note_pseudosection (abfd, ".reg-loongarch-lasx", note);
++}
++
+ #if defined (HAVE_PRPSINFO_T)
+ typedef prpsinfo_t   elfcore_psinfo_t;
+ #if defined (HAVE_PRPSINFO32_T)		/* Sparc64 cross Sparc32 */
+@@ -10654,6 +10678,34 @@ elfcore_grok_note (bfd *abfd, Elf_Internal_Note *note)
+       else
+ 	return true;
+ 
++    case NT_LARCH_CPUCFG:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_loongarch_cpucfg (abfd, note);
++      else
++	return true;
++
++    case NT_LARCH_LBT:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_loongarch_lbt (abfd, note);
++      else
++	return true;
++
++    case NT_LARCH_LSX:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_loongarch_lsx (abfd, note);
++      else
++	return true;
++
++    case NT_LARCH_LASX:
++      if (note->namesz == 6
++	  && strcmp (note->namedata, "LINUX") == 0)
++	return elfcore_grok_loongarch_lasx (abfd, note);
++      else
++	return true;
++
+     case NT_PRPSINFO:
+     case NT_PSINFO:
+       if (bed->elf_backend_grok_psinfo)
+@@ -12047,6 +12099,55 @@ elfcore_write_arc_v2 (bfd *abfd,
+ 			     note_name, NT_ARC_V2, arc_v2, size);
+ }
+ 
++char *
++elfcore_write_loongarch_cpucfg (bfd *abfd,
++				char *buf,
++				int *bufsiz,
++				const void *loongarch_cpucfg,
++				int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_LARCH_CPUCFG,
++			     loongarch_cpucfg, size);
++}
++
++char *
++elfcore_write_loongarch_lbt (bfd *abfd,
++			     char *buf,
++			     int *bufsiz,
++			     const void *loongarch_lbt,
++			     int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_LARCH_LBT, loongarch_lbt, size);
++}
++
++char *
++elfcore_write_loongarch_lsx (bfd *abfd,
++			     char *buf,
++			     int *bufsiz,
++			     const void *loongarch_lsx,
++			     int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_LARCH_LSX, loongarch_lsx, size);
++}
++
++char *
++elfcore_write_loongarch_lasx (bfd *abfd,
++			      char *buf,
++			      int *bufsiz,
++			      const void *loongarch_lasx,
++			      int size)
++{
++  char *note_name = "LINUX";
++  return elfcore_write_note (abfd, buf, bufsiz,
++			     note_name, NT_LARCH_LASX, loongarch_lasx, size);
++}
++
+ /* Write the buffer of csr values in CSRS (length SIZE) into the note
+    buffer BUF and update *BUFSIZ.  ABFD is the bfd the note is being
+    written into.  Return a pointer to the new start of the note buffer, to
+@@ -12171,6 +12272,14 @@ elfcore_write_register_note (bfd *abfd,
+     return elfcore_write_gdb_tdesc (abfd, buf, bufsiz, data, size);
+   if (strcmp (section, ".reg-riscv-csr") == 0)
+     return elfcore_write_riscv_csr (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-loongarch-cpucfg") == 0)
++    return elfcore_write_loongarch_cpucfg (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-loongarch-lbt") == 0)
++    return elfcore_write_loongarch_lbt (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-loongarch-lsx") == 0)
++    return elfcore_write_loongarch_lsx (abfd, buf, bufsiz, data, size);
++  if (strcmp (section, ".reg-loongarch-lasx") == 0)
++    return elfcore_write_loongarch_lasx (abfd, buf, bufsiz, data, size);
+   return NULL;
+ }
+ 
+diff --git a/include/elf/common.h b/include/elf/common.h
+index 0d381f0d27b..4fa5aa9f314 100644
+--- a/include/elf/common.h
++++ b/include/elf/common.h
+@@ -679,6 +679,16 @@
+ 					/*   note name must be "LINUX".  */
+ #define NT_RISCV_CSR    0x900		/* RISC-V Control and Status Registers */
+ 					/*   note name must be "CORE".  */
++#define NT_LARCH_CPUCFG 0xa00		/* Loongarch CPU config registers */
++                    /*   note name must be "LINUX".  */
++#define NT_LARCH_CSR    0xa01		/* Loongarch control state registers */
++                    /*   note name must be "LINUX".  */
++#define NT_LARCH_LSX    0xa02       /* Loongarch Loongson SIMD Extension registers */
++                    /*   note name must be "LINUX".  */
++#define NT_LARCH_LASX   0xa03       /* Loongarch Loongson Advanced SIMD Extension registers */
++                    /*   note name must be "LINUX".  */
++#define NT_LARCH_LBT    0xa04       /* Loongarch Loongson Binary Translation registers */
++                    /*   note name must be "LINUX".  */
+ #define NT_SIGINFO	0x53494749	/* Fields of siginfo_t.  */
+ #define NT_FILE		0x46494c45	/* Description of mapped files.  */
+ 
+-- 
+2.30.1
+

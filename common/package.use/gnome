@@ -1,3 +1,12 @@
 app-misc/tracker -gstreamer ffmpeg
 
 media-libs/libmediaart gtk -qt5
+
+# required by gnome-extra/evolution-data-server-3.40.2::gentoo[-oauth,gnome-online-accounts]
+# required by dev-libs/folks-0.15.2::gentoo[eds]
+# required by gnome-extra/gnome-contacts-40.0::gentoo
+# required by gnome-base/gnome-core-apps-40.0::gentoo
+# required by gnome-base/gnome-40.0::gentoo
+# required by @selected
+# required by @world (argument)
+dev-libs/libgdata vala

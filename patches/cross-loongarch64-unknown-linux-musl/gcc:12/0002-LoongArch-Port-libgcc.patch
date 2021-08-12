@@ -1,0 +1,558 @@
+From 5ab235e6921748e3469faa2baff0cb298af3adc4 Mon Sep 17 00:00:00 2001
+From: chenglulu <chenglulu@loongson.cn>
+Date: Thu, 29 Jul 2021 17:12:35 +0800
+Subject: [PATCH 02/10] LoongArch Port: libgcc
+
+	* config.host: Add LoongArch tuples.
+	* configure: Likewise.
+	* configure.ac: Likewise.
+	* config/loongarch/crtfastmath.c: New file.
+	* config/loongarch/crti.S: Likewise.
+	* config/loongarch/crtn.S: Likewise.
+	* config/loongarch/lib2funcs.c: Likewise.
+	* config/loongarch/linux-unwind.h: Likewise.
+	* config/loongarch/sfp-machine.h: Likewise.
+	* config/loongarch/t-crtstuff: Likewise.
+	* config/loongarch/t-elf: Likewise.
+	* config/loongarch/t-loongarch: Likewise.
+	* config/loongarch/t-loongarch64: Likewise.
+	* config/loongarch/t-softfp-tf: Likewise.
+---
+ libgcc/config.host                     |  26 +++++
+ libgcc/config/loongarch/crtfastmath.c  |  50 +++++++++
+ libgcc/config/loongarch/crti.S         |  43 +++++++
+ libgcc/config/loongarch/crtn.S         |  39 +++++++
+ libgcc/config/loongarch/lib2funcs.c    |   0
+ libgcc/config/loongarch/linux-unwind.h |  91 +++++++++++++++
+ libgcc/config/loongarch/sfp-machine.h  | 148 +++++++++++++++++++++++++
+ libgcc/config/loongarch/t-crtstuff     |   2 +
+ libgcc/config/loongarch/t-elf          |   3 +
+ libgcc/config/loongarch/t-loongarch    |   9 ++
+ libgcc/config/loongarch/t-loongarch64  |   1 +
+ libgcc/config/loongarch/t-softfp-tf    |   3 +
+ libgcc/configure.ac                    |   2 +-
+ 13 files changed, 416 insertions(+), 1 deletion(-)
+ create mode 100644 libgcc/config/loongarch/crtfastmath.c
+ create mode 100644 libgcc/config/loongarch/crti.S
+ create mode 100644 libgcc/config/loongarch/crtn.S
+ create mode 100644 libgcc/config/loongarch/lib2funcs.c
+ create mode 100644 libgcc/config/loongarch/linux-unwind.h
+ create mode 100644 libgcc/config/loongarch/sfp-machine.h
+ create mode 100644 libgcc/config/loongarch/t-crtstuff
+ create mode 100644 libgcc/config/loongarch/t-elf
+ create mode 100644 libgcc/config/loongarch/t-loongarch
+ create mode 100644 libgcc/config/loongarch/t-loongarch64
+ create mode 100644 libgcc/config/loongarch/t-softfp-tf
+
+diff --git a/libgcc/config.host b/libgcc/config.host
+index f808b61be70..e31e5959d71 100644
+--- a/libgcc/config.host
++++ b/libgcc/config.host
+@@ -138,6 +138,22 @@ hppa*-*-*)
+ lm32*-*-*)
+ 	cpu_type=lm32
+ 	;;
++loongarch*-*-*)
++	cpu_type=loongarch
++	tmake_file="loongarch/t-loongarch"
++	if test "${libgcc_cv_loongarch_hard_float}" = yes; then
++		tmake_file="${tmake_file} t-hardfp-sfdf t-hardfp"
++	else
++		tmake_file="${tmake_file} t-softfp-sfdf"
++	fi
++	if test "${ac_cv_sizeof_long_double}" = 16; then
++		tmake_file="${tmake_file} loongarch/t-softfp-tf"
++	fi
++	if test "${host_address}" = 64; then
++		tmake_file="${tmake_file} loongarch/t-loongarch64"
++	fi
++	tmake_file="${tmake_file} t-softfp"
++	;;
+ m32r*-*-*)
+         cpu_type=m32r
+         ;;
+@@ -920,6 +936,16 @@ lm32-*-uclinux*)
+         extra_parts="$extra_parts crtbegin.o crtendS.o crtbeginT.o"
+         tmake_file="lm32/t-lm32 lm32/t-uclinux t-libgcc-pic t-softfp-sfdf t-softfp"
+ 	;;	
++loongarch*-*-linux*)
++	extra_parts="$extra_parts crtfastmath.o"
++	tmake_file="${tmake_file} t-crtfm"
++	case ${host} in
++	  *)
++	    tmake_file="${tmake_file} t-slibgcc-libgcc"
++	    ;;
++	esac
++	md_unwind_header=loongarch/linux-unwind.h
++	;;
+ m32r-*-elf*)
+ 	tmake_file="$tmake_file m32r/t-m32r t-fdpbit"
+ 	extra_parts="$extra_parts crtinit.o crtfini.o"
+diff --git a/libgcc/config/loongarch/crtfastmath.c b/libgcc/config/loongarch/crtfastmath.c
+new file mode 100644
+index 00000000000..2dd93e35dfb
+--- /dev/null
++++ b/libgcc/config/loongarch/crtfastmath.c
+@@ -0,0 +1,50 @@
++/* Copyright (C) 2020-2021 Free Software Foundation, Inc.
++
++   This file is part of GCC.
++
++   GCC is free software; you can redistribute it and/or modify it
++   under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 3, or (at your option)
++   any later version.
++
++   GCC is distributed in the hope that it will be useful, but WITHOUT
++   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
++   License for more details.
++
++   Under Section 7 of GPL version 3, you are granted additional
++   permissions described in the GCC Runtime Library Exception, version
++   3.1, as published by the Free Software Foundation.
++
++   You should have received a copy of the GNU General Public License
++   and a copy of the GCC Runtime Library Exception along with this
++   program; see the files COPYING3 and COPYING.RUNTIME respectively.
++   If not, see <http://www.gnu.org/licenses/>.  */
++
++#ifdef __loongarch_hard_float
++
++/* Rounding control.  */
++#define _FPU_RC_NEAREST 0x000     /* RECOMMENDED */
++#define _FPU_RC_ZERO    0x100
++#define _FPU_RC_UP      0x200
++#define _FPU_RC_DOWN    0x300
++
++/* Enable interrupts for IEEE exceptions.  */
++#define _FPU_IEEE     0x0000001F
++
++/* Macros for accessing the hardware control word.  */
++#define _FPU_GETCW(cw) __asm__ ("movgr2fcsr %0,$r1" : "=r" (cw))
++#define _FPU_SETCW(cw) __asm__ ("movfcsr2gr %0,$r1" : : "r" (cw))
++
++static void __attribute__((constructor))
++set_fast_math (void)
++{
++  unsigned int fcr;
++
++  /* Flush to zero, round to nearest, IEEE exceptions disabled.  */
++  fcr = _FPU_RC_NEAREST;
++
++  _FPU_SETCW(fcr);
++}
++
++#endif /* __loongarch_hard_float */
+diff --git a/libgcc/config/loongarch/crti.S b/libgcc/config/loongarch/crti.S
+new file mode 100644
+index 00000000000..2cd7f00bb94
+--- /dev/null
++++ b/libgcc/config/loongarch/crti.S
+@@ -0,0 +1,43 @@
++/* Copyright (C) 2001-2018 Free Software Foundation, Inc.
++
++This file is part of GCC.
++
++GCC is free software; you can redistribute it and/or modify it under
++the terms of the GNU General Public License as published by the Free
++Software Foundation; either version 3, or (at your option) any later
++version.
++
++GCC is distributed in the hope that it will be useful, but WITHOUT ANY
++WARRANTY; without even the implied warranty of MERCHANTABILITY or
++FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++for more details.
++
++Under Section 7 of GPL version 3, you are granted additional
++permissions described in the GCC Runtime Library Exception, version
++3.1, as published by the Free Software Foundation.
++
++You should have received a copy of the GNU General Public License and
++a copy of the GCC Runtime Library Exception along with this program;
++see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++<http://www.gnu.org/licenses/>.  */
++
++/* 4 slots for argument spill area.  1 for cpreturn, 1 for stack.
++   Return spill offset of 40 and 20.  Aligned to 16 bytes for n32.  */
++
++	.section .init,"ax",@progbits
++	.globl	_init
++	.type	_init,@function
++_init:
++	addi.d   $r3,$r3,-16
++	st.d      $r1,$r3,8
++	addi.d   $r3,$r3,16
++	jirl	$r0,$r1,0
++
++	.section .fini,"ax",@progbits
++	.globl	_fini
++	.type	_fini,@function
++_fini:
++	addi.d   $r3,$r3,-16
++	st.d      $r1,$r3,8
++	addi.d   $r3,$r3,16
++	jirl	$r0,$r1,0
+diff --git a/libgcc/config/loongarch/crtn.S b/libgcc/config/loongarch/crtn.S
+new file mode 100644
+index 00000000000..cf6f0f4d863
+--- /dev/null
++++ b/libgcc/config/loongarch/crtn.S
+@@ -0,0 +1,39 @@
++/* Copyright (C) 2001-2018 Free Software Foundation, Inc.
++
++This file is part of GCC.
++
++GCC is free software; you can redistribute it and/or modify it under
++the terms of the GNU General Public License as published by the Free
++Software Foundation; either version 3, or (at your option) any later
++version.
++
++GCC is distributed in the hope that it will be useful, but WITHOUT ANY
++WARRANTY; without even the implied warranty of MERCHANTABILITY or
++FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++for more details.
++
++Under Section 7 of GPL version 3, you are granted additional
++permissions described in the GCC Runtime Library Exception, version
++3.1, as published by the Free Software Foundation.
++
++You should have received a copy of the GNU General Public License and
++a copy of the GCC Runtime Library Exception along with this program;
++see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++<http://www.gnu.org/licenses/>.  */
++
++/* 4 slots for argument spill area.  1 for cpreturn, 1 for stack.
++   Return spill offset of 40 and 20.  Aligned to 16 bytes for n32.  */
++
++
++	.section .init,"ax",@progbits
++init:
++	ld.d      $r1,$r3,8
++	addi.d	$r3,$r3,16
++	jirl	$r0,$r1,0
++
++	.section .fini,"ax",@progbits
++fini:
++	ld.d	$r1,$r3,8
++	addi.d	$r3,$r3,16
++	jirl	$r0,$r1,0
++
+diff --git a/libgcc/config/loongarch/lib2funcs.c b/libgcc/config/loongarch/lib2funcs.c
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/libgcc/config/loongarch/linux-unwind.h b/libgcc/config/loongarch/linux-unwind.h
+new file mode 100644
+index 00000000000..a0a56f8199a
+--- /dev/null
++++ b/libgcc/config/loongarch/linux-unwind.h
+@@ -0,0 +1,91 @@
++/* DWARF2 EH unwinding support for LoongArch Linux.
++   Copyright (C) 2020-2021 Free Software Foundation, Inc.
++
++This file is part of GCC.
++
++GCC is free software; you can redistribute it and/or modify
++it under the terms of the GNU General Public License as published by
++the Free Software Foundation; either version 3, or (at your option)
++any later version.
++
++GCC is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++GNU General Public License for more details.
++
++Under Section 7 of GPL version 3, you are granted additional
++permissions described in the GCC Runtime Library Exception, version
++3.1, as published by the Free Software Foundation.
++
++You should have received a copy of the GNU General Public License and
++a copy of the GCC Runtime Library Exception along with this program;
++see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++<http://www.gnu.org/licenses/>.  */
++
++#ifndef inhibit_libc
++/* Do code reading to identify a signal frame, and set the frame
++   state data appropriately.  See unwind-dw2.c for the structs.  */
++
++#include <signal.h>
++#include <sys/syscall.h>
++
++/* The third parameter to the signal handler points to something with
++ * this structure defined in asm/ucontext.h, but the name clashes with
++ * struct ucontext from sys/ucontext.h so this private copy is used.  */
++typedef struct _sig_ucontext {
++    unsigned long         uc_flags;
++    struct _sig_ucontext  *uc_link;
++    stack_t               uc_stack;
++    struct sigcontext uc_mcontext;
++    sigset_t      uc_sigmask;
++} _sig_ucontext_t;
++
++#define MD_FALLBACK_FRAME_STATE_FOR loongarch_fallback_frame_state
++
++static _Unwind_Reason_Code
++loongarch_fallback_frame_state (struct _Unwind_Context *context,
++			   _Unwind_FrameState *fs)
++{
++  u_int32_t *pc = (u_int32_t *) context->ra;
++  struct sigcontext *sc;
++  _Unwind_Ptr new_cfa;
++  int i;
++
++  /* 03822c0b dli a7, 0x8b (sigreturn) */
++  /* 002b0000 syscall 0 */
++  if (pc[1] != 0x002b0000)
++    return _URC_END_OF_STACK;
++  if (pc[0] == 0x03822c0b)
++    {
++      struct rt_sigframe {
++	u_int32_t ass[4];  /* Argument save space for o32.  */
++	u_int32_t trampoline[2];
++	siginfo_t info;
++	_sig_ucontext_t uc;
++      } *rt_ = context->cfa;
++      sc = &rt_->uc.uc_mcontext;
++    }
++  else
++    return _URC_END_OF_STACK;
++
++  new_cfa = (_Unwind_Ptr) sc;
++  fs->regs.cfa_how = CFA_REG_OFFSET;
++  fs->regs.cfa_reg = __LIBGCC_STACK_POINTER_REGNUM__;
++  fs->regs.cfa_offset = new_cfa - (_Unwind_Ptr) context->cfa;
++
++  for (i = 0; i < 32; i++) {
++    fs->regs.reg[i].how = REG_SAVED_OFFSET;
++    fs->regs.reg[i].loc.offset
++      = (_Unwind_Ptr)&(sc->sc_regs[i]) - new_cfa;
++  }
++
++  fs->signal_frame = 1;
++  fs->regs.reg[__LIBGCC_DWARF_ALT_FRAME_RETURN_COLUMN__].how
++    = REG_SAVED_VAL_OFFSET;
++  fs->regs.reg[__LIBGCC_DWARF_ALT_FRAME_RETURN_COLUMN__].loc.offset
++    = (_Unwind_Ptr)(sc->sc_pc) - new_cfa;
++  fs->retaddr_column = __LIBGCC_DWARF_ALT_FRAME_RETURN_COLUMN__;
++
++  return _URC_NO_REASON;
++}
++#endif
+diff --git a/libgcc/config/loongarch/sfp-machine.h b/libgcc/config/loongarch/sfp-machine.h
+new file mode 100644
+index 00000000000..3986d645aea
+--- /dev/null
++++ b/libgcc/config/loongarch/sfp-machine.h
+@@ -0,0 +1,148 @@
++/* softfp machine description for LoongArch.
++   Copyright (C) 2020-2021 Free Software Foundation, Inc.
++
++This file is part of GCC.
++
++GCC is free software; you can redistribute it and/or modify it under
++the terms of the GNU General Public License as published by the Free
++Software Foundation; either version 3, or (at your option) any later
++version.
++
++GCC is distributed in the hope that it will be useful, but WITHOUT ANY
++WARRANTY; without even the implied warranty of MERCHANTABILITY or
++FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++for more details.
++
++Under Section 7 of GPL version 3, you are granted additional
++permissions described in the GCC Runtime Library Exception, version
++3.1, as published by the Free Software Foundation.
++
++You should have received a copy of the GNU General Public License and
++a copy of the GCC Runtime Library Exception along with this program;
++see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++<http://www.gnu.org/licenses/>.  */
++
++#ifdef __loongarch64
++#define _FP_W_TYPE_SIZE		64
++#define _FP_W_TYPE		unsigned long long
++#define _FP_WS_TYPE		signed long long
++#define _FP_I_TYPE		long long
++
++typedef int TItype __attribute__ ((mode (TI)));
++typedef unsigned int UTItype __attribute__ ((mode (TI)));
++#define TI_BITS (__CHAR_BIT__ * (int) sizeof (TItype))
++
++#define _FP_MUL_MEAT_S(R,X,Y)				\
++  _FP_MUL_MEAT_1_wide(_FP_WFRACBITS_S,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_D(R,X,Y)				\
++  _FP_MUL_MEAT_1_wide(_FP_WFRACBITS_D,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_Q(R,X,Y)				\
++  _FP_MUL_MEAT_2_wide(_FP_WFRACBITS_Q,R,X,Y,umul_ppmm)
++
++#define _FP_DIV_MEAT_S(R,X,Y)	_FP_DIV_MEAT_1_udiv_norm(S,R,X,Y)
++#define _FP_DIV_MEAT_D(R,X,Y)	_FP_DIV_MEAT_1_udiv_norm(D,R,X,Y)
++#define _FP_DIV_MEAT_Q(R,X,Y)	_FP_DIV_MEAT_2_udiv(Q,R,X,Y)
++
++# define _FP_NANFRAC_S		((_FP_QNANBIT_S << 1) - 1)
++# define _FP_NANFRAC_D		((_FP_QNANBIT_D << 1) - 1)
++# define _FP_NANFRAC_Q		((_FP_QNANBIT_Q << 1) - 1), -1
++#else
++#define _FP_W_TYPE_SIZE		32
++#define _FP_W_TYPE		unsigned int
++#define _FP_WS_TYPE		signed int
++#define _FP_I_TYPE		int
++
++#define _FP_MUL_MEAT_S(R,X,Y)				\
++  _FP_MUL_MEAT_1_wide(_FP_WFRACBITS_S,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_D(R,X,Y)				\
++  _FP_MUL_MEAT_2_wide(_FP_WFRACBITS_D,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_Q(R,X,Y)				\
++  _FP_MUL_MEAT_4_wide(_FP_WFRACBITS_Q,R,X,Y,umul_ppmm)
++
++#define _FP_DIV_MEAT_S(R,X,Y)	_FP_DIV_MEAT_1_udiv_norm(S,R,X,Y)
++#define _FP_DIV_MEAT_D(R,X,Y)	_FP_DIV_MEAT_2_udiv(D,R,X,Y)
++#define _FP_DIV_MEAT_Q(R,X,Y)	_FP_DIV_MEAT_4_udiv(Q,R,X,Y)
++
++# define _FP_NANFRAC_S		((_FP_QNANBIT_S << 1) - 1)
++# define _FP_NANFRAC_D		((_FP_QNANBIT_D << 1) - 1), -1
++# define _FP_NANFRAC_Q		((_FP_QNANBIT_Q << 1) - 1), -1, -1, -1
++#endif
++
++/* The type of the result of a floating point comparison.  This must
++   match __libgcc_cmp_return__ in GCC for the target.  */
++typedef int __gcc_CMPtype __attribute__ ((mode (__libgcc_cmp_return__)));
++#define CMPtype __gcc_CMPtype
++
++#define _FP_NANSIGN_S		0
++#define _FP_NANSIGN_D		0
++#define _FP_NANSIGN_Q		0
++
++#define _FP_KEEPNANFRACP 1
++# define _FP_QNANNEGATEDP 0
++
++/* NaN payloads should be preserved for NAN2008.  */
++# define _FP_CHOOSENAN(fs, wc, R, X, Y, OP)	\
++  do						\
++    {						\
++      R##_s = X##_s;				\
++      _FP_FRAC_COPY_##wc (R, X);		\
++      R##_c = FP_CLS_NAN;			\
++    }						\
++  while (0)
++
++#ifdef __loongarch_hard_float
++#define FP_EX_INVALID           0x100000
++#define FP_EX_DIVZERO           0x080000
++#define FP_EX_OVERFLOW          0x040000
++#define FP_EX_UNDERFLOW         0x020000
++#define FP_EX_INEXACT           0x010000
++#define FP_EX_ALL \
++	(FP_EX_INVALID | FP_EX_DIVZERO | FP_EX_OVERFLOW | FP_EX_UNDERFLOW \
++	 | FP_EX_INEXACT)
++
++#define FP_EX_ENABLE_SHIFT	16
++#define FP_EX_CAUSE_SHIFT	8
++
++#define FP_RND_NEAREST		0x000
++#define FP_RND_ZERO		0x100
++#define FP_RND_PINF		0x200
++#define FP_RND_MINF		0x300
++#define FP_RND_MASK		0x300
++
++#define _FP_DECL_EX \
++  unsigned long int _fcsr __attribute__ ((unused)) = FP_RND_NEAREST
++
++#define FP_INIT_ROUNDMODE			\
++  do {						\
++    _fcsr = __builtin_loongarch_movfcsr2gr (0);		\
++  } while (0)
++
++#define FP_ROUNDMODE (_fcsr & FP_RND_MASK)
++
++#define FP_TRAPPING_EXCEPTIONS ((_fcsr << FP_EX_ENABLE_SHIFT) & FP_EX_ALL)
++
++#define FP_HANDLE_EXCEPTIONS				\
++  do {							\
++    _fcsr &= ~(FP_EX_ALL << FP_EX_CAUSE_SHIFT);		\
++    _fcsr |= _fex | (_fex << FP_EX_CAUSE_SHIFT);	\
++    __builtin_loongarch_movgr2fcsr (0, _fcsr);			\
++  } while (0)
++
++#else
++#define FP_EX_INVALID           (1 << 4)
++#define FP_EX_DIVZERO           (1 << 3)
++#define FP_EX_OVERFLOW          (1 << 2)
++#define FP_EX_UNDERFLOW         (1 << 1)
++#define FP_EX_INEXACT           (1 << 0)
++#endif
++
++#define _FP_TININESS_AFTER_ROUNDING 1
++
++#define	__LITTLE_ENDIAN	1234
++
++# define __BYTE_ORDER __LITTLE_ENDIAN
++
++/* Define ALIASNAME as a strong alias for NAME.  */
++# define strong_alias(name, aliasname) _strong_alias(name, aliasname)
++# define _strong_alias(name, aliasname) \
++  extern __typeof (name) aliasname __attribute__ ((alias (#name)));
+diff --git a/libgcc/config/loongarch/t-crtstuff b/libgcc/config/loongarch/t-crtstuff
+new file mode 100644
+index 00000000000..d8ab43be2ae
+--- /dev/null
++++ b/libgcc/config/loongarch/t-crtstuff
+@@ -0,0 +1,2 @@
++# Don't let CTOR_LIST end up in sdata section.
++CRTSTUFF_T_CFLAGS = -G 0
+diff --git a/libgcc/config/loongarch/t-elf b/libgcc/config/loongarch/t-elf
+new file mode 100644
+index 00000000000..651f10a5303
+--- /dev/null
++++ b/libgcc/config/loongarch/t-elf
+@@ -0,0 +1,3 @@
++# We must build libgcc2.a with -G 0, in case the user wants to link
++# without the $gp register.
++HOST_LIBGCC2_CFLAGS += -G 0
+diff --git a/libgcc/config/loongarch/t-loongarch b/libgcc/config/loongarch/t-loongarch
+new file mode 100644
+index 00000000000..9508cb2fcae
+--- /dev/null
++++ b/libgcc/config/loongarch/t-loongarch
+@@ -0,0 +1,9 @@
++LIB2_SIDITI_CONV_FUNCS = yes
++
++softfp_float_modes :=
++softfp_int_modes := si di
++softfp_extensions :=
++softfp_truncations :=
++softfp_exclude_libgcc2 := n
++
++LIB2ADD_ST += $(srcdir)/config/loongarch/lib2funcs.c
+diff --git a/libgcc/config/loongarch/t-loongarch64 b/libgcc/config/loongarch/t-loongarch64
+new file mode 100644
+index 00000000000..a1e3513e288
+--- /dev/null
++++ b/libgcc/config/loongarch/t-loongarch64
+@@ -0,0 +1 @@
++softfp_int_modes += ti
+diff --git a/libgcc/config/loongarch/t-softfp-tf b/libgcc/config/loongarch/t-softfp-tf
+new file mode 100644
+index 00000000000..306677b1255
+--- /dev/null
++++ b/libgcc/config/loongarch/t-softfp-tf
+@@ -0,0 +1,3 @@
++softfp_float_modes += tf
++softfp_extensions += sftf dftf
++softfp_truncations += tfsf tfdf
+diff --git a/libgcc/configure.ac b/libgcc/configure.ac
+index 10ffb046415..84a0bc10353 100644
+--- a/libgcc/configure.ac
++++ b/libgcc/configure.ac
+@@ -317,7 +317,7 @@ AC_CACHE_CHECK([whether assembler supports CFI directives], [libgcc_cv_cfi],
+ # word size rather than the address size.
+ cat > conftest.c <<EOF
+ #if defined(__x86_64__) || (!defined(__i386__) && defined(__LP64__)) \
+-    || defined(__mips64)
++    || defined(__mips64) || defined(__loongarch64)
+ host_address=64
+ #else
+ host_address=32
+-- 
+2.30.1
+

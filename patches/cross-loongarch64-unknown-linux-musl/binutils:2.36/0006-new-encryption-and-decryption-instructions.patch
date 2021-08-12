@@ -1,0 +1,82 @@
+From 6652ae9c4cef1928fd6b7a667b161bef7a965350 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Mon, 17 May 2021 17:07:26 +0800
+Subject: [PATCH 06/19] new encryption and decryption instructions
+
+original patch has no Git info, applied manually.
+---
+ opcodes/loongarch-opc.c | 58 ++++++++++++++++++++---------------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
+
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index a48e420cde0..617ac93827c 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -2084,35 +2084,35 @@ static struct loongarch_opcode loongarch_128vec_opcodes[] = {
+ {0x714e8000, 0xffff8000, "vhadd4.h.bu", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x714f0000, 0xffff8000, "vshuf4.w", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x714f8000, 0xffff8000, "vshuf2.d", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71500000, 0xffff8000, "aes128.enc", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71508000, 0xffff8000, "aes128.dec", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71510000, 0xffff8000, "aes192.enc", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71518000, 0xffff8000, "aes192.dec", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71520000, 0xffff8000, "aes256.enc", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71528000, 0xffff8000, "aes256.dec", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71530000, 0xffff8000, "aes.kg", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71538000, 0xffff8000, "aes.fr.enc", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71540000, 0xffff8000, "aes.fr.dec", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71548000, 0xffff8000, "aes.lr.enc", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71550000, 0xffff8000, "aes.lr.dec", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71558000, 0xfffffc00, "aes.mc.enc", "v0:5,v5:5", 0, 0, 0, 0},
+-{0x71560000, 0xfffffc00, "aes.mc.dec", "v0:5,v5:5", 0, 0, 0, 0},
+-{0x71568000, 0xfffffc00, "aes.sb.enc", "v0:5,v5:5", 0, 0, 0, 0},
+-{0x71570000, 0xfffffc00, "aes.sb.dec", "v0:5,v5:5", 0, 0, 0, 0},
+-{0x71578000, 0xfffffc00, "aes.sr.enc", "v0:5,v5:5", 0, 0, 0, 0},
+-{0x71580000, 0xfffffc00, "aes.sr.dec", "v0:5,v5:5", 0, 0, 0, 0},
+-{0x71588000, 0xffff8000, "md5.ms", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71590000, 0xffff8000, "md5.4r", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x71598000, 0xffff8000, "sha1.ms.1", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715a0000, 0xffff8000, "sha1.ms.2", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715a8000, 0xffff8000, "sha1.hash.4r", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715b0000, 0xffff8000, "sha256.ms.1", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715b8000, 0xffff8000, "sha256.ms.2", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715c0000, 0xffff8000, "sha256.hash.2r", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715c8000, 0xffff8000, "sha512.ms.1", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715d0000, 0xffff8000, "sha512.ms.2", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715d8000, 0xffff8000, "sha512.hash.r.1", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-{0x715e0000, 0xffff8000, "sha512.hash.r.2", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71500000, 0xffff8000, "aesenc128", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71508000, 0xffff8000, "aesdec128", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71510000, 0xffff8000, "aesenc192", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71518000, 0xffff8000, "aesdec192", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71520000, 0xffff8000, "aesenc256", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71528000, 0xffff8000, "aesdec256", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71530000, 0xffff8000, "aeskeygen", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71538000, 0xffff8000, "aesencrnd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71540000, 0xffff8000, "aesdecrnd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71548000, 0xffff8000, "aesenclastrnd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71550000, 0xffff8000, "aesdeclastand", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71558000, 0xfffffc00, "aesmixcol", "v0:5,v5:5", 0, 0, 0, 0},
++{0x71560000, 0xfffffc00, "aesinvmixcol", "v0:5,v5:5", 0, 0, 0, 0},
++{0x71568000, 0xfffffc00, "aessubbyte", "v0:5,v5:5", 0, 0, 0, 0},
++{0x71570000, 0xfffffc00, "aesinvsubbyte", "v0:5,v5:5", 0, 0, 0, 0},
++{0x71578000, 0xfffffc00, "aesshfrow", "v0:5,v5:5", 0, 0, 0, 0},
++{0x71580000, 0xfffffc00, "aesinvshfrow", "v0:5,v5:5", 0, 0, 0, 0},
++{0x71588000, 0xffff8000, "md5msggen", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71590000, 0xffff8000, "md5rnd4", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x71598000, 0xffff8000, "sha1msggen1st", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715a0000, 0xffff8000, "sha1msggen2nd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715a8000, 0xffff8000, "sha1rnd4", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715b0000, 0xffff8000, "sha256msggen1st", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715b8000, 0xffff8000, "sha256msggen2nd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715c0000, 0xffff8000, "sha256rnd2", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715c8000, 0xffff8000, "sha512msggen1st", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715d0000, 0xffff8000, "sha512msggen2nd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715d8000, 0xffff8000, "sha512rnd2nd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
++{0x715e0000, 0xffff8000, "sha512rnd2nd", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x71600000, 0xffff8000, "vpmul.w", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x71608000, 0xffff8000, "vpmul.d", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+ {0x71610000, 0xffff8000, "vpmuh.w", "v0:5,v5:5,v10:5", 0, 0, 0, 0},
+-- 
+2.30.1
+

@@ -1,0 +1,7 @@
+#cross-loongarch64-unknown-linux-gnu/binutils * ~* -amd64 -~amd64
+#cross-loongarch64-unknown-linux-gnu/gcc ** * ~* -amd64 -~amd64
+<cross-loongarch64-unknown-linux-gnu/binutils-9999 **
+<cross-loongarch64-unknown-linux-gnu/gcc-9999 **
+cross-loongarch64-unknown-linux-gnu/linux-headers * ~* -amd64 -~amd64
+cross-loongarch64-unknown-linux-gnu/glibc * ~* -amd64 -~amd64
+cross-loongarch64-unknown-linux-gnu/gdb * ~* -amd64 -~amd64
