@@ -1,0 +1,143 @@
+From b3c6ec5f7c5a9f435c3e641d28927042781785db Mon Sep 17 00:00:00 2001
+From: Xiaotian Wu <wuxiaotian@loongson.cn>
+Date: Thu, 12 Aug 2021 10:08:01 +0800
+Subject: [PATCH 15/30] change code style
+
+---
+ bfd/elfnn-loongarch.c     | 14 +++++++-------
+ include/elf/common.h      | 16 ++++++++--------
+ opcodes/loongarch-coder.c |  2 +-
+ opcodes/loongarch-opc.c   | 16 ++++++++--------
+ 4 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/bfd/elfnn-loongarch.c b/bfd/elfnn-loongarch.c
+index 6b8af3437ad..cad58a867da 100644
+--- a/bfd/elfnn-loongarch.c
++++ b/bfd/elfnn-loongarch.c
+@@ -46,10 +46,10 @@ struct loongarch_elf_link_hash_entry
+   struct elf_dyn_relocs *dyn_relocs;
+ 
+ #define GOT_UNKNOWN 0
+-#define GOT_NORMAL 1
+-#define GOT_TLS_GD 2
+-#define GOT_TLS_IE 4
+-#define GOT_TLS_LE 8
++#define GOT_NORMAL  1
++#define GOT_TLS_GD  2
++#define GOT_TLS_IE  4
++#define GOT_TLS_LE  8
+   char tls_type;
+ };
+ 
+@@ -127,14 +127,14 @@ struct loongarch_elf_link_hash_table
+ #define elf_backend_want_plt_sym 0
+ #define elf_backend_plt_alignment 4
+ #define elf_backend_can_gc_sections 1
+-/* #define elf_backend_can_refcount	1 */
++/* #define elf_backend_can_refcount 1 */
+ #define elf_backend_want_got_sym 1
+ 
+ #define elf_backend_got_header_size (GOT_ENTRY_SIZE * 1)
+ 
+ #define elf_backend_want_dynrelro 1
+-/* #define elf_backend_rela_normal		1
+-#define elf_backend_default_execstack	0 */
++/* #define elf_backend_rela_normal 1
++#define elf_backend_default_execstack 0 */
+ 
+ /* Generate a PLT header.  */
+ 
+diff --git a/include/elf/common.h b/include/elf/common.h
+index df3a660c5ac..a0fee9e5ebd 100644
+--- a/include/elf/common.h
++++ b/include/elf/common.h
+@@ -678,16 +678,16 @@
+ #define NT_ARC_V2	0x600		/* ARC HS accumulator/extra registers.  */
+ 					/*   note name must be "LINUX".  */
+ #define NT_RISCV_CSR    0x900		/* RISC-V Control and Status Registers */
+-                    /*   note name must be "LINUX".  */
++					/*   note name must be "LINUX".  */
+ #define NT_LARCH_CPUCFG 0xa00		/* Loongarch CPU config registers */
+-                    /*   note name must be "LINUX".  */
++					/*   note name must be "LINUX".  */
+ #define NT_LARCH_CSR    0xa01		/* Loongarch control state registers */
+-                    /*   note name must be "LINUX".  */
+-#define NT_LARCH_LSX    0xa02       /* Loongarch Loongson SIMD Extension registers */
+-                    /*   note name must be "LINUX".  */
+-#define NT_LARCH_LASX   0xa03       /* Loongarch Loongson Advanced SIMD Extension registers */
+-                    /*   note name must be "LINUX".  */
+-#define NT_LARCH_LBT    0xa04       /* Loongarch Loongson Binary Translation registers */
++					/*   note name must be "LINUX".  */
++#define NT_LARCH_LSX    0xa02		/* Loongarch Loongson SIMD Extension registers */
++					/*   note name must be "LINUX".  */
++#define NT_LARCH_LASX   0xa03		/* Loongarch Loongson Advanced SIMD Extension registers */
++					/*   note name must be "LINUX".  */
++#define NT_LARCH_LBT    0xa04		/* Loongarch Loongson Binary Translation registers */
+ 					/*   note name must be "CORE".  */
+ #define NT_SIGINFO	0x53494749	/* Fields of siginfo_t.  */
+ #define NT_FILE		0x46494c45	/* Description of mapped files.  */
+diff --git a/opcodes/loongarch-coder.c b/opcodes/loongarch-coder.c
+index a271540e016..c8292ee4472 100644
+--- a/opcodes/loongarch-coder.c
++++ b/opcodes/loongarch-coder.c
+@@ -253,7 +253,7 @@ loongarch_parse_format (const char *format, char *esc1s, char *esc2s,
+   while (1)
+     {
+       /*        esc1    esc2
+-	 for "[a-zA-Z][a-zA-Z]?" */
++                for "[a-zA-Z][a-zA-Z]?" */
+       if (('a' <= *format && *format <= 'z') ||
+           ('A' <= *format && *format <= 'Z'))
+         {
+diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
+index ef403460e01..27be1e68dfe 100644
+--- a/opcodes/loongarch-opc.c
++++ b/opcodes/loongarch-opc.c
+@@ -123,8 +123,8 @@ const char *const loongarch_x_normal_name[32] =
+ static struct loongarch_opcode loongarch_macro_opcodes[] =
+ {
+   /* match,    mask,       name, format, macro, include, exclude, pinfo */
+-  {0, 0, "li.w", "r,sc", "%f", 0, 0, 0},
+-  {0, 0, "li.d", "r,sc", "%f", 0, 0, 0},
++  { 0, 0, "li.w", "r,sc", "%f", 0, 0, 0},
++  { 0, 0, "li.d", "r,sc", "%f", 0, 0, 0},
+   { 0, 0, "la", "r,la", "la.global %1,%2", 0, 0, 0 },
+ 
+   { 0, 0, "la.global", "r,la", "la.pcrel %1,%2",
+@@ -308,8 +308,8 @@ static struct loongarch_opcode loongarch_fix_opcodes[] =
+   { 0x00018000, 0xffff801f, "asrtgt.d", "r5:5,r10:5", 0, 0, 0, 0 },
+   { 0x00040000, 0xfffe0000, "alsl.w", "r0:5,r5:5,r10:5,u15:2+1", 0, 0, 0, 0 },
+   { 0x00060000, 0xfffe0000, "alsl.wu", "r0:5,r5:5,r10:5,u15:2+1", 0, 0, 0, 0 },
+-  { 0x00080000, 0xfffe0000, "bytepick.w", "r0:5,r5:5,r10:5,u15:2", 0, 0, 0,0 },
+-  { 0x000c0000, 0xfffc0000, "bytepick.d", "r0:5,r5:5,r10:5,u15:3", 0, 0, 0,0 },
++  { 0x00080000, 0xfffe0000, "bytepick.w", "r0:5,r5:5,r10:5,u15:2", 0, 0, 0, 0 },
++  { 0x000c0000, 0xfffc0000, "bytepick.d", "r0:5,r5:5,r10:5,u15:3", 0, 0, 0, 0 },
+   { 0x00100000, 0xffff8000, "add.w", "r0:5,r5:5,r10:5", 0, 0, 0, 0 },
+   { 0x00108000, 0xffff8000, "add.d", "r0:5,r5:5,r10:5", 0, 0, 0, 0 },
+   { 0x00110000, 0xffff8000, "sub.w", "r0:5,r5:5,r10:5", 0, 0, 0, 0 },
+@@ -369,9 +369,9 @@ static struct loongarch_opcode loongarch_fix_opcodes[] =
+   { 0x004c8000, 0xffff8000, "rotri.w", "r0:5,r5:5,u10:5", 0, 0, 0, 0 },
+   { 0x004d0000, 0xffff0000, "rotri.d", "r0:5,r5:5,u10:6", 0, 0, 0, 0 },
+   { 0x00600000, 0xffe08000, "bstrins.w", "r0:5,r5:5,u16:5,u10:5", 0, 0, 0, 0 },
+-  { 0x00608000, 0xffe08000, "bstrpick.w", "r0:5,r5:5,u16:5,u10:5", 0, 0, 0,0 },
++  { 0x00608000, 0xffe08000, "bstrpick.w", "r0:5,r5:5,u16:5,u10:5", 0, 0, 0, 0 },
+   { 0x00800000, 0xffc00000, "bstrins.d", "r0:5,r5:5,u16:6,u10:6", 0, 0, 0, 0 },
+-  { 0x00c00000, 0xffc00000, "bstrpick.d", "r0:5,r5:5,u16:6,u10:6", 0, 0, 0,0 },
++  { 0x00c00000, 0xffc00000, "bstrpick.d", "r0:5,r5:5,u16:6,u10:6", 0, 0, 0, 0 },
+   { 0 } /* Terminate the list.  */
+ };
+ 
+@@ -739,8 +739,8 @@ static struct loongarch_opcode loongarch_jmp_opcodes[] =
+   { 0, 0, "bcnez", "c,la", "bcnez %1,%%pcrel(%2)", 0, 0, 0 },
+   { 0x48000100, 0xfc000300, "bcnez", "c5:3,sb0:5|10:16<<2", 0, 0, 0, 0 },
+   { 0, 0, "jr", "r", "jirl $r0,%1,0", 0, 0, 0 },
+-  { 0, 0, "b", "la", "b %%pcrel(%1)", 0, 0, 0},
+-  { 0x50000000, 0xfc000000, "b", "sb0:10|10:16<<2", 0, 0, 0, 0},
++  { 0, 0, "b", "la", "b %%pcrel(%1)", 0, 0, 0 },
++  { 0x50000000, 0xfc000000, "b", "sb0:10|10:16<<2", 0, 0, 0, 0 },
+   { 0x4c000000, 0xfc000000, "jirl", "r0:5,r5:5,s10:16<<2", 0, 0, 0, 0 },
+   { 0, 0, "bl", "la", "bl %%pcrel(%1)", 0, 0, 0 },
+   { 0x54000000, 0xfc000000, "bl", "sb0:10|10:16<<2", 0, 0, 0, 0 },
+-- 
+2.30.1
+

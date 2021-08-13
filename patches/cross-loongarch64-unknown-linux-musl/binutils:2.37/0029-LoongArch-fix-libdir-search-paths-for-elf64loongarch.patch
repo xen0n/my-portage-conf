@@ -1,7 +1,7 @@
-From 6055b488125d0091e63f809074848819fa09ec5f Mon Sep 17 00:00:00 2001
+From fe4d206c2a6ed56c6af8bd27275af9d2b75be048 Mon Sep 17 00:00:00 2001
 From: WANG Xuerui <git@xen0n.name>
 Date: Mon, 9 Aug 2021 21:53:10 +0800
-Subject: [PATCH 10/11] LoongArch: fix libdir search paths for elf64loongarch
+Subject: [PATCH 29/30] LoongArch: fix libdir search paths for elf64loongarch
 
 First of all, target tuple matching in ld/emulparams/elf64loongarch.sh
 is broken, so fix it.

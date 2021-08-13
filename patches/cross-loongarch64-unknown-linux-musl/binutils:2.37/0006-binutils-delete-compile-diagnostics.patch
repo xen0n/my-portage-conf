@@ -1,7 +1,7 @@
 From cc41d345097ed820fa3f6fdadbda5661afc88331 Mon Sep 17 00:00:00 2001
 From: liuzhensong <liuzhensong@loongson.cn>
 Date: Thu, 5 Aug 2021 14:52:48 +0800
-Subject: [PATCH 06/11] binutils: delete compile diagnostics
+Subject: [PATCH 06/30] binutils: delete compile diagnostics
 
   gas/config/loongarch-parse.y
   gas/config/tc-loongarch.c

@@ -1,7 +1,7 @@
 From c333366916def8c2488cc0485cd6e39bc8ae65b6 Mon Sep 17 00:00:00 2001
 From: sutong <sutong@loongson.cn>
 Date: Fri, 30 Jul 2021 17:07:04 +0800
-Subject: [PATCH 03/11] bintils: add  jmp-insn "b"
+Subject: [PATCH 03/30] bintils: add  jmp-insn "b"
 
     opcodes/
     * loongarch-opc.c (loongarch_jmp_opcodes): Add "b" insn.

@@ -1,7 +1,7 @@
 From c59d5ddc80040da68aa30a4e18b6058abfce8416 Mon Sep 17 00:00:00 2001
 From: Jiajie Chen <c@jia.je>
 Date: Thu, 5 Aug 2021 22:36:25 +0800
-Subject: [PATCH 07/11] binutils: fix assert op check
+Subject: [PATCH 07/30] binutils: fix assert op check
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

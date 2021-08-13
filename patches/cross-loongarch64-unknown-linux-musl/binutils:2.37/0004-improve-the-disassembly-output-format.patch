@@ -1,7 +1,7 @@
 From 46f0cef65e58bc04406921753fa21e4236c9c8c8 Mon Sep 17 00:00:00 2001
 From: Xiaotian Wu <wuxiaotian@loongson.cn>
 Date: Fri, 8 Jan 2021 12:56:44 +0800
-Subject: [PATCH 04/11] improve the disassembly output format
+Subject: [PATCH 04/30] improve the disassembly output format
 
 ---
  opcodes/loongarch-dis.c | 6 +++---

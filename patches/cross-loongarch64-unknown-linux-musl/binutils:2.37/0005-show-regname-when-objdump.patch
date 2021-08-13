@@ -1,7 +1,7 @@
 From 3dec25f46ad294e029d936afe0766edf9c1e1259 Mon Sep 17 00:00:00 2001
 From: Xiaotian Wu <wuxiaotian@loongson.cn>
 Date: Tue, 22 Dec 2020 17:09:53 +0800
-Subject: [PATCH 05/11] show regname when objdump
+Subject: [PATCH 05/30] show regname when objdump
 
 ---
  opcodes/loongarch-dis.c | 16 ++++++++++++----

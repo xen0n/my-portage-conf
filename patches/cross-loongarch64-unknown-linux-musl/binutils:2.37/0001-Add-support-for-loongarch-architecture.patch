@@ -1,7 +1,7 @@
 From 49e2d61855ad290558e3509a349f6afe89ecdf98 Mon Sep 17 00:00:00 2001
 From: liuzhensong <liuzhensong@loongson.cn>
 Date: Fri, 30 Jul 2021 10:02:48 +0800
-Subject: [PATCH 01/11] Add support for loongarch architecture.
+Subject: [PATCH 01/30] Add support for loongarch architecture.
 
   bfd/Makefile.am
   bfd/Makefile.in

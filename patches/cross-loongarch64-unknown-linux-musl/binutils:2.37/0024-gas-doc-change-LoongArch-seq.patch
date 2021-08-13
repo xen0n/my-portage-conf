@@ -1,0 +1,135 @@
+From 2dfd4ff9854e4c81cc06a8cb3e9f478a9e49775d Mon Sep 17 00:00:00 2001
+From: liuzhensong <liuzhensong@loongson.cn>
+Date: Fri, 13 Aug 2021 15:21:33 +0800
+Subject: [PATCH 24/30] gas/doc: change LoongArch seq.
+
+  as.texi
+---
+ gas/doc/as.texi | 62 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/gas/doc/as.texi b/gas/doc/as.texi
+index fdf5e877bf7..9445cda49a1 100644
+--- a/gas/doc/as.texi
++++ b/gas/doc/as.texi
+@@ -379,6 +379,11 @@ gcc(1), ld(1), and the Info entries for @file{binutils} and @file{ld}.
+ @emph{Target IP2K options:}
+    [@b{-mip2022}|@b{-mip2022ext}]
+ @end ifset
++@ifset LOONGARCH
++
++@emph{Target LOONGARCH options:}
++   [@b{-fpic}|@b{-fPIC}|@b{-fno-pic}]
++@end ifset
+ @ifset M32C
+ 
+ @emph{Target M32C options:}
+@@ -538,11 +543,6 @@ gcc(1), ld(1), and the Info entries for @file{binutils} and @file{ld}.
+    [@b{-mabi}=@var{ABI}]
+    [@b{-mlittle-endian}|@b{-mbig-endian}]
+ @end ifset
+-@ifset LOONGARCH
+-
+-@emph{Target LOONGARCH options:}
+-   [@b{-fpic}|@b{-fPIC}|@b{-fno-pic}]
+-@end ifset
+ @ifset RL78
+ 
+ @emph{Target RL78 options:}
+@@ -1761,6 +1761,25 @@ Assemble for a little endian target.
+ @end ifset
+ @c man end
+ 
++@ifset LOONGARCH
++
++@ifclear man
++@xref{LoongArch-Options}, for the options available when @value{AS} is configured
++for a LoongArch processor.
++@end ifclear
++
++@ifset man
++@c man begin OPTIONS
++The following options are available when @value{AS} is configured for a
++LoongArch processor.
++@c man end
++@c man begin INCLUDE
++@include c-loongarch.texi
++@c ended inside the included file
++@end ifset
++
++@end ifset
++
+ @ifset METAG
+ 
+ @ifclear man
+@@ -1843,25 +1862,6 @@ RISC-V processor.
+ 
+ @end ifset
+ 
+-@ifset LOONGARCH
+-
+-@ifclear man
+-@xref{LoongArch-Options}, for the options available when @value{AS} is configured
+-for a LoongArch processor.
+-@end ifclear
+-
+-@ifset man
+-@c man begin OPTIONS
+-The following options are available when @value{AS} is configured for a
+-LoongArch processor.
+-@c man end
+-@c man begin INCLUDE
+-@include c-loongarch.texi
+-@c ended inside the included file
+-@end ifset
+-
+-@end ifset
+-
+ @c man begin OPTIONS
+ @ifset RX
+ See the info pages for documentation of the RX-specific options.
+@@ -7861,6 +7861,9 @@ subject, see the hardware manufacturer's manual.
+ @ifset IP2K
+ * IP2K-Dependent::              IP2K Dependent Features
+ @end ifset
++@ifset LOONGARCH
++* LoongArch-Dependent::         LoongArch Dependent Features
++@end ifset
+ @ifset LM32
+ * LM32-Dependent::              LM32 Dependent Features
+ @end ifset
+@@ -7921,9 +7924,6 @@ subject, see the hardware manufacturer's manual.
+ @ifset RISCV
+ * RISC-V-Dependent::            RISC-V Dependent Features
+ @end ifset
+-@ifset LOONGARCH
+-* LoongArch-Dependent::         LoongArch Dependent Features
+-@end ifset
+ @ifset RL78
+ * RL78-Dependent::              RL78 Dependent Features
+ @end ifset
+@@ -8088,6 +8088,10 @@ family.
+ @include c-lm32.texi
+ @end ifset
+ 
++@ifset LOONGARCH
++@include c-loongarch.texi
++@end ifset
++
+ @ifset M32C
+ @include c-m32c.texi
+ @end ifset
+@@ -8164,10 +8168,6 @@ family.
+ @include c-riscv.texi
+ @end ifset
+ 
+-@ifset LOONGARCH
+-@include c-loongarch.texi
+-@end ifset
+-
+ @ifset RL78
+ @include c-rl78.texi
+ @end ifset
+-- 
+2.30.1
+
