@@ -1,0 +1,12 @@
+#  * Error: circular dependencies:
+#
+# (dev-lang/python-3.10.0_rc1:3.10/3.10::gentoo, ebuild scheduled for merge) depends on
+#  (virtual/libcrypt-2:0/2::gentoo, ebuild scheduled for merge) (buildtime_slot_op)
+#   (sys-libs/libxcrypt-4.4.23-r2:0/1::gentoo, ebuild scheduled for merge) (runtime)
+#    (sys-libs/glibc-2.33-r5:2.2/2.2::gentoo, ebuild scheduled for merge) (buildtime)
+#     (dev-lang/python-3.10.0_rc1:3.10/3.10::gentoo, ebuild scheduled for merge) (buildtime)
+#
+# currently installed version is 2.33-r1 so temporarily mask higher versions
+# remove this once world is upgraded, then upgrade again
+>sys-libs/glibc-2.33-r1
+>=virtual/libcrypt-2
