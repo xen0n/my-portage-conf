@@ -11,3 +11,5 @@
 # required by app-emulation/qemu-5.0.0::gentoo[-static,static-user]
 # required by qemu (argument)
 >=dev-libs/libpcre-8.44 static-libs
+
+dev-libs/capstone static-libs
