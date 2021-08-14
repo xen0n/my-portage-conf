@@ -4,6 +4,7 @@ sys-devel/llvm var-tmp-portage.conf
 sys-devel/clang var-tmp-portage.conf
 dev-qt/qtwebkit var-tmp-portage.conf
 dev-qt/qtwebkit no-debug.conf
+dev-lang/mono var-tmp-portage.conf
 
 # these crossdev toolchains almost always upgrade together
 cross-*/binutils var-tmp-portage.conf
