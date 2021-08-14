@@ -13,7 +13,7 @@ USE="${USE} udisks upower"  # after hardened profile switch
 # Kernel and system
 USE="${USE} modules syslog xattr"
 # Network
-USE="${USE} ftp ipv6 idn -gnutls ssl openssl tcpd ldap -dhcpcd dhclient"
+USE="${USE} ftp ipv6 idn -gnutls ssl openssl ldap -dhcpcd dhclient"
 # L10N things
 USE="${USE} cjk unicode iconv icu nls spell"
 # Security
