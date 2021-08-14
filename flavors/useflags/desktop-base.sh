@@ -31,4 +31,4 @@ USE="${USE} steamruntime"
 
 
 USE="${USE} gnome-keyring"
-USE="${USE} pipewire"
+USE="${USE} pipewire screencast"
