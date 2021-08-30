@@ -1,15 +1,16 @@
-From 78a190f1f06abaca51c08612b69ba4e315bdc731 Mon Sep 17 00:00:00 2001
+From 7336fd14a97ec5908f59d51ae2e831c224a6b7df Mon Sep 17 00:00:00 2001
 From: chenglulu <chenglulu@loongson.cn>
-Date: Thu, 29 Jul 2021 17:35:27 +0800
-Subject: [PATCH 05/10] LoongArch Port: configure
+Date: Wed, 11 Aug 2021 14:40:01 +0800
+Subject: [PATCH 6/9] LoongArch Port: Regenerate configure.
 
-	* config/picflag.m4: Add LoongArch tuples.
-	* configure: Likewise.
+	* config/picflag.m4: Default add build option '-fpic' for LoongArch.
+	* configure: Add LoongArch tuples.
 	* configure.ac: Likewise.
 ---
  config/picflag.m4 |  3 +++
+ configure         | 10 +++++++++-
  configure.ac      | 10 +++++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ 3 files changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/config/picflag.m4 b/config/picflag.m4
 index 8b106f9af88..0aefcf619bf 100644
@@ -25,8 +26,43 @@ index 8b106f9af88..0aefcf619bf 100644
      mips-sgi-irix6*)
  	# PIC is the default.
  	;;
+diff --git a/configure b/configure
+index 85ab9915402..d4d14d7505a 100755
+--- a/configure
++++ b/configure
+@@ -3050,7 +3050,7 @@ case "${ENABLE_GOLD}" in
+       # Check for target supported by gold.
+       case "${target}" in
+         i?86-*-* | x86_64-*-* | sparc*-*-* | powerpc*-*-* | arm*-*-* \
+-        | aarch64*-*-* | tilegx*-*-* | mips*-*-* | s390*-*-*)
++        | aarch64*-*-* | tilegx*-*-* | mips*-*-* | s390*-*-* | loongarch*-*-*)
+ 	  configdirs="$configdirs gold"
+ 	  if test x${ENABLE_GOLD} = xdefault; then
+ 	    default_ld=gold
+@@ -3636,6 +3636,9 @@ case "${target}" in
+   i[3456789]86-*-*)
+     libgloss_dir=i386
+     ;;
++  loongarch*-*-*)
++    libgloss_dir=loongarch
++    ;;
+   m68hc11-*-*|m6811-*-*|m68hc12-*-*|m6812-*-*)
+     libgloss_dir=m68hc11
+     ;;
+@@ -4020,6 +4023,11 @@ case "${target}" in
+   wasm32-*-*)
+     noconfigdirs="$noconfigdirs ld"
+     ;;
++  loongarch*-*-linux*)
++    ;;
++  loongarch*-*-*)
++    noconfigdirs="$noconfigdirs gprof"
++    ;;
+ esac
+ 
+ # If we aren't building newlib, then don't build libgloss, since libgloss
 diff --git a/configure.ac b/configure.ac
-index 626e2106cba..2ff48941754 100644
+index 1df038b04f3..87ec44b4dac 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -353,7 +353,7 @@ case "${ENABLE_GOLD}" in
@@ -61,5 +97,5 @@ index 626e2106cba..2ff48941754 100644
  
  # If we aren't building newlib, then don't build libgloss, since libgloss
 -- 
-2.30.1
+2.33.0
 

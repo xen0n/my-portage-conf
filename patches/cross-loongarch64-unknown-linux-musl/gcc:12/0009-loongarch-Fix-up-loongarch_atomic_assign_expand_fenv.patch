@@ -1,0 +1,57 @@
+From 4279fc2eb298b891415a12bdfcef672dab93cbb2 Mon Sep 17 00:00:00 2001
+From: Xi Ruoyao <xry111@mengyan1223.wang>
+Date: Wed, 25 Aug 2021 00:14:50 +0800
+Subject: [PATCH 9/9] loongarch: Fix up loongarch_atomic_assign_expand_fenv
+
+Commit message shamelessly copied from 1777beb6b129 by jakub:
+
+This function, because it is sometimes called even outside of function
+bodies, uses create_tmp_var_raw rather than create_tmp_var.  But in order
+for that to work, when first referenced, the VAR_DECLs need to appear in a
+TARGET_EXPR so that during gimplification the var gets the right
+DECL_CONTEXT and is added to local decls.
+
+gcc/
+
+	* config/loongarch/loongarch-builtins.c: Use TARGET_EXPR instead
+	  of MODIFY_EXPR.
+---
+ gcc/config/loongarch/loongarch-builtins.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/gcc/config/loongarch/loongarch-builtins.c b/gcc/config/loongarch/loongarch-builtins.c
+index 20653a6b8a2..af556766810 100644
+--- a/gcc/config/loongarch/loongarch-builtins.c
++++ b/gcc/config/loongarch/loongarch-builtins.c
+@@ -471,12 +471,13 @@ loongarch_atomic_assign_expand_fenv (tree *hold, tree *clear, tree *update)
+   tree get_fcsr = loongarch_builtin_decls[LARCH_MOVFCSR2GR];
+   tree set_fcsr = loongarch_builtin_decls[LARCH_MOVGR2FCSR];
+   tree get_fcsr_hold_call = build_call_expr (get_fcsr, 1, const0);
+-  tree hold_assign_orig = build2 (MODIFY_EXPR, LARCH_ATYPE_USI,
+-				  fcsr_orig_var, get_fcsr_hold_call);
++  tree hold_assign_orig = build4 (TARGET_EXPR, LARCH_ATYPE_USI,
++				  fcsr_orig_var, get_fcsr_hold_call,
++				  NULL, NULL);
+   tree hold_mod_val = build2 (BIT_AND_EXPR, LARCH_ATYPE_USI, fcsr_orig_var,
+ 			      build_int_cst (LARCH_ATYPE_USI, 0xffe0ffe0));
+-  tree hold_assign_mod = build2 (MODIFY_EXPR, LARCH_ATYPE_USI,
+-				 fcsr_mod_var, hold_mod_val);
++  tree hold_assign_mod = build4 (TARGET_EXPR, LARCH_ATYPE_USI,
++				 fcsr_mod_var, hold_mod_val, NULL, NULL);
+   tree set_fcsr_hold_call = build_call_expr (set_fcsr, 2, const0, fcsr_mod_var);
+   tree hold_all = build2 (COMPOUND_EXPR, LARCH_ATYPE_USI, hold_assign_orig,
+ 			  hold_assign_mod);
+@@ -485,8 +486,8 @@ loongarch_atomic_assign_expand_fenv (tree *hold, tree *clear, tree *update)
+   *clear = build_call_expr (set_fcsr, 2, const0, fcsr_mod_var);
+ 
+   tree get_fcsr_update_call = build_call_expr (get_fcsr, 1, const0);
+-  *update = build2 (MODIFY_EXPR, LARCH_ATYPE_USI, exceptions_var,
+-		    get_fcsr_update_call);
++  *update = build4 (TARGET_EXPR, LARCH_ATYPE_USI, exceptions_var,
++		    get_fcsr_update_call, NULL, NULL);
+   tree set_fcsr_update_call = build_call_expr (set_fcsr, 2, const0,
+ 					       fcsr_orig_var);
+   *update = build2 (COMPOUND_EXPR, void_type_node, *update,
+-- 
+2.33.0
+
