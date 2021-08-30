@@ -1,7 +1,7 @@
-From 6c4044c7b7b5cbbb3390807dc7a3a4bd2bf5cdb4 Mon Sep 17 00:00:00 2001
+From f8a4a13589aaa3ed1455453a80fc76cb2b58ce55 Mon Sep 17 00:00:00 2001
 From: WANG Xuerui <git@xen0n.name>
 Date: Sun, 8 Aug 2021 12:13:16 +0800
-Subject: [PATCH 27/30] opcodes: LoongArch: add "ret" instruction to reduce
+Subject: [PATCH 08/11] opcodes: LoongArch: add "ret" instruction to reduce
  typing
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 27/30] opcodes: LoongArch: add "ret" instruction to reduce
  1 file changed, 1 insertion(+)
 
 diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
-index 03dc18f3add..74ea32f4552 100644
+index f296ff53a74..9f1b4a84f2b 100644
 --- a/opcodes/loongarch-opc.c
 +++ b/opcodes/loongarch-opc.c
-@@ -759,6 +759,7 @@ static struct loongarch_opcode loongarch_jmp_opcodes[] =
+@@ -758,6 +758,7 @@ static struct loongarch_opcode loongarch_jmp_opcodes[] =
    { 0x0,	0x0,		"bltu",		"r,r,la",			"bgtu %2,%1,%%pcrel(%3)",	0, 0, 0 },
    { 0x0,	0x0,		"bgeu",		"r,r,la",			"bleu %2,%1,%%pcrel(%3)",	0, 0, 0 },
    { 0x0,	0x0,		"jr",		"r",				"jirl $r0,%1,0",		0, 0, 0 },
@@ -21,5 +21,5 @@ index 03dc18f3add..74ea32f4552 100644
    { 0 } /* Terminate the list.  */
  };
 -- 
-2.30.1
+2.33.0
 

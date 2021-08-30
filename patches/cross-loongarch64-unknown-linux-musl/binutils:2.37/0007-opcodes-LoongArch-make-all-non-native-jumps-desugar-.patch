@@ -1,7 +1,7 @@
-From 63a65893f2a2aaf8ece7868e5f2d3b9b2c2305b9 Mon Sep 17 00:00:00 2001
+From 64d0d775445866dbc34c4b09ea041449ab7c48c9 Mon Sep 17 00:00:00 2001
 From: WANG Xuerui <git@xen0n.name>
 Date: Sun, 8 Aug 2021 12:01:09 +0800
-Subject: [PATCH 26/30] opcodes: LoongArch: make all non-native jumps desugar
+Subject: [PATCH 07/11] opcodes: LoongArch: make all non-native jumps desugar
  to canonical b{gt/le}[u] forms
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 26/30] opcodes: LoongArch: make all non-native jumps desugar
  1 file changed, 13 insertions(+), 18 deletions(-)
 
 diff --git a/opcodes/loongarch-opc.c b/opcodes/loongarch-opc.c
-index eaf56b7b176..03dc18f3add 100644
+index 1e615fb22de..f296ff53a74 100644
 --- a/opcodes/loongarch-opc.c
 +++ b/opcodes/loongarch-opc.c
-@@ -723,14 +723,6 @@ static struct loongarch_opcode loongarch_load_store_opcodes[] =
+@@ -722,14 +722,6 @@ static struct loongarch_opcode loongarch_load_store_opcodes[] =
  static struct loongarch_opcode loongarch_jmp_opcodes[] =
  {
    /* match,	mask,		name,		format,				macro,			include, exclude, pinfo.  */
@@ -27,7 +27,7 @@ index eaf56b7b176..03dc18f3add 100644
    { 0x0,	0x0,		"beqz",		"r,la",				"beqz %1,%%pcrel(%2)",		0, 0, 0 },
    { 0x40000000, 0xfc000000,	"beqz",		"r5:5,sb0:5|10:16<<2",		0,				0, 0, 0 },
    { 0x0,	0x0,		"bnez",		"r,la",				"bnez %1,%%pcrel(%2)",		0, 0, 0 },
-@@ -739,32 +731,35 @@ static struct loongarch_opcode loongarch_jmp_opcodes[] =
+@@ -738,32 +730,35 @@ static struct loongarch_opcode loongarch_jmp_opcodes[] =
    { 0x48000000, 0xfc000300,	"bceqz",	"c5:3,sb0:5|10:16<<2",		0,				0, 0, 0 },
    { 0x0,	0x0,		"bcnez",	"c,la",				"bcnez %1,%%pcrel(%2)",		0, 0, 0 },
    { 0x48000100, 0xfc000300,	"bcnez",	"c5:3,sb0:5|10:16<<2",		0,				0, 0, 0 },
@@ -74,5 +74,5 @@ index eaf56b7b176..03dc18f3add 100644
  };
  
 -- 
-2.30.1
+2.33.0
 
