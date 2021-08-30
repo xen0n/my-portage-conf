@@ -1,7 +1,7 @@
 From e29c17f6822da97e95a6fb2681d0b0968e35bb78 Mon Sep 17 00:00:00 2001
 From: chenglulu <chenglulu@loongson.cn>
 Date: Wed, 11 Aug 2021 14:17:00 +0800
-Subject: [PATCH 3/9] LoonArch Port: libgcc
+Subject: [PATCH 03/10] LoonArch Port: libgcc
 
 	libgcc/
  	* config/loongarch/crtfastmath.c: New file.

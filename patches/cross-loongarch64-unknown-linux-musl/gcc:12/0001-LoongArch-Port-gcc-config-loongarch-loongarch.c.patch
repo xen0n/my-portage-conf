@@ -1,7 +1,7 @@
 From 2457beac8c9e6aa3c569619a359a93421faf6814 Mon Sep 17 00:00:00 2001
 From: chenglulu <chenglulu@loongson.cn>
 Date: Wed, 11 Aug 2021 14:07:29 +0800
-Subject: [PATCH 1/9] LoongArch Port: gcc/config/loongarch/loongarch.c
+Subject: [PATCH 01/10] LoongArch Port: gcc/config/loongarch/loongarch.c
 
 	* gcc/config/loongarch/loongarch.c: New file.
 ---

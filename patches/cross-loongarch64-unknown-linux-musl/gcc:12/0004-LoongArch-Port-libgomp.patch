@@ -1,7 +1,7 @@
 From e09d80d4708438862cef7dd2d9d5566bd1277d18 Mon Sep 17 00:00:00 2001
 From: chenglulu <chenglulu@loongson.cn>
 Date: Wed, 11 Aug 2021 14:20:07 +0800
-Subject: [PATCH 4/9] LoongArch Port: libgomp
+Subject: [PATCH 04/10] LoongArch Port: libgomp
 
 	libgomp/
 	* configure.tgt: Add LoongArch tuples.

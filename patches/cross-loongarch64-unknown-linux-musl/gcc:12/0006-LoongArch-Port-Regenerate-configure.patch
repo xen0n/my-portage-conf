@@ -1,7 +1,7 @@
 From 7336fd14a97ec5908f59d51ae2e831c224a6b7df Mon Sep 17 00:00:00 2001
 From: chenglulu <chenglulu@loongson.cn>
 Date: Wed, 11 Aug 2021 14:40:01 +0800
-Subject: [PATCH 6/9] LoongArch Port: Regenerate configure.
+Subject: [PATCH 06/10] LoongArch Port: Regenerate configure.
 
 	* config/picflag.m4: Default add build option '-fpic' for LoongArch.
 	* configure: Add LoongArch tuples.

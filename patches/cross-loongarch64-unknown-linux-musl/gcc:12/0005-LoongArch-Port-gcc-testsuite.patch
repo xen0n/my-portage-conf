@@ -1,7 +1,7 @@
 From 428774d5e5a9d5b9163ceea2b01bd4585a8e0fac Mon Sep 17 00:00:00 2001
 From: chenglulu <chenglulu@loongson.cn>
 Date: Wed, 11 Aug 2021 14:21:09 +0800
-Subject: [PATCH 5/9] LoongArch Port: gcc/testsuite.
+Subject: [PATCH 05/10] LoongArch Port: gcc/testsuite.
 
 	gcc/testsuite:
 	* lib/target-supports.exp: Define the LoongArch target.

@@ -1,7 +1,7 @@
 From d8eed345be10c4a7af53c6ab993b6c77eae26e85 Mon Sep 17 00:00:00 2001
 From: Xiaotian Wu <wuxiaotian@loongson.cn>
 Date: Sat, 24 Jul 2021 18:15:07 +0800
-Subject: [PATCH 7/9] use interpreter /libNN/ld-linux-loongarchNN.so.1
+Subject: [PATCH 07/10] use interpreter /libNN/ld-linux-loongarchNN.so.1
 
 ---
  gcc/config/loongarch/linux.h | 4 ++--

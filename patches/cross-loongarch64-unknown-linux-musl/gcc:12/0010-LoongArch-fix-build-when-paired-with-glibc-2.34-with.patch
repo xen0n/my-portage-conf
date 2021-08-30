@@ -1,0 +1,44 @@
+From 0a8c25ef9ca44c469ffcce24227f983402698358 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Mon, 30 Aug 2021 16:43:52 +0800
+Subject: [PATCH 10/10] LoongArch: fix build when paired with glibc-2.34
+ without separate libpthread
+
+---
+ gcc/config/loongarch/gnu-user.h | 4 +++-
+ gcc/config/loongarch/linux.h    | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/loongarch/gnu-user.h b/gcc/config/loongarch/gnu-user.h
+index f07488d42a0..5d3397e0cea 100644
+--- a/gcc/config/loongarch/gnu-user.h
++++ b/gcc/config/loongarch/gnu-user.h
+@@ -76,7 +76,9 @@ along with GCC; see the file COPYING3.  If not see
+ #undef ASM_OUTPUT_REG_POP
+ 
+ #undef LIB_SPEC
+-#define LIB_SPEC GNU_USER_TARGET_LIB_SPEC
++/* LoongArch support in glibc comes after the libc-libpthread merger, so
++   LoongArch systems never had separate libpthread.  */
++#define LIB_SPEC GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC
+ 
+ #define NO_SHARED_SPECS ""
+ 
+diff --git a/gcc/config/loongarch/linux.h b/gcc/config/loongarch/linux.h
+index 3ee0671367e..259170286d9 100644
+--- a/gcc/config/loongarch/linux.h
++++ b/gcc/config/loongarch/linux.h
+@@ -44,7 +44,9 @@ along with GCC; see the file COPYING3.  If not see
+ #define SUBTARGET_CC1_SPEC GNU_USER_TARGET_CC1_SPEC
+ 
+ #undef LIB_SPEC
+-#define LIB_SPEC GNU_USER_TARGET_LIB_SPEC
++/* LoongArch support in glibc comes after the libc-libpthread merger, so
++   LoongArch systems never had separate libpthread.  */
++#define LIB_SPEC GNU_USER_TARGET_NO_PTHREADS_LIB_SPEC
+ 
+ /* Define this to be nonzero if static stack checking is supported.  */
+ #define STACK_CHECK_STATIC_BUILTIN 1
+-- 
+2.33.0
+
