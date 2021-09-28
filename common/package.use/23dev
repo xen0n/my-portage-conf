@@ -92,8 +92,6 @@ dev-python/PyQt4 sql
 # webkit
 dev-python/PyQt5 network printsupport
 
-app-emulation/docker btrfs experimental -device-mapper
-
 # required by app-emulation/docker-1.13.0_rc1-r1::gentoo[container-init]
 # required by @selected
 # required by @world (argument)
