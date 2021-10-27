@@ -17,10 +17,9 @@ sys-libs/glibc debug static-pie -gd
 
 sys-boot/grub -nls mount
 
-sys-fs/udev gudev introspection keymap hwdb
 # curl is for journal uploading
-sys-apps/systemd gudev introspection kdbus curl elfutils nat xkb
-virtual/udev gudev introspection keymap hwdb
+sys-apps/systemd curl elfutils nat xkb
+virtual/udev keymap hwdb
 virtual/libgudev introspection
 dev-libs/libgudev introspection
 
