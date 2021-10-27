@@ -19,7 +19,7 @@ sys-boot/grub -nls mount
 
 sys-fs/udev gudev introspection keymap hwdb
 # curl is for journal uploading
-sys-apps/systemd gudev introspection kdbus cgroup-hybrid curl elfutils nat xkb
+sys-apps/systemd gudev introspection kdbus curl elfutils nat xkb
 virtual/udev gudev introspection keymap hwdb
 virtual/libgudev introspection
 dev-libs/libgudev introspection
