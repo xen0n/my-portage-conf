@@ -1,1 +1,1 @@
-app-emulation/docker btrfs experimental -device-mapper
+app-emulation/docker -btrfs experimental -device-mapper overlay
