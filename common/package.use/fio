@@ -1,1 +1,1 @@
-sys-block/fio io-uring
+sys-block/fio aio io-uring -python
