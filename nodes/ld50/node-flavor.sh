@@ -1,5 +1,5 @@
 INPUT_DEVICES="evdev libinput wacom"
-VIDEO_CARDS="amdgpu nvidia radeon radeonsi"
+VIDEO_CARDS="amdgpu radeon radeonsi"
 
 GRUB_PLATFORMS="efi-64"
 
