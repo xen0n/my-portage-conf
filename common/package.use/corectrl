@@ -1,0 +1,6 @@
+# required by kde-misc/corectrl-1.2.1::farmboy0
+# required by corectrl (argument)
+dev-qt/qtcharts qml
+# required by kde-misc/corectrl-1.2.1::farmboy0
+# required by corectrl (argument)
+dev-qt/linguist-tools qml

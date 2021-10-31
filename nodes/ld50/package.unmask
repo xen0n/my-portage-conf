@@ -4,3 +4,5 @@ app-portage/portage-bashrc-mv::mv
 app-shells/push::mv
 app-shells/quoter::mv
 app-shells/runtitle::mv
+
+kde-misc/corectrl::farmboy0
