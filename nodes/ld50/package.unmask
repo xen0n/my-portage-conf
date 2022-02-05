@@ -6,3 +6,8 @@ app-shells/quoter::mv
 app-shells/runtitle::mv
 
 kde-misc/corectrl::farmboy0
+
+media-libs/blackmagic-desktop-video::megacoffee
+
+sys-apps/portage::loongson
+app-misc/pax-utils::loongson

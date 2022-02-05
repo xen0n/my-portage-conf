@@ -1,4 +1,4 @@
 cross-mips64el-unknown-linux-gnu/binutils multilib
 cross-mips64el-unknown-linux-gnu/linux-headers -selinux multilib
-cross-mips64el-unknown-linux-gnu/glibc -selinux multilib
-cross-mips64el-unknown-linux-gnu/gcc -sanitize -vtv -selinux -boundschecking -d -gcj -gtk -libffi -mudflap -objc -objc++ -objc-gc multilib
+cross-mips64el-unknown-linux-gnu/glibc -selinux -libraries multilib static-libs
+cross-mips64el-unknown-linux-gnu/gcc -sanitize -vtv -selinux -boundschecking -d -gcj -gtk -libffi -mudflap -objc -objc++ -objc-gc -sanitize multilib

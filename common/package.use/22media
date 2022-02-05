@@ -34,9 +34,6 @@ media-libs/libpng apng
 # 20140312 xenon: threads support needs dev-cpp/tbb, which is not cached locally )-:
 media-libs/opencv -qt4 -threads
 
-# temporarily disable due to the particular plugin not compiling
-=media-plugins/gst-plugins-meta-0.10-r8 -vaapi
-
 media-gfx/graphviz gts lasi postscript
 
 # weird install error possibly related to multilib
