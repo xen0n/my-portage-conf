@@ -1,1 +1,2 @@
-app-emulation/wine-vanilla osmesa pcap vkd3d
+app-emulation/wine-vanilla mingw osmesa pcap vkd3d mingw
+app-emulation/wine-staging mingw osmesa pcap vkd3d mingw

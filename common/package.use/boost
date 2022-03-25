@@ -1,0 +1,5 @@
+# required by dev-cpp/folly-2022.03.07.00::gentoo
+# required by dev-util/watchman-2022.03.07.00::gentoo[-test]
+# required by @selected
+# required by @world (argument)
+dev-libs/boost context

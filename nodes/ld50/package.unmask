@@ -11,3 +11,4 @@ media-libs/blackmagic-desktop-video::megacoffee
 
 sys-apps/portage::loongson
 app-misc/pax-utils::loongson
+app-emulation/qemu::loongson

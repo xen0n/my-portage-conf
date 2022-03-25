@@ -1,6 +1,6 @@
 gnome-base/gnome-vfs fam
 
-net-irc/hexchat fastscroll libproxy plugin-sysinfo
+net-irc/hexchat libproxy lua plugin-sysinfo lua_single_target: -* luajit
 
 net-analyzer/wireshark -gtk2 gtk3 -qt4
 

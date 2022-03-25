@@ -6,7 +6,10 @@
 app-emulation/wine -gstreamer -mono osmesa staging
 
 # 20210517 add smartcard for running loongarch qemu binary
-app-emulation/qemu kvm io-uring spice virgl vte zstd smartcard
+# 20220323 REQUIRED_USE vnc? ( gnutls )
+app-emulation/qemu gnutls kvm io-uring spice virgl vte zstd smartcard
+app-emulation/qemu QEMU_SOFTMMU_TARGETS: loongarch64
+app-emulation/qemu QEMU_USER_TARGETS: loongarch64
 
 # file collision
 app-emulation/xen-tools -qemu system-qemu
