@@ -1,0 +1,2 @@
+# otherwise couldn't find rdoc
+dev-ruby/bundler -doc
