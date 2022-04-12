@@ -1,10 +1,6 @@
 # Compile failure...?
 #app-emulation/wine -mono
 
-# now a weird dep on pulseaudio if gstreamer is supported... :-/
-# vaapi requires staging
-app-emulation/wine -gstreamer -mono osmesa staging
-
 # 20210517 add smartcard for running loongarch qemu binary
 # 20220323 REQUIRED_USE vnc? ( gnutls )
 app-emulation/qemu gnutls kvm io-uring spice virgl vte zstd smartcard
