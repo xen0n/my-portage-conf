@@ -1,2 +1,6 @@
 cross-*/binutils -nls
 cross-*/gcc -nls zstd
+# glibc 2.34+ need this
+cross-*/glibc static-libs
+# loong doesn't need libcrypt.so.1
+cross-loongarch64-unknown-linux-gnu/glibc -crypt

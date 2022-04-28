@@ -1,2 +1,1 @@
->=cross-loongarch64-unknown-linux-gnu/binutils-9999
->cross-loongarch64-unknown-linux-gnu/gcc-12.0.0_pre9999
+>cross-loongarch64-unknown-linux-gnu/gcc-12.0.1_pre20220417
