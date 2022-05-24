@@ -58,7 +58,9 @@ media-libs/gst-plugins-bad egl
 
 media-gfx/librecad tools
 
-media-sound/pulseaudio realtime -libsamplerate
+# pulseaudio is provided by pipewire, goodbye
+#media-sound/pulseaudio realtime -libsamplerate
+media-sound/pulseaudio -daemon
 
 # for wayland: gles2
 # 20180512 wine-staging: haptic
