@@ -1,3 +1,6 @@
 # these are currently ~loong only, but test on my amd64 box too
 dev-libs/boehm-gc ~*
 dev-libs/jemalloc ~*
+
+# sneak peek!
+=sys-devel/gcc-12.1.1_p20220521 **
