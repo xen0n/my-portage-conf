@@ -3,9 +3,22 @@
 
 # 20210517 add smartcard for running loongarch qemu binary
 # 20220323 REQUIRED_USE vnc? ( gnutls )
-app-emulation/qemu bpf gnutls kvm io-uring spice virgl vte zstd smartcard
+app-emulation/qemu accessibility bpf gnutls kvm io-uring rbd spice virgl vte zstd smartcard ssh
 app-emulation/qemu QEMU_SOFTMMU_TARGETS: loongarch64
 app-emulation/qemu QEMU_USER_TARGETS: loongarch64
+
+# required by qemu[rbd]
+sys-cluster/ceph jemalloc -tcmalloc
+# required by sys-cluster/ceph-17.2.0-r2::gentoo
+# required by app-emulation/qemu-7.0.0-r2::gentoo[rbd,-static]
+# required by @selected
+# required by @world (argument)
+dev-libs/leveldb snappy
+# required by app-accessibility/brltty-6.4-r1::gentoo
+# required by app-emulation/qemu-7.0.0-r2::gentoo[-static,accessibility]
+# required by @selected
+# required by @world (argument)
+>=dev-libs/libpcre2-10.40 pcre32
 
 # file collision
 app-emulation/xen-tools -qemu system-qemu

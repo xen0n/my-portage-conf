@@ -3,4 +3,4 @@ dev-libs/boehm-gc ~*
 dev-libs/jemalloc ~*
 
 # sneak peek!
-=sys-devel/gcc-12.1.1_p20220521 **
+sys-devel/gcc -amd64 ~loong
