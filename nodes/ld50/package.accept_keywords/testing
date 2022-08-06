@@ -4,3 +4,5 @@ dev-libs/jemalloc ~*
 
 # sneak peek!
 sys-devel/gcc -amd64 ~loong
+
+=sys-libs/glibc-2.36 **
