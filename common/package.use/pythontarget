@@ -1,0 +1,6 @@
+# 20220806
+>=dev-python/pyparsing-3.0.9 python_targets_python3_9
+>=dev-python/gpep517-9 python_targets_python3_9
+>=dev-python/flit_core-3.7.1 python_targets_python3_9
+>=dev-python/installer-0.5.1-r1 python_targets_python3_9
+>=dev-python/tomli-2.0.1-r1 python_targets_python3_9
