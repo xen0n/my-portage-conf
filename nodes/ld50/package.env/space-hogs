@@ -10,6 +10,6 @@ dev-lang/mono var-tmp-portage.conf
 
 # these crossdev toolchains almost always upgrade together
 cross-*/binutils var-tmp-portage.conf
-#cross-*/gcc var-tmp-portage.conf
+cross-*/gcc var-tmp-portage.conf
 cross-*/glibc var-tmp-portage.conf
 cross-*/linux-headers var-tmp-portage.conf
