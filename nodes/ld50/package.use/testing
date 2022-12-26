@@ -1,0 +1,4 @@
+# required by net-libs/libsoup-3.2.2::gentoo[test]
+# required by app-misc/tracker-3.4.1::gentoo
+# required by tracker (argument)
+>=net-libs/gnutls-3.7.8 pkcs11

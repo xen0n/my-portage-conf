@@ -1,1 +1,1 @@
-media-video/pipewire aptx extra ldac
+media-video/pipewire echo-cancel extra -jack-client jack-sdk pipewire-alsa sound-server

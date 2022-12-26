@@ -1,5 +1,6 @@
 www-servers/uwsgi gevent json -php
 www-servers/nginx nginx_modules_http_dav
+app-misc/mime-types nginx
 
 net-ftp/pure-ftpd charconv
 
