@@ -6,3 +6,5 @@ dev-libs/jemalloc ~*
 sys-devel/gcc -amd64 ~loong
 
 =sys-libs/glibc-2.36 **
+
+=cross-loongarch64-unknown-linux-gnu/binutils-9999 **

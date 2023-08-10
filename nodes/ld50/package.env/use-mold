@@ -1,0 +1,4 @@
+#app-emulation/qemu mold
+# https://github.com/rui314/mold/issues/653
+#dev-lang/rust mold
+dev-qt/qtwebengine mold

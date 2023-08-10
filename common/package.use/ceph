@@ -1,0 +1,3 @@
+# required by sys-cluster/ceph-17.2.5-r3::gentoo
+# required by @preserved-rebuild (argument)
+>=sys-fs/lvm2-2.03.17-r2 lvm

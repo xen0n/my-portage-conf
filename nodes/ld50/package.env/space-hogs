@@ -1,15 +1,37 @@
 net-libs/webkit-gtk var-tmp-portage.conf
 net-libs/webkit-gtk no-debug.conf
-sys-devel/llvm var-tmp-portage.conf
-sys-devel/clang var-tmp-portage.conf
+net-libs/webkit-gtk even-less-parallelism
+#sys-devel/llvm var-tmp-portage.conf
+#sys-devel/clang var-tmp-portage.conf
+
 dev-qt/qtwebengine var-tmp-portage.conf
 dev-qt/qtwebengine no-debug.conf
+# checks for 192GiB of RAM otherwise
+#dev-qt/qtwebengine reduced-parallelism.conf
+dev-qt/qtwebengine even-less-parallelism
+
 dev-qt/qtwebkit var-tmp-portage.conf
 dev-qt/qtwebkit no-debug.conf
 dev-lang/mono var-tmp-portage.conf
 
+# 20230201 weird tblgen crash building for 32bit
+#sys-devel/llvm no-debug.conf
+sys-devel/llvm o2
+
+sys-devel/clang no-debug.conf
+
+#dev-lang/rust var-tmp-portage.conf
+dev-lang/rust no-debug.conf
+
+app-office/libreoffice clang-very-simple
+
+#sys-devel/llvm lld
+#sys-devel/clang lld
+#sys-devel/llvm mold
+#sys-devel/clang mold
+
 # these crossdev toolchains almost always upgrade together
-cross-*/binutils var-tmp-portage.conf
-cross-*/gcc var-tmp-portage.conf
-cross-*/glibc var-tmp-portage.conf
-cross-*/linux-headers var-tmp-portage.conf
+#cross-*/binutils var-tmp-portage.conf
+#cross-*/gcc var-tmp-portage.conf
+#cross-*/glibc var-tmp-portage.conf
+#cross-*/linux-headers var-tmp-portage.conf

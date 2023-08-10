@@ -1,0 +1,2 @@
+sys-devel/llvm:16 LLVM_TARGETS: LoongArch
+sys-devel/clang:16 LLVM_TARGETS: LoongArch

@@ -1,5 +1,0 @@
-cross-mips64-unknown-linux-gnu/binutils mips ~mips -amd64 -~amd64
-cross-mips64-unknown-linux-gnu/gcc mips ~mips -amd64 -~amd64
-cross-mips64-unknown-linux-gnu/linux-headers mips ~mips -amd64 -~amd64
-cross-mips64-unknown-linux-gnu/glibc mips ~mips -amd64 -~amd64
-cross-mips64-unknown-linux-gnu/gdb mips ~mips -amd64 -~amd64

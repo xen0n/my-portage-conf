@@ -1,0 +1,9 @@
+# struct iovec redefined but not with gcc?
+#app-emulation/qemu clang
+
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108941
+# broken
+#dev-qt/qtwebengine clang
+
+# seems USE=clang didn't make it?
+#app-office/libreoffice clang

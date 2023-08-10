@@ -1,1 +1,3 @@
 net-libs/nodejs reduced-parallelism.conf
+sys-devel/clang reduced-parallelism.conf
+dev-qt/qtwebengine reduced-parallelism.conf

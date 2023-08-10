@@ -1,0 +1,33 @@
+# dev-cpp/folly
+#
+# lto1: internal compiler error: Segmentation fault
+# 0xb981df crash_signal
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/toplev.cc:314
+# 0x740c6c bp_unpack_string(data_in*, bitpack_d*)
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/data-streamer-in.cc:112
+# 0xaa8ebb cl_optimization_stream_in(data_in*, bitpack_d*, cl_optimization*)
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/build/gcc/options-save.cc:13501
+# 0xdc2bb2 streamer_read_tree_bitfields(lto_input_block*, data_in*, tree_node*)
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/tree-streamer-in.cc:562
+# 0xa0e9cb lto_read_tree_1
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto-streamer-in.cc:1713
+# 0xa0e937 lto_read_tree
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto-streamer-in.cc:1760
+# 0xa0e937 lto_input_tree_1(lto_input_block*, data_in*, LTO_tags, unsigned int)
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto-streamer-in.cc:1901
+# 0xa0ee5b lto_input_scc(lto_input_block*, data_in*, unsigned int*, unsigned int*, bool)
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto-streamer-in.cc:1789
+# 0x6b199e lto_read_decls
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto-common.cc:1908
+# 0x6b199e lto_file_finalize
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto-common.cc:2288
+# 0x6b199e lto_create_files_from_ids
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto-common.cc:2298
+# 0x6b199e lto_file_read
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto-common.cc:2353
+# 0x6b199e read_cgraph_and_symbols(unsigned int, char const**)
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto-common.cc:2801
+# 0x6b32ab lto_main()
+#         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto.cc:654
+CFLAGS='-O2 -pipe -march=native -Wl,-O1 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,-z,pack-relative-relocs'
+CXXFLAGS='-O2 -pipe -march=native -Wl,-O1 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,-z,pack-relative-relocs'

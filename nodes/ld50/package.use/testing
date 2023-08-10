@@ -2,3 +2,7 @@
 # required by app-misc/tracker-3.4.1::gentoo
 # required by tracker (argument)
 >=net-libs/gnutls-3.7.8 pkcs11
+
+dev-lang/rust clippy doc nightly rls rustfmt verify-sig miri wasm system-llvm #system-bootstrap
+dev-lang/rust LLVM_TARGETS: AArch64 AMDGPU ARM BPF Mips NVPTX RISCV WebAssembly X86 AVR Hexagon Lanai LoongArch MSP430 PowerPC Sparc SystemZ VE XCore
+www-client/firefox geckodriver hardened hwaccel libproxy lto -wifi

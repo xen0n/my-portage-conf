@@ -1,5 +1,6 @@
 www-servers/uwsgi gevent json -php
-www-servers/nginx nginx_modules_http_dav
+www-servers/nginx nginx_modules_http_addition nginx_modules_http_brotli nginx_modules_http_dav nginx_modules_http_dav_ext nginx_modules_http_fancyindex nginx_modules_http_xslt http3 ktls
+dev-libs/openssl ktls
 app-misc/mime-types nginx
 
 net-ftp/pure-ftpd charconv
