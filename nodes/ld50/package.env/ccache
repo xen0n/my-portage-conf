@@ -1,0 +1,2 @@
+# hopefully reduce some work every time I have to bump rust
+dev-lang/rust ccache
