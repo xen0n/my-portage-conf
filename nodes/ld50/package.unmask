@@ -8,6 +8,7 @@ app-shells/runtitle::mv
 kde-misc/corectrl::farmboy0
 
 media-libs/blackmagic-desktop-video::megacoffee
+media-video/blackmagic-media-express::megacoffee
 
 sys-apps/portage::loongson
 app-misc/pax-utils::loongson
