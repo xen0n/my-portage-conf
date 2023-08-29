@@ -1,0 +1,25 @@
+From 830f3a9923d3dc4cb69b005dc99b945cd72ea15e Mon Sep 17 00:00:00 2001
+From: heddxh <63106571+heddxh@users.noreply.github.com>
+Date: Sun, 15 Jan 2023 07:40:53 +0000
+Subject: [PATCH 2/3] Fix WMclass in desktop entry
+
+---
+ data/com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop.in b/data/com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop.in
+index 9443249..f3b2122 100644
+--- a/data/com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop.in
++++ b/data/com.gitee.gmg137.NeteaseCloudMusicGtk4.desktop.in
+@@ -7,7 +7,7 @@ Comment[zh_CN]=网易云音乐
+ Comment[zh_TW]=網易雲音樂
+ Exec=netease-cloud-music-gtk4
+ Icon=com.gitee.gmg137.NeteaseCloudMusicGtk4
+-StartupWMClass=com.gitee.gmg137.NeteaseCloudMusicGtk4
++StartupWMClass=netease-cloud-music-gtk4
+ Terminal=false
+ Type=Application
+ Categories=GTK;Audio;AudioVideo
+-- 
+2.41.0
+

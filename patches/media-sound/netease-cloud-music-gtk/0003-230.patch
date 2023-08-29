@@ -1,0 +1,53 @@
+From b25f2882e0576236071b024441d35e79c92318a7 Mon Sep 17 00:00:00 2001
+From: gmg <gmg137@live.com>
+Date: Wed, 1 Feb 2023 10:01:30 +0800
+Subject: [PATCH 3/3] =?UTF-8?q?=E4=BF=AE=E5=A4=8D=E9=A2=91=E7=B9=81?=
+ =?UTF-8?q?=E6=93=8D=E4=BD=9C=E6=97=B6=E9=97=AA=E9=80=80=20#230?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/model.rs | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/src/model.rs b/src/model.rs
+index 8be67ba..1538753 100644
+--- a/src/model.rs
++++ b/src/model.rs
+@@ -228,7 +228,9 @@ impl ImageDownloadImpl for Image {
+                 size.0,
+                 size.1,
+                 Some(Arc::new(move |_| {
+-                    image.upgrade().unwrap().set_from_file(Some(&path));
++                    if let Some(image) = image.upgrade() {
++                        image.set_from_file(Some(&path));
++                    }
+                 })),
+             ))
+             .unwrap();
+@@ -253,7 +255,9 @@ impl ImageDownloadImpl for Picture {
+                             gtk::gdk_pixbuf::InterpType::Bilinear,
+                         )
+                         .unwrap();
+-                    picture.upgrade().unwrap().set_pixbuf(Some(&image));
++                    if let Some(picture) = picture.upgrade() {
++                        picture.set_pixbuf(Some(&image));
++                    }
+                 })),
+             ))
+             .unwrap();
+@@ -273,7 +277,9 @@ impl ImageDownloadImpl for adw::Avatar {
+                     if let Ok(pixbuf) = gdk_pixbuf::Pixbuf::from_file(&path) {
+                         let image = Image::from_pixbuf(Some(&pixbuf));
+                         if let Some(paintable) = image.paintable() {
+-                            avatar.upgrade().unwrap().set_custom_image(Some(&paintable));
++                            if let Some(avatar) = avatar.upgrade() {
++                                avatar.set_custom_image(Some(&paintable));
++                            }
+                         }
+                     }
+                 })),
+-- 
+2.41.0
+

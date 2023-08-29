@@ -1,0 +1,103 @@
+From 5fb5a3ccc91a28fc0652ae85403611026132cb85 Mon Sep 17 00:00:00 2001
+From: gmg <gmg137@live.com>
+Date: Sat, 24 Dec 2022 14:27:09 +0800
+Subject: [PATCH 1/3] =?UTF-8?q?=E4=BF=AE=E5=A4=8D=E7=BC=BA=E5=B0=91?=
+ =?UTF-8?q?=E9=A6=96=E4=B8=AA=E6=94=B6=E8=97=8F=E4=B8=93=E8=BE=91=E9=97=AE?=
+ =?UTF-8?q?=E9=A2=98?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/application.rs              | 8 ++++----
+ src/gui/search_songlist_page.rs | 6 +++---
+ src/window.rs                   | 2 +-
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/application.rs b/src/application.rs
+index 345cc6f..3fe5dc9 100644
+--- a/src/application.rs
++++ b/src/application.rs
+@@ -518,7 +518,7 @@ impl NeteaseCloudMusicGtk4Application {
+                         .await
+                     {
+                         if let Some(page) = page.upgrade() {
+-                            page.update_songlist(sls);
++                            page.update_songlist(&sls);
+                         }
+                     }
+                 });
+@@ -571,7 +571,7 @@ impl NeteaseCloudMusicGtk4Application {
+                         .await
+                     {
+                         if let Some(page) = page.upgrade() {
+-                            page.update_songlist(sls);
++                            page.update_songlist(&sls);
+                         }
+                     }
+                 });
+@@ -1010,7 +1010,7 @@ impl NeteaseCloudMusicGtk4Application {
+                         .await;
+                     if let Some(page) = page.upgrade() {
+                         if let Some(SearchResult::SongLists(sls)) = res {
+-                            page.update_songlist(sls);
++                            page.update_songlist(&sls);
+                         }
+                     }
+                 });
+@@ -1028,7 +1028,7 @@ impl NeteaseCloudMusicGtk4Application {
+                         .await;
+                     if let Some(page) = page.upgrade() {
+                         if let Some(SearchResult::SongLists(sls)) = res {
+-                            page.update_songlist(sls);
++                            page.update_songlist(&sls[1..]);
+                         }
+                     }
+                 });
+diff --git a/src/gui/search_songlist_page.rs b/src/gui/search_songlist_page.rs
+index 299dd40..d1b7b86 100644
+--- a/src/gui/search_songlist_page.rs
++++ b/src/gui/search_songlist_page.rs
+@@ -42,7 +42,7 @@ impl SearchSongListPage {
+         self.set_property("search-type", search_type);
+     }
+ 
+-    pub fn update_songlist(&self, song_list: Vec<SongList>) {
++    pub fn update_songlist(&self, song_list: &[SongList]) {
+         let sender = self.imp().sender.get().unwrap();
+         let grid = self.imp().songlist_grid.get();
+         self.set_property("update", true);
+@@ -54,7 +54,7 @@ impl SearchSongListPage {
+             SearchType::Album | SearchType::AllAlbums | SearchType::LikeAlbums
+         );
+ 
+-        SongListGridItem::view_update_songlist(grid, &song_list[1..], 140, show_author, sender);
++        SongListGridItem::view_update_songlist(grid, song_list, 140, show_author, sender);
+ 
+         self.set_property("offset", offset + song_list_len as i32);
+     }
+@@ -181,7 +181,7 @@ impl SearchSongListPage {
+                         Arc::new(move |sls| {
+                             if let Some(s) = s.upgrade() {
+                                 if let SearchResult::SongLists(sls) = sls {
+-                                    s.update_songlist(sls);
++                                    s.update_songlist(&sls);
+                                 }
+                             }
+                         }),
+diff --git a/src/window.rs b/src/window.rs
+index d73a08d..45cd86a 100644
+--- a/src/window.rs
++++ b/src/window.rs
+@@ -942,7 +942,7 @@ impl NeteaseCloudMusicGtk4Window {
+                                 SearchResult::SongLists(sls) => {
+                                     page.downcast::<SearchSongListPage>()
+                                         .unwrap()
+-                                        .update_songlist(sls);
++                                        .update_songlist(&sls);
+                                 }
+                             };
+                         }
+-- 
+2.41.0
+
