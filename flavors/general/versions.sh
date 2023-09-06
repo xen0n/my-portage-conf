@@ -6,4 +6,4 @@
 #USE_PYTHON="3.8"
 
 # Ruby
-RUBY_TARGETS="ruby31"
+RUBY_TARGETS="ruby31 ruby32"
