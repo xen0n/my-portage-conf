@@ -1,0 +1,2 @@
+# no support for either -Wl,--hash-style=gnu or -Wl,-z,pack-relative-relocs
+LDFLAGS="-Wl,-O1 -Wl,--as-needed"

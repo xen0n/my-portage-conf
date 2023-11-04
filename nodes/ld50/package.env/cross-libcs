@@ -1,0 +1,6 @@
+# no .gnu.xhash support ported (among other shortcomings)
+cross-mips64el-unknown-linux-gnu/glibc cross-mips-libc
+
+cross-loongarch64-unknown-linux-musl/musl cross-musl
+cross-mips64el-unknown-linux-musl/musl cross-musl
+cross-x86_64-unknown-linux-musl/musl cross-musl
