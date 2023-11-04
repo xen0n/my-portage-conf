@@ -1,2 +1,2 @@
-CFLAGS="-march=native -O2 -pipe"
-CXXFLAGS="-march=native -O2 -pipe"
+CFLAGS="-march=znver2 -O2 -pipe"
+CXXFLAGS="-march=znver2 -O2 -pipe"

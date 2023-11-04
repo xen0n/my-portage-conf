@@ -1,2 +1,2 @@
-CFLAGS="-march=native -mtune=znver2 -falign-functions=32 -O2 -pipe"
-CXXFLAGS="-march=native -mtune=znver2 -falign-functions=32 -O2 -pipe"
+CFLAGS="-march=znver2 -mtune=znver2 -falign-functions=32 -O2 -pipe"
+CXXFLAGS="-march=znver2 -mtune=znver2 -falign-functions=32 -O2 -pipe"

@@ -4,5 +4,5 @@
 #CXXFLAGS="${CXXFLAGS/ -fuse-linker-plugin/}"
 
 # normal CFLAGS minus "-flto=128 -fuse-linker-plugin"
-CFLAGS="-march=native -mtune=znver2 -O2 -fgraphite-identity -floop-nest-optimize -pipe -ggdb"
+CFLAGS="-march=znver2 -mtune=znver2 -O2 -fgraphite-identity -floop-nest-optimize -pipe -ggdb"
 CXXFLAGS="${CFLAGS}"

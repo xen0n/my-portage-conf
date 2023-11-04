@@ -29,5 +29,5 @@
 #         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto-common.cc:2801
 # 0x6b32ab lto_main()
 #         /tmp/portage/sys-devel/gcc-13.2.0/work/gcc-13.2.0/gcc/lto/lto.cc:654
-CFLAGS='-O2 -pipe -march=native -Wl,-O1 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,-z,pack-relative-relocs'
-CXXFLAGS='-O2 -pipe -march=native -Wl,-O1 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,-z,pack-relative-relocs'
+CFLAGS='-O2 -pipe -march=znver2 -Wl,-O1 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,-z,pack-relative-relocs'
+CXXFLAGS='-O2 -pipe -march=znver2 -Wl,-O1 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,-z,pack-relative-relocs'
