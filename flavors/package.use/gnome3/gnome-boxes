@@ -1,0 +1,11 @@
+# required by gnome-extra/gnome-boxes-45.0::gentoo
+# required by gnome-boxes (argument)
+net-misc/spice-gtk smartcard vala
+# required by gnome-extra/gnome-boxes-45.0::gentoo
+# required by gnome-boxes (argument)
+app-emulation/spice smartcard
+# required by gnome-extra/gnome-boxes-45.0::gentoo
+# required by gnome-boxes (argument)
+app-emulation/qemu usbredir
+
+net-misc/spice-gtk lz4 mjpeg webdav

@@ -1,0 +1,2 @@
+# blocks cython-3 otherwise, this is not actively depended on otherwise
+app-accessibility/brltty -python

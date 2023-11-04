@@ -1,0 +1,6 @@
+# required by x11-wm/mutter-45.1::gentoo[wayland]
+# required by gnome-extra/gnome-shell-extensions-45.1::gentoo
+# required by gnome-base/gnome-40.0-r1::gentoo
+# required by @selected
+# required by @world (argument)
+x11-base/xwayland libei

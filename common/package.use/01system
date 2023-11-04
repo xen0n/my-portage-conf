@@ -18,7 +18,7 @@ sys-libs/glibc debug static-pie -gd
 sys-boot/grub -nls mount
 
 # curl is for journal uploading
-sys-apps/systemd curl elfutils nat xkb
+sys-apps/systemd curl elfutils nat xkb boot
 virtual/udev keymap hwdb
 virtual/libgudev introspection
 dev-libs/libgudev introspection

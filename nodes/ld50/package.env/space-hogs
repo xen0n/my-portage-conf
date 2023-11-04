@@ -14,6 +14,9 @@ dev-qt/qtwebkit var-tmp-portage.conf
 dev-qt/qtwebkit no-debug.conf
 dev-lang/mono var-tmp-portage.conf
 
+# takes forever to compile 3 test binaries
+dev-qt/qtbase no-debug.conf
+
 # 20230201 weird tblgen crash building for 32bit
 #sys-devel/llvm no-debug.conf
 sys-devel/llvm o2
