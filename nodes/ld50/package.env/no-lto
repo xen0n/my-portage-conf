@@ -1,0 +1,20 @@
+app-emulation/qemu no-lto
+dev-util/rocm-smi no-lto
+media-tv/v4l-utils no-lto
+net-fs/cifs-utils no-lto
+sys-apps/iproute2 no-lto
+x11-base/xorg-server no-lto
+
+# /usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../x86_64-pc-linux-gnu/bin/ld: /tmp/portage/dev-libs/libwacom-1.0/work/libwacom-1.0/test/test-deprecated.c:81: undefined reference to `libwacom_update_match@LIBWACOM_0.33'
+dev-libs/libwacom no-lto
+
+# https://gitlab.com/wireshark/wireshark/-/issues/17040
+net-analyzer/wireshark no-lto
+
+##### packages below don't even have Graphite enabled
+
+sys-cluster/glusterfs no-lto-very-simple
+sys-libs/efivar no-lto-very-simple
+
+# only builds with clang
+dev-dotnet/dotnetcore-sdk no-lto-very-simple

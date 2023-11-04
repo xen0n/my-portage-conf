@@ -1,0 +1,8 @@
+#CFLAGS="${CFLAGS/ -flto=${NTHREADS}/}"
+#CFLAGS="${CFLAGS/ -fuse-linker-plugin/}"
+#CXXFLAGS="${CXXFLAGS/ -flto=${NTHREADS}/}"
+#CXXFLAGS="${CXXFLAGS/ -fuse-linker-plugin/}"
+
+# normal CFLAGS minus "-flto=128 -fuse-linker-plugin" and Graphite optimizations
+CFLAGS="-march=native -mtune=znver2 -O2 -pipe -ggdb"
+CXXFLAGS="${CFLAGS}"
