@@ -1,7 +1,0 @@
-# 20190812 evolution-data-server is updated in gnome overlay, but gnome-calendar is not
-# updated together
-# leading to redefined macro
-#>=gnome-extra/evolution-data-server-3.31.0
-
-# https://bugs.gentoo.org/705974
->=sys-devel/make-4.3
