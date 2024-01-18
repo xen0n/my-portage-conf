@@ -1,0 +1,1 @@
+FEATURES="$FEATURES binpkg-dostrip installsources splitdebug"
