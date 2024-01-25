@@ -1,5 +1,7 @@
 # qt5 xor qt4; ffmpeg and postproc
 media-video/vlc dvd ffmpeg postproc mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua gnome rtsp qt5 -qt4 upnp
+# https://bugs.gentoo.org/864721
+media-video/vlc -vaapi
 
 media-libs/freetype harfbuzz infinality
 
@@ -14,7 +16,7 @@ media-sound/xmms2 curl gvfs  # mac
 
 # opus: required by www-client/chromium-27.0.1453.56[system-ffmpeg]
 # vpx: required by www-client/chromium-47.0.2526.16::gentoo[system-ffmpeg]
-media-video/ffmpeg opus threads vpx
+media-video/ffmpeg opus threads vpx libplacebo shaderc libdrm amr fribidi
 
 # 20170725: add rtmp for live-streaming studies
 media-video/mplayer cpudetection mmxext rtmp
