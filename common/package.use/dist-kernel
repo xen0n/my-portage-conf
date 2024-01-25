@@ -1,0 +1,2 @@
+#sys-kernel/gentoo-kernel-bin generic-uki
+sys-kernel/installkernel dracut systemd grub uki ukify

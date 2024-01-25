@@ -1,2 +1,4 @@
 sys-kernel/linux-firmware no-source-code linux-fw-redistributable
 sys-firmware/intel-microcode intel-ucode
+
+sys-kernel/gentoo-kernel-bin intel-ucode linux-fw-redistributable
