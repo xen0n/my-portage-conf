@@ -1,3 +1,0 @@
-#sys-kernel/gentoo-kernel-bin generic-uki
-# TODO: remove sd-boot flag from common
-sys-kernel/installkernel dracut systemd grub uki ukify systemd-boot
