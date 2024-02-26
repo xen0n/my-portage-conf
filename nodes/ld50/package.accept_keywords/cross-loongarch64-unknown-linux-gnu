@@ -4,4 +4,6 @@ cross-loongarch64-unknown-linux-gnu/linux-headers loong ~loong -amd64 -~amd64
 cross-loongarch64-unknown-linux-gnu/glibc loong ~loong -amd64 -~amd64
 cross-loongarch64-unknown-linux-gnu/gdb loong ~loong -amd64 -~amd64
 
+>=cross-loongarch64-unknown-linux-gnu/rust-std-1.75.0 **
+
 #<cross-loongarch64-unknown-linux-gnu/gcc-14.0.0.9999 **

@@ -1,0 +1,7 @@
+cross-loongarch64-unknown-linux-musl/linux-headers loong ~loong -amd64 -~amd64
+cross-loongarch64-unknown-linux-musl/musl -*
+=cross-loongarch64-unknown-linux-musl/musl-9999 * ~* **
+cross-loongarch64-unknown-linux-musl/binutils loong ~loong -amd64 -~amd64
+cross-loongarch64-unknown-linux-musl/gcc -*
+=cross-loongarch64-unknown-linux-musl/gcc-14.0.1_pre20240218 * ~* **
+cross-loongarch64-unknown-linux-musl/gdb loong ~loong -amd64 -~amd64

@@ -1,0 +1,4 @@
+cross-loongarch64-unknown-linux-musl/binutils -multilib
+cross-loongarch64-unknown-linux-musl/linux-headers experimental-loong -selinux -multilib
+cross-loongarch64-unknown-linux-musl/musl experimental-loong -selinux -libraries -multilib
+cross-loongarch64-unknown-linux-musl/gcc -sanitize -vtv -selinux -boundschecking -d -gcj -gtk -libffi -mudflap -objc -objc++ -objc-gc -sanitize -multilib
