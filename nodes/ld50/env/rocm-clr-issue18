@@ -1,0 +1,3 @@
+# https://github.com/ROCm/clr/issues/18
+CFLAGS="$CFLAGS -mno-avx -mno-avx2"
+CXXFLAGS="$CXXFLAGS -mno-avx -mno-avx2"

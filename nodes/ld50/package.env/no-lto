@@ -18,3 +18,8 @@ sys-libs/efivar no-lto-very-simple
 
 # only builds with clang
 dev-dotnet/dotnetcore-sdk no-lto-very-simple
+
+dev-util/perf no-lto
+
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=114930
+net-fs/samba no-lto

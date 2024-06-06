@@ -1,1 +1,1 @@
-MAKEOPTS="-j48"
+MAKEOPTS="-j32 -l128"

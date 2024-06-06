@@ -1,1 +1,2 @@
-app-emulation/docker -btrfs experimental -device-mapper overlay
+app-containers/docker btrfs
+app-containers/containerd btrfs

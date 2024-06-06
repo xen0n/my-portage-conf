@@ -1,0 +1,4 @@
+# required by app-i18n/rime-octagram-data-20190619::gentoo-zh
+# required by app-i18n/rime-data-20220409::gentoo-zh[octagram]
+# required by app-i18n/rime-double-pinyin-20190120::gentoo-zh
+>=app-i18n/librime-1.10.0 octagram

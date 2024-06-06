@@ -78,3 +78,5 @@ app-arch/xz-utils static-libs
 # required by virtual/libcrypt-2::gentoo
 # required by virtual/libcrypt (argument)
 sys-libs/libxcrypt static-libs
+
+app-arch/zstd static-libs
