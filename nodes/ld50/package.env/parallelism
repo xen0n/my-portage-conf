@@ -1,3 +1,5 @@
 net-libs/nodejs reduced-parallelism.conf
+sys-devel/llvm reduced-parallelism.conf
 sys-devel/clang reduced-parallelism.conf
 dev-qt/qtwebengine reduced-parallelism.conf
+net-libs/webkit-gtk reduced-parallelism.conf

@@ -19,7 +19,7 @@ sys-boot/grub -nls mount
 
 # curl is for journal uploading
 sys-apps/systemd curl elfutils nat xkb
-sys-apps/systemd boot kernel-install ukify
+sys-apps/systemd boot kernel-install ukify importd qrcode
 virtual/udev keymap hwdb
 virtual/libgudev introspection
 dev-libs/libgudev introspection

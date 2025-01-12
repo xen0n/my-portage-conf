@@ -1,0 +1,4 @@
+cross-loongarch64-unknown-none-elf/newlib loong ~loong -amd64 -~amd64
+cross-loongarch64-unknown-none-elf/binutils loong ~loong -amd64 -~amd64
+cross-loongarch64-unknown-none-elf/gcc loong ~loong -amd64 -~amd64
+cross-loongarch64-unknown-none-elf/gdb loong ~loong -amd64 -~amd64

@@ -1,0 +1,4 @@
+cross-loongarch64-unknown-none-elf/newlib  multilib
+cross-loongarch64-unknown-none-elf/binutils  multilib
+cross-loongarch64-unknown-none-elf/gcc  nopie multilib
+cross-loongarch64-unknown-none-elf/gdb  multilib

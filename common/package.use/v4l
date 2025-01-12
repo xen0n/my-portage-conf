@@ -1,2 +1,3 @@
 # required by v4l-tools
-media-libs/libv4l bpf
+# media-tv/v4l-utils is absorbed by USE=utils
+media-libs/libv4l bpf utils

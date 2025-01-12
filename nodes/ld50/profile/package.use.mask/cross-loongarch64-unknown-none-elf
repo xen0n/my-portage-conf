@@ -1,0 +1,4 @@
+cross-loongarch64-unknown-none-elf/newlib  cet -multilib
+cross-loongarch64-unknown-none-elf/binutils  cet -multilib
+cross-loongarch64-unknown-none-elf/gcc  default-stack-clash-protection hardened ssp pie -nopie cet -multilib
+cross-loongarch64-unknown-none-elf/gdb  -multilib

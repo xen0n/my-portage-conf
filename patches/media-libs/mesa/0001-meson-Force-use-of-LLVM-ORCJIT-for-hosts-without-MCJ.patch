@@ -1,0 +1,60 @@
+From f78d39fa8d31020ffc302dbbaa0d4a774067d195 Mon Sep 17 00:00:00 2001
+From: WANG Xuerui <git@xen0n.name>
+Date: Sat, 10 Aug 2024 18:15:23 +0800
+Subject: [PATCH 1/2] meson: Force use of LLVM ORCJIT for hosts without MCJIT
+ support
+
+Although the ORCJIT codepath is fresh and relatively less tested, this
+is still better than no llvmpipe at all for those newer architectures
+that will not gain MCJIT support, such as LoongArch or RISC-V.
+
+Signed-off-by: WANG Xuerui <git@xen0n.name>
+---
+ meson.build       | 7 ++++++-
+ meson_options.txt | 5 ++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 0ab94e8c00b..2f6b591e7a1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1784,7 +1784,6 @@ if with_clc
+   llvm_optional_modules += ['all-targets', 'windowsdriver', 'frontendhlsl', 'frontenddriver']
+ endif
+ draw_with_llvm = get_option('draw-use-llvm')
+-llvm_with_orcjit = get_option('llvm-orcjit')
+ if draw_with_llvm
+   llvm_modules += 'native'
+   # lto is needded with LLVM>=15, but we don't know what LLVM verrsion we are using yet
+@@ -1792,6 +1791,12 @@ if draw_with_llvm
+ endif
+ amd_with_llvm = get_option('amd-use-llvm')
+ 
++# MCJIT is deprecated in LLVM and will not accept new architecture ports,
++# so any architecture not in the exhaustive list will have to rely on LLVM
++# ORCJIT for llvmpipe functionality.
++llvm_has_mcjit = host_machine.cpu_family() in ['aarch64', 'arm', 'ppc', 'ppc64', 's390x', 'x86', 'x86_64']
++llvm_with_orcjit = get_option('llvm-orcjit') or not llvm_has_mcjit
++
+ if with_amd_vk or with_gallium_radeonsi or with_clc or llvm_with_orcjit
+   _llvm_version = '>= 15.0.0'
+ elif with_gallium_clover
+diff --git a/meson_options.txt b/meson_options.txt
+index f00a2787a68..545f6d20d3a 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -444,7 +444,10 @@ option (
+   'llvm-orcjit',
+   type : 'boolean',
+   value : false,
+-  description: 'Build llvmpipe with LLVM ORCJIT support.'
++  description: 'Build llvmpipe with LLVM ORCJIT support. Has no effect when ' +
++               'building for architectures without LLVM MCJIT support -- ' +
++               'ORCJIT is the only choice on such architectures and will ' +
++               'always be enabled.'
+ )
+ 
+ option(
+-- 
+2.45.2
+

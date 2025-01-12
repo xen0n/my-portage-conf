@@ -1,0 +1,4 @@
+cross-loongarch64-unknown-none-elf/newlib cross-loongarch64-unknown-none-elf/newlib.conf
+cross-loongarch64-unknown-none-elf/binutils cross-loongarch64-unknown-none-elf/binutils.conf
+cross-loongarch64-unknown-none-elf/gcc cross-loongarch64-unknown-none-elf/gcc.conf
+cross-loongarch64-unknown-none-elf/gdb cross-loongarch64-unknown-none-elf/gdb.conf
