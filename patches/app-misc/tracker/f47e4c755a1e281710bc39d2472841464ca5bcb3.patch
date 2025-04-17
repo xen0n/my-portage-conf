@@ -1,0 +1,97 @@
+From 9c1fdfc2caefab0c27e8fde48eb0517eab3d1676 Mon Sep 17 00:00:00 2001
+From: Carlos Garnacho <carlosg@gnome.org>
+Date: Wed, 1 May 2024 18:17:06 +0200
+Subject: [PATCH 1/2] core: Bump database version
+
+More fallout from the SQLite change at
+https://github.com/sqlite/sqlite/commit/74851f66811854c772a9b2d0a13f1e9e82b69c25.
+Since the broken SQL belongs in a SQL view defined at database creation time, the
+fix at commit 0c576af6df ("core: Fix incompatibility introduced by SQLite 3.45.3")
+will only work on databases created from scratch.
+
+Bump our own database version, and let the version bump handle reconstructing
+the FTS view/table, so that the users that didn't reset the database will find
+the change applied automatically.
+
+Closes: https://gitlab.gnome.org/GNOME/tracker-miners/-/issues/339
+Fixes: 0c576af6df ("core: Fix incompatibility introduced by SQLite 3.45.3")
+---
+ src/libtracker-sparql/core/tracker-data-manager.c | 2 +-
+ src/libtracker-sparql/core/tracker-db-manager.h   | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/libtracker-sparql/core/tracker-data-manager.c b/src/libtracker-sparql/core/tracker-data-manager.c
+index 93a5edd578..d5f8bd36de 100644
+--- a/src/libtracker-sparql/core/tracker-data-manager.c
++++ b/src/libtracker-sparql/core/tracker-data-manager.c
+@@ -4046,7 +4046,7 @@ tracker_data_manager_update_from_version (TrackerDataManager  *manager,
+ 			goto error;
+ 	}
+ 
+-	if (version < TRACKER_DB_VERSION_3_6) {
++	if (version < TRACKER_DB_VERSION_3_7) {
+ 		GHashTableIter iter;
+ 		const gchar *graph;
+ 
+diff --git a/src/libtracker-sparql/core/tracker-db-manager.h b/src/libtracker-sparql/core/tracker-db-manager.h
+index 1ef83f5d76..76057e6368 100644
+--- a/src/libtracker-sparql/core/tracker-db-manager.h
++++ b/src/libtracker-sparql/core/tracker-db-manager.h
+@@ -53,10 +53,11 @@ typedef enum {
+ 	TRACKER_DB_VERSION_3_3,      /* Blank nodes */
+ 	TRACKER_DB_VERSION_3_4,      /* Fixed FTS view */
+ 	TRACKER_DB_VERSION_3_6,      /* BM25 for FTS ranking */
++	TRACKER_DB_VERSION_3_7,      /* SQLite 3.45.3 being a moron for changing syntax in views */
+ } TrackerDBVersion;
+ 
+ /* Set current database version we are working with */
+-#define TRACKER_DB_VERSION_NOW        TRACKER_DB_VERSION_3_6
++#define TRACKER_DB_VERSION_NOW        TRACKER_DB_VERSION_3_7
+ 
+ void                tracker_db_manager_rollback_db_creation   (TrackerDBManager *db_manager);
+ 
+-- 
+GitLab
+
+
+From 9097b01b7b7182c46da86f4b70bb03bda73ab3ec Mon Sep 17 00:00:00 2001
+From: Carlos Garnacho <carlosg@gnome.org>
+Date: Wed, 1 May 2024 17:46:04 +0200
+Subject: [PATCH 2/2] core: Provide debug message when prepared statements
+ cannot compile
+
+Currently we propagate the error returned, which may be somewhat curt whenever
+SQLite considers there are syntax/semantic errors. The error propagated lets us
+now that something happened, but we don't have much direct information about
+where or how it happened.
+
+Add some more debugging under TRACKER_DEBUG=sql-statements so that we may
+know the SQL that failed to compile to a prepared statement.
+
+Related: https://gitlab.gnome.org/GNOME/tracker-miners/-/issues/339
+---
+ src/libtracker-sparql/core/tracker-db-interface-sqlite.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/libtracker-sparql/core/tracker-db-interface-sqlite.c b/src/libtracker-sparql/core/tracker-db-interface-sqlite.c
+index 82ff4e7c8d..d66e539a45 100644
+--- a/src/libtracker-sparql/core/tracker-db-interface-sqlite.c
++++ b/src/libtracker-sparql/core/tracker-db-interface-sqlite.c
+@@ -2223,6 +2223,14 @@ tracker_db_interface_prepare_stmt (TrackerDBInterface  *db_interface,
+ 			             TRACKER_DB_INTERRUPTED,
+ 			             "Interrupted");
+ 		} else {
++#ifdef G_ENABLE_DEBUG
++			if (TRACKER_DEBUG_CHECK (SQL_STATEMENTS)) {
++				g_message ("Failure to prepare statement for SQL '%s', error: %s",
++					   full_query,
++					   sqlite3_errmsg (db_interface->db));
++			}
++#endif
++
+ 			g_set_error (error,
+ 			             TRACKER_DB_INTERFACE_ERROR,
+ 			             TRACKER_DB_QUERY_ERROR,
+-- 
+GitLab
+

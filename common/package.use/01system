@@ -7,6 +7,9 @@ sys-process/lsof rpc
 # 20180314 xenon: how come I forgot this?
 sys-devel/binutils -nls
 
+# 20250212: binutils-2.44 now has this
+sys-devel/binutils xxhash
+
 # UPDATE 2012-02-27: disable GCC's nls support
 # 20130607 xenon: enable the (seemingly) stable'd LTO
 sys-devel/gcc -nls lto mudflap go zstd

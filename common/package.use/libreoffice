@@ -2,4 +2,4 @@
 # required by libreoffice (argument)
 dev-libs/xmlsec nss
 
-app-office/libreoffice clang -qt5 qt6 # kde
+app-office/libreoffice clang -qt5 qt6 -gtk3 gtk4 # kde

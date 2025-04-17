@@ -1,2 +1,5 @@
 CC=clang
 CXX=clang++
+CFLAGS="-march=native -mtune=znver2 -O2 -flto -pipe -ggdb"
+CXXFLAGS="$CFLAGS"
+FCFLAGS="$CFLAGS"

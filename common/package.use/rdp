@@ -1,1 +1,4 @@
 net-misc/freerdp openh264 server
+
+# SDL3_ttf
+net-misc/freerdp -sdl

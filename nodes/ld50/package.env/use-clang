@@ -7,3 +7,6 @@
 
 # seems USE=clang didn't make it?
 #app-office/libreoffice clang
+
+# https://bugs.gentoo.org/947796
+#dev-cpp/lucene++ clang
