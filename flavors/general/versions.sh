@@ -8,4 +8,4 @@ PYTHON_SINGLE_TARGET=python3_13
 #USE_PYTHON="3.8"
 
 # Ruby
-RUBY_TARGETS="ruby32 ruby33"
+RUBY_TARGETS="ruby33 ruby34"

@@ -1,0 +1,2 @@
+# any-of ( gnutls openssl ) with USE=openssl masked
+net-libs/ngtcp2 gnutls

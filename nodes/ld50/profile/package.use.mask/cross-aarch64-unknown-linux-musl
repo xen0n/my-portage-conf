@@ -1,0 +1,5 @@
+cross-aarch64-unknown-linux-musl/linux-headers  multilib
+cross-aarch64-unknown-linux-musl/musl  cet multilib
+cross-aarch64-unknown-linux-musl/binutils  cet multilib
+cross-aarch64-unknown-linux-musl/gcc  cet multilib
+cross-aarch64-unknown-linux-musl/gdb  multilib

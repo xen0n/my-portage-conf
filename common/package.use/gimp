@@ -1,1 +1,3 @@
 media-gfx/gimp openexr unwind vector-icons wmf
+media-libs/babl introspection
+media-libs/gegl introspection
