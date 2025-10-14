@@ -1,6 +1,3 @@
-# XXX BUG: gnome-base/librsvg-2.34.2 fails to compile when using introspection
-=gnome-base/librsvg-2.34.2 -introspection
-
 # for profiled build of firefox
 #www-client/firefox pgo
 #required by www-client/firefox-9.0[pgo], required by firefox (argument)
@@ -9,8 +6,6 @@ dev-lang/python sqlite
 #required by www-client/firefox-9.0[pgo], required by firefox (argument)
 # remove version constraint
 x11-base/xorg-server xvfb
-
-app-i18n/sunpinyin-frontend xim
 
 # erlang
 dev-lang/erlang hipe kpoll
@@ -21,16 +16,12 @@ sys-apps/superiotool pci
 #required by sys-fs/udev-171-r5[hwdb], required by net-wireless/bluez-4.98-r1, required by app-emulation/qemu-1.0-r1[bluetooth], required by @selected, required by @world (argument)
 =sys-apps/pciutils-3.1.7 -zlib
 
-# i want the docs for mako...
-dev-python/mako doc
 # remove rp-pppoe's Tkinter dep
 net-dialup/rp-pppoe -X
 # nginx geoip (does it really matter?)
 www-servers/nginx geoip -libatomic pcre-jit
 # mongo w/ v8 js engine... the performance is said to be THE SAME...
 dev-db/mongodb v8
-# TEST lightdm
-#x11-misc/lightdm -branding -gtk -introspection qt4
 # tor
 net-misc/tor upnp threads transparent-proxy
 # 7z rar, forced to adopt this because of Chinese society pressure (...)
@@ -39,8 +30,6 @@ app-arch/p7zip rar
 #required by www-client/chromium-18.0.1025.113, required by chromium (argument)
 >=dev-libs/libxml2-2.7.8-r5 icu
 
-# i want to view python doc offline!
-dev-lang/python doc
 #required by www-servers/uwsgi-1.2.3[php,php_targets_php5-3], required by @selected, required by @world (argument)
 >=dev-lang/php-5.3.13:5.3 embed
 # weird static config...
@@ -50,11 +39,6 @@ x11-drivers/xf86-video-intel sna
 # vlc
 sys-libs/zlib minizip
 
-net-analyzer/metasploit gui
-
-#required by eric
-dev-python/PyQt4 assistant
-
 app-office/libreoffice jemalloc pdfimport
 
 
@@ -63,26 +47,8 @@ app-office/libreoffice jemalloc pdfimport
 #required by media-libs/mesa-8.1_rc1_pre20120814[xorg], required by @selected, required by @world (argument)
 >=x11-libs/libdrm-2.4.38 libkms
 
-#sys-apps/tuxonice-userui fbsplash
-
-# minimize deps
-dev-python/pyglet -openal
-
-#required by dev-python/pyglet-1.1.4[alsa], required by pyglet (argument)
->=media-libs/alsa-lib-1.0.25-r1 alisp
-
 net-p2p/amule geoip upnp
 
-# for a reasonably hardened system
-#sys-auth/pambase consolekit
-
 media-sound/lmms vst
-
-# move x11-libs/qt-demo dev-qt/qtdemo
-dev-qt/qtdemo declarative -openvg
-#required by x11-libs/qt-openvg-4.8.2, required by x11-libs/qt-demo-4.8.2[openvg], required by qt-demo (argument)
-#=x11-libs/qt-gui-4.8.2 egl
-#=x11-libs/qt-opengl-4.8.2 egl
->=net-libs/webkit-gtk-1.8.3-r300 webkit2
 
 net-misc/tigervnc server
