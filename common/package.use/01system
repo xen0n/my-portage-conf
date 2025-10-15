@@ -12,7 +12,8 @@ sys-devel/binutils xxhash
 
 # UPDATE 2012-02-27: disable GCC's nls support
 # 20130607 xenon: enable the (seemingly) stable'd LTO
-sys-devel/gcc -nls lto mudflap go zstd
+# 20251014: libgo build problems, temporarily remove USE=go
+sys-devel/gcc -nls lto zstd libgdiagnostics jit cobol modula2 rust
 
 # 20170727: wtf this is why I never managed to enable nightly to look at libc
 # symbols

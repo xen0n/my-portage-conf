@@ -5,5 +5,6 @@
 #sys-apps/pcsc-lite PYTHON_SINGLE_TARGET: python3_12
 #sys-cluster/glusterfs PYTHON_SINGLE_TARGET: python3_12
 #sys-devel/crosstool-ng PYTHON_SINGLE_TARGET: python3_12
+app-i18n/ibus-hangul PYTHON_SINGLE_TARGET: -python3_12 python3_13
 
 >=dev-lang/python-3.13 pgo # jit
