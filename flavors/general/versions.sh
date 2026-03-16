@@ -3,9 +3,9 @@
 # Python targets
 #PYTHON_TARGETS="python3_8"  # pypy
 #PYTHON_SINGLE_TARGET="python3_8"
-PYTHON_TARGETS="python3_12 python3_13 python3_13t"
+PYTHON_TARGETS="python3_13 python3_13t python3_14 python3_14t"
 PYTHON_SINGLE_TARGET=python3_13
 #USE_PYTHON="3.8"
 
 # Ruby
-RUBY_TARGETS="ruby33 ruby34"
+RUBY_TARGETS="ruby40"
