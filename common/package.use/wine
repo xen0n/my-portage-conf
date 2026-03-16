@@ -1,2 +1,5 @@
 app-emulation/wine-vanilla osmesa pcap vkd3d -mingw
 app-emulation/wine-staging osmesa pcap vkd3d -mingw
+
+# We have USE=wow64 now
+app-emulation/wine-staging ABI_X86: -32
